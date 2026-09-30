@@ -1,25 +1,490 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>[매크로뷰] 2026. 09. 30 장마감 매크로 인과체인 브리핑</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
   <style>
-    body { font-family: sans-serif; padding: 30px; line-height: 1.6; color: #1e293b; background: #fff; }
-    h1 { color: #0f172a; border-bottom: 2px solid #10b981; padding-bottom: 10px; }
-    .badge { display: inline-block; background: #d1fae5; color: #047857; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; }
-    .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 16px; margin-top: 20px; }
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(107, 114, 128, 0.8); }
   </style>
 </head>
-<body>
-  <span class="badge">피터 나바로 매크로 인과체인</span>
-  <h1>2026. 09. 30 장마감 매크로 브리핑</h1>
-  <div class="card">
-    <h3>1. 환율 및 외환 시장</h3>
-    <p>원/달러 환율 및 주요 통화쌍의 수급 동향과 외국인 자금 흐름 점검.</p>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center p-2 bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 rounded-lg font-bold text-sm">
+          Macro View
+        </span>
+        <div class="font-bold text-base sm:text-lg tracking-tight truncate max-w-xs sm:max-w-md md:max-w-lg">
+          [매크로뷰] 2026. 09. 30 장마감 매크로 인과체인 브리핑
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyDocument()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+          전문 복사
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm" aria-label="테마 전환">
+          🌓
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container with Sidebar TOC -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Table of Contents -->
+    <aside class="hidden lg:block w-72 shrink-0">
+      <nav class="sticky top-24 p-5 bg-white dark:bg-slate-800/70 rounded-xl border border-slate-200/80 dark:border-slate-700/80 shadow-sm space-y-3" id="toc-nav">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+          목차 바로가기
+        </div>
+        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400 font-medium">
+          <li>
+            <a href="#section-1" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              1. 글로벌 매크로 4대 지표
+            </a>
+          </li>
+          <li>
+            <a href="#section-2" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              2. 3단계 인과관계 사슬
+            </a>
+            <ul class="pl-3 mt-1 space-y-1 text-xs text-slate-500 dark:text-slate-400">
+              <li><a href="#issue-1" class="hover:text-indigo-500 transition block py-0.5">• 트럼프 알래스카 LNG 540억$ 투자</a></li>
+              <li><a href="#issue-2" class="hover:text-indigo-500 transition block py-0.5">• HBM 가격 121% 폭등 & 반도체 반등</a></li>
+              <li><a href="#issue-3" class="hover:text-indigo-500 transition block py-0.5">• 사우디 송유관 복구 & 유가 $89 급락</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#section-3" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              3. 섹터 로테이션 및 자산배분
+            </a>
+          </li>
+          <li>
+            <a href="#section-4" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              4. 따블 오케스트레이션 연계
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 max-w-4xl space-y-8">
+
+      <!-- Header Title Box -->
+      <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white p-6 sm:p-8 rounded-2xl shadow-md border border-indigo-950/40">
+        <div class="flex items-center gap-2 text-indigo-300 text-xs sm:text-sm font-semibold uppercase tracking-wider mb-2">
+          <span>피터 나바로 거시경제 인과체인 프레임워크</span>
+          <span>•</span>
+          <span>2026. 09. 30 (수) 장마감</span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
+          [매크로뷰] 2026. 09. 30 장마감 매크로 인과체인 브리핑
+        </h1>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          美 장기 국채금리 고공행진(30년물 5.6% 돌파) 속에서도, 사우디 홍해 송유관 복구로 국제유가가 배럴당 $89.38(-3.48%)로 급락하고 원/달러 환율이 1,352.8원으로 안착했습니다. 
+          트럼프의 알래스카 초대형 LNG 사업 한국 540억 달러 투자 공식화와 2027년 HBM 판가 121% 폭등 전망에 힘입어 강관·철강 및 HBM 후공정 소부장이 코스닥(+0.72%) 4일 연속 상승을 견인한 차별화 장세 심층 분석입니다.
+        </p>
+        <div class="mt-4 pt-4 border-t border-indigo-800/40 flex flex-wrap gap-4 text-xs text-indigo-200">
+          <div><span class="text-slate-400">기준 일시:</span> 2026년 9월 30일(수) 15:30 KST</div>
+          <div><span class="text-slate-400">데이터 출처:</span> 2026. 09. 30 장마감뉴스 & 장마감 시각화 브리핑</div>
+        </div>
+      </div>
+
+      <!-- Section 1: Macro Dashboard -->
+      <section id="section-1" class="bg-white dark:bg-slate-800/90 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-3">
+          <span class="p-1.5 bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 rounded-md font-bold text-sm">01</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            글로벌 매크로 4대 지표 대시보드
+          </h2>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-100/80 dark:bg-slate-750 text-slate-700 dark:text-slate-300 font-semibold border-b border-slate-200 dark:border-slate-700">
+                <th class="py-3 px-4">구분</th>
+                <th class="py-3 px-4">핵심 지표</th>
+                <th class="py-3 px-4">변동 추이</th>
+                <th class="py-3 px-4">매크로 해석</th>
+                <th class="py-3 px-4 text-center">시장 신호</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-slate-100">금리/통화</td>
+                <td class="py-3.5 px-4">美 10년물·30년물 국채 / 연준 스탠스</td>
+                <td class="py-3.5 px-4 font-semibold text-rose-600 dark:text-rose-400">10년물 5.2%대, 30년물 5.6% 돌파</td>
+                <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                  24년 만의 최고치 고공행진. 뉴욕 연은 총재의 "연속 인상 불필요" 발언에도 장기채 공급 부담 지속으로 대형주 밸류에이션 하방 압력 잔존
+                </td>
+                <td class="py-3.5 px-4 text-center">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300">
+                    ⚠️ 경계
+                  </span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-slate-100">환율/수급</td>
+                <td class="py-3.5 px-4">원/달러 환율 / 외국인 수급</td>
+                <td class="py-3.5 px-4 font-semibold text-emerald-600 dark:text-emerald-400">1,352.8원 (-1.2원)</td>
+                <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                  월말 수출업체 네고 물량 유입, 엔화 강세, 유가 급락에 힘입어 1,350원대 초반 하향 안정. 코스피 외인 순매도 vs 코스닥 외인·기관 순매수
+                </td>
+                <td class="py-3.5 px-4 text-center">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+                    🟢 호재
+                  </span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-slate-100">원자재</td>
+                <td class="py-3.5 px-4">WTI 국제유가 / 브렌트유</td>
+                <td class="py-3.5 px-4 font-semibold text-emerald-600 dark:text-emerald-400">WTI $89.38 (-3.48%) / $102.59</td>
+                <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                  사우디 홍해 송유관 복구 완료 및 美 전략비축유(SPR) 4,000만 배럴 방출로 WTI 90달러 붕괴. 에너지발 인플레 공포 급격 완화
+                </td>
+                <td class="py-3.5 px-4 text-center">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300">
+                    🟢 호재
+                  </span>
+                </td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-slate-100">시장지수</td>
+                <td class="py-3.5 px-4">코스피 / 코스닥</td>
+                <td class="py-3.5 px-4 font-semibold text-indigo-600 dark:text-indigo-400">6,838.04(-0.48%) / 855.91(+0.72%)</td>
+                <td class="py-3.5 px-4 text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                  코스피 3일 연속 약보합 vs 코스닥 반도체 소부장·2차전지 반등으로 4일 연속 상승. 아시아 증시(일 +1.94%, 대만 +0.65%) 동반 강세 속 양극화
+                </td>
+                <td class="py-3.5 px-4 text-center">
+                  <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-indigo-100 text-indigo-800 dark:bg-indigo-950/80 dark:text-indigo-300">
+                    ⚡ 기회
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 2: Navarro's 3-Step Ripple Effect -->
+      <section id="section-2" class="bg-white dark:bg-slate-800/90 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+        <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-3">
+          <span class="p-1.5 bg-indigo-100 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 rounded-md font-bold text-sm">02</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            피터 나바로식 3단계 인과관계 사슬 (Ripple Effect)
+          </h2>
+        </div>
+
+        <!-- Issue 1 -->
+        <div id="issue-1" class="p-5 rounded-xl bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+              [이슈 1] 트럼프, 알래스카 초대형 LNG 개발에 韓 540억 달러 투자 발표 임박
+            </h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 dark:bg-indigo-950/60 dark:text-indigo-300 font-semibold">정책 & 인프라</span>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">Trigger (원인):</span>
+              <span>트럼프 행정부가 이르면 30일(현지시간) 알래스카 초대형 LNG 개발 프로젝트에 한국의 540억 달러(약 72조 원) 규모 지분 투자 및 기자재 수주 참여를 공식 발표할 예정이라는 외신 보도.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">1차 파급 (직접):</span>
+              <span>극한지 북미 가스전 연결용 특수 강관, 밸브/피팅, 송유관 설비 수요 폭증 기대감. 동일스틸럭스(+29.98%)와 KBI동양철관(+29.94%)이 장초반부터 상한가로 직행하고 대동스틸, 하이스틸 등 강관주 섹터 전반 폭등.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">2차 파급 (공급망/원가):</span>
+              <span>북미 LNG 직도입 확대로 국내 민간 에너지사들의 도입 단가 안정화 및 마진 구조 개선. 글로벌 LNG 수송선 발주 증가로 조선 빅3(삼성중공업, HD한국조선해양)의 고수익 선종 선가 인상 협상력 강화.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">3차 파급 (최종 산업):</span>
+              <span>에너지 인프라 및 강관 제조업계의 폭발적인 신규 수주 잔고 축적.</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-lg border border-emerald-200/50 dark:border-emerald-800/40">
+              <div class="font-bold text-emerald-800 dark:text-emerald-300 mb-1">🟢 수혜 섹터/종목군</div>
+              <div class="text-slate-600 dark:text-slate-300">가스 강관/철강(동일스틸럭스, KBI동양철관, 대동스틸, 하이스틸), 피팅/밸브(성광벤드, 태광), LNG 수송선(삼성중공업, HD현대중공업)</div>
+            </div>
+            <div class="p-3 bg-rose-50/70 dark:bg-rose-950/30 rounded-lg border border-rose-200/50 dark:border-rose-800/40">
+              <div class="font-bold text-rose-800 dark:text-rose-300 mb-1">🔴 피해 섹터/종목군</div>
+              <div class="text-slate-600 dark:text-slate-300">프로젝트 참여 배제된 레거시 내수 건자재주</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 2 -->
+        <div id="issue-2" class="p-5 rounded-xl bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              [이슈 2] 2027년 HBM 평균가격 121% 폭등 전망 & 필라델피아 반도체 지수 반등(+1.32%)
+            </h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-300 font-semibold">슈퍼사이클</span>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">Trigger (원인):</span>
+              <span>AI 추론 연산 확산으로 고대역폭 메모리 수요가 공급을 완전히 초과하며 2027년 HBM 평균 판가가 올해 대비 121% 급등할 것이라는 전문 리포트 발표. 마이크론 2,000달러 초강세론 지속 및 필라델피아 반도체 지수 반등.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">1차 파급 (직접):</span>
+              <span>전일 5%대 폭락했던 대형 메모리주 매도세가 진정되며 코스닥 패키징/소부장으로 수급 급격 유입. 윈팩(+29.96%) 상한가 안착, 주성엔지니어링(+7.8%), 와이씨켐(+6.5%), 기가비스, 한미반도체 강세.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">2차 파급 (공급망/원가):</span>
+              <span>GPU뿐만 아니라 고성능 CPU 및 AI 서버용 메모리 병목 심화로 FC-BGA, 유리기판(TGV) 등 차세대 패키징 공정 필수화. 삼성전기 6.8조 증설 및 글로벌 빅테크의 차세대 기판 장비 조기 발주 가속화.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">3차 파급 (최종 산업):</span>
+              <span>HBM 후공정 및 차세대 패키징 장비사의 실적 가시성 대폭 제고.</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-lg border border-emerald-200/50 dark:border-emerald-800/40">
+              <div class="font-bold text-emerald-800 dark:text-emerald-300 mb-1">🟢 수혜 섹터/종목군</div>
+              <div class="text-slate-600 dark:text-slate-300">HBM 패키징/검사장비(윈팩, 주성엔지니어링, 한미반도체, 기가비스), 유리기판(필옵틱스, 태성, 나인테크), 기판/MLCC(코리아써키트, 삼성전기, 아바텍)</div>
+            </div>
+            <div class="p-3 bg-rose-50/70 dark:bg-rose-950/30 rounded-lg border border-rose-200/50 dark:border-rose-800/40">
+              <div class="font-bold text-rose-800 dark:text-rose-300 mb-1">🔴 피해 섹터/종목군</div>
+              <div class="text-slate-600 dark:text-slate-300">범용 레거시 D램 비중이 높고 HBM 밸류체인 진입에 실패한 중소 부품주</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Issue 3 -->
+        <div id="issue-3" class="p-5 rounded-xl bg-slate-50/80 dark:bg-slate-900/50 border border-slate-200/80 dark:border-slate-700/60 space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+              [이슈 3] 사우디 홍해 송유관 복구 & 美 비축유 4,000만 배럴 방출발 유가 $89 급락
+            </h3>
+            <span class="text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-800 dark:bg-blue-950/60 dark:text-blue-300 font-semibold">인플레 완화</span>
+          </div>
+
+          <div class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">Trigger (원인):</span>
+              <span>사우디아라비아의 홍해 원유 수출 파이프라인 복구 완료 및 美 에너지부의 4,000만 배럴 전략비축유 방출 발표로 WTI가 배럴당 $89.38(-3.48%)로 급락하며 90달러선 붕괴.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">1차 파급 (직접):</span>
+              <span>글로벌 에너지 인플레이션 공포 완화 및 달러-원 환율 1,352.8원으로 하향 안정. 수입 원유 조달 비용 감소로 운송·제조업 채산성 회복 기대.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">2차 파급 (공급망/원가):</span>
+              <span>항공유 단가 급락으로 3·4분기 항공사(대한항공, LCC)의 연료비 부담 대폭 경감. 전력 구입단가 하락으로 한국전력 등 유틸리티 기업 흑자 기조 강화. 반면 정유 대형주는 재고평가이익 축소 및 복합 정제마진 둔화 우려 직면.</span>
+            </div>
+            <div class="flex gap-2">
+              <span class="font-bold text-slate-700 dark:text-slate-200 shrink-0">3차 파급 (최종 산업):</span>
+              <span>운송 및 에너지 수입 소비재 업종의 수익성 개선 가속화.</span>
+            </div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-200/60 dark:border-slate-800 grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 bg-emerald-50/70 dark:bg-emerald-950/30 rounded-lg border border-emerald-200/50 dark:border-emerald-800/40">
+              <div class="font-bold text-emerald-800 dark:text-emerald-300 mb-1">🟢 수혜 섹터/종목군</div>
+              <div class="text-slate-600 dark:text-slate-300">항공/운송(대한항공, 제주항공), 유틸리티/전력(한국전력), 수입 원자재 가공 소비재</div>
+            </div>
+            <div class="p-3 bg-rose-50/70 dark:bg-rose-950/30 rounded-lg border border-rose-200/50 dark:border-rose-800/40">
+              <div class="font-bold text-rose-800 dark:text-rose-300 mb-1">🔴 피해 섹터/종목군</div>
+              <div class="text-slate-600 dark:text-slate-300">정유 메이저(S-Oil, SK이노베이션), 자원개발 E&P 기업</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Section 3: Sector Rotation & Asset Allocation -->
+      <section id="section-3" class="bg-white dark:bg-slate-800/90 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-6">
+        <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-3">
+          <span class="p-1.5 bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 rounded-md font-bold text-sm">03</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            섹터 로테이션 및 자산 배분 전략
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+          <!-- Offensive Sector -->
+          <div class="p-5 rounded-xl bg-emerald-50/40 dark:bg-emerald-950/20 border border-emerald-200/70 dark:border-emerald-800/50 space-y-3">
+            <h3 class="text-base font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-2">
+              <span>🟢 비중 확대 추천 섹터 (Offensive)</span>
+            </h3>
+            <ul class="text-xs space-y-2.5 text-slate-600 dark:text-slate-300">
+              <li class="flex items-start gap-1.5">
+                <span class="text-emerald-500 font-bold">•</span>
+                <span><strong>알래스카 LNG 특수 강관/철강 및 기자재:</strong> 동일스틸럭스, KBI동양철관 (1파 기준봉 폭발, 첫 5일선 음봉 눌림목 관찰).</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-emerald-500 font-bold">•</span>
+                <span><strong>HBM 차세대 패키징 및 유리기판 소부장:</strong> 윈팩, 필옵틱스, 주성엔지니어링, 코리아써키트 (단단한 실체적 수주 펀더멘털).</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-emerald-500 font-bold">•</span>
+                <span><strong>저유가·저환율 수혜 항공/운송:</strong> 유가 89달러 안착 및 환율 1,352원선 안정에 따른 실적 턴어라운드 (대한항공, 제주항공).</span>
+              </li>
+              <li class="flex items-start gap-1.5">
+                <span class="text-emerald-500 font-bold">•</span>
+                <span><strong>차세대 친환경 에너지 인프라(LMR 배터리, SOFC 수소):</strong> LG엔솔 각형 LMR 양산 및 블룸에너지발 수소 모멘텀 (이수스페셜티케미컬, 서진시스템, 비나텍).</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Defensive Sector -->
+          <div class="p-5 rounded-xl bg-rose-50/40 dark:bg-rose-950/20 border border-rose-200/70 dark:border-rose-800/50 space-y-3">
+            <h3 class="text-base font-bold text-rose-800 dark:text-rose-300 flex items-center gap-2">
+              <span>🔴 비중 축소/관망 섹터 (Defensive)</span>
+            </h3>
+            <div class="space-y-3 text-xs text-slate-600 dark:text-slate-300">
+              <div>
+                <div class="font-bold text-slate-800 dark:text-slate-200 text-sm mb-1">
+                  정유 / 석유화학
+                </div>
+                <p>WTI 89달러 급락에 따른 재고평가익 축소 및 정제마진 둔화 국면이 지속되므로 단기 비중 축소.</p>
+              </div>
+              <div class="pt-2 border-t border-rose-200/50 dark:border-rose-900/50">
+                <div class="font-bold text-slate-800 dark:text-slate-200 text-sm mb-1">
+                  고차입 한계 기업 및 건설주
+                </div>
+                <p>美 30년물 국채금리가 5.6%를 웃도는 고금리 환경에서 자금 조달 경색 및 이자 부담이 가중되는 취약 기업 배제.</p>
+              </div>
+              <div class="pt-2 border-t border-rose-200/50 dark:border-rose-900/50">
+                <div class="font-bold text-slate-800 dark:text-slate-200 text-sm mb-1">
+                  단기 과열 바이오 일부 (HLB 그룹주)
+                </div>
+                <p>전일 상한가 이후 단봉 숨고르기 진행 중. 5일선 지지 확인 전까지 추격 매수 엄단.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risks & Checkpoints -->
+        <div class="p-5 rounded-xl bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200/70 dark:border-amber-800/50 space-y-2">
+          <h3 class="text-sm font-bold text-amber-800 dark:text-amber-300 flex items-center gap-2">
+            <span>⚠️ 핵심 리스크 및 체크포인트</span>
+          </h3>
+          <ul class="text-xs space-y-1.5 text-slate-600 dark:text-slate-300">
+            <li class="flex items-start gap-1.5">
+              <span class="text-amber-500 font-bold">•</span>
+              <span><strong>미 국채 30년물 5.6% 안착 여부:</strong> 장기금리 추가 발작 시 글로벌 증시 할인율 부담 지속.</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-amber-500 font-bold">•</span>
+              <span><strong>트럼프 알래스카 LNG 공식 서명 및 수주 규모:</strong> 실질적 본계약 체결 일정과 밸류체인 수혜 강도 확인.</span>
+            </li>
+            <li class="flex items-start gap-1.5">
+              <span class="text-amber-500 font-bold">•</span>
+              <span><strong>10월 2일 美 9월 비농업 고용보고서 발표:</strong> 연준 10월 FOMC 금리 향방을 가를 핵심 분기점.</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 4: DDable Orchestration -->
+      <section id="section-4" class="bg-white dark:bg-slate-800/90 p-6 sm:p-8 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-100 dark:border-slate-700/80 pb-3">
+          <span class="p-1.5 bg-purple-100 dark:bg-purple-900/50 text-purple-600 dark:text-purple-400 rounded-md font-bold text-sm">04</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            따블 오케스트레이션 연계 제언
+          </h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-50/80 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/60 space-y-2">
+            <div class="text-sm font-bold text-purple-700 dark:text-purple-300 flex items-center gap-1.5">
+              <span>🎯 단기 매매 (@juju) 연계</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              알래스카 LNG 테마 상한가 종목의 익일 시초 갭 추격 매수를 원천 차단할 것. 오직 1파 기준봉 형성 후 거래량이 마른 5일선 음봉 눌림목 타점에서만 -3.5% 간격 사전 분할 매수를 집행하고, +4~7% 도달 시 기계적 50% 분할 익절 및 예수금 50% 방어 원칙을 엄수할 것.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50/80 dark:bg-slate-900/40 border border-slate-200/80 dark:border-slate-700/60 space-y-2">
+            <div class="text-sm font-bold text-indigo-700 dark:text-indigo-300 flex items-center gap-1.5">
+              <span>📊 테마 DB (@daily-theme-db-updater) 연계</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              9/30 신규 폭발한 알래스카 LNG 강관주(동일스틸럭스, KBI동양철관), HBM 패키징(윈팩), LMR 배터리(이수스페셜티케미컬), SOFC(비나텍)의 거래대금 및 테마 지속성을 <code class="text-xs text-indigo-600 dark:text-indigo-400">주식테마_동향_데이터베이스.xlsx</code>에 즉각 동기화하고 향후 3거래일 추적 관리할 것을 권고.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Info -->
+      <footer class="pt-6 pb-12 text-center text-xs text-slate-400 dark:text-slate-500 border-t border-slate-200 dark:border-slate-800">
+        <p>본 브리핑은 피터 나바로 거시경제 투자 프레임워크와 한국 주식시장 일일 실측 데이터에 기반하여 작성되었습니다.</p>
+        <p class="mt-1">Generated by Macro-View AI Agent & DDable Ecosystem © 2026</p>
+      </footer>
+
+    </main>
   </div>
-  <div class="card">
-    <h3>2. 경기 선행 지표 점검</h3>
-    <p>제조업 PMI 및 고용 지표 추이를 바탕으로 한 4분기 경기 사이클 국면 분석.</p>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs font-semibold transition-opacity duration-300 opacity-0 pointer-events-none flex items-center gap-2">
+    <svg class="w-4 h-4 text-emerald-400 dark:text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    클립보드에 복사되었습니다.
   </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 본문이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2500);
+    }
+  </script>
 </body>
 </html>
