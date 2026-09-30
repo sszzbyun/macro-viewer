@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[따블] 2026. 09. 29 주간 테마 분석 및 N형 패턴 모아가기 전략 보고서</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <style>
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-base shadow-md shadow-blue-500/20">
+          📈
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            [따블] 주간 테마 분석 및 N형 패턴 전략 보고서
+            <span class="hidden sm:inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              2026.09.29 장마감 확정본
+            </span>
+          </h1>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2.5">
+        <button id="copyBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+          전문 복사
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm" aria-label="테마 전환">
+          <span id="themeIcon">🌓</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metric Quick Cards Bar -->
+  <section class="border-b border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">코스피 (KOSPI)</div>
+          <div class="text-lg font-bold text-rose-600 dark:text-rose-400 flex items-baseline gap-1 mt-0.5">
+            6,870.81 <span class="text-xs font-semibold">-0.27% ▼</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">외인 -2.9조 투매 속 6,870선 선방</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">코스닥 (KOSDAQ)</div>
+          <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 flex items-baseline gap-1 mt-0.5">
+            849.80 <span class="text-xs font-semibold">+0.38% ▲</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">소부장·바이오 훈풍 3일 연속 반등</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">美 10년물 국채금리</div>
+          <div class="text-lg font-bold text-amber-600 dark:text-amber-400 flex items-baseline gap-1 mt-0.5">
+            5.240% <span class="text-xs font-semibold">19년래 최고</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">30년물 5.56% 돌파 / AI 인플레 발언</div>
+        </div>
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">달러-원 환율</div>
+          <div class="text-lg font-bold text-blue-600 dark:text-blue-400 flex items-baseline gap-1 mt-0.5">
+            1,356.7원 <span class="text-xs font-semibold">-3.2원 ▼</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">수출업체 네고 출회 1,360원 하회</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container with Sidebar TOC -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Table of Contents -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <nav class="sticky top-24 p-5 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-3" id="toc-nav">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+          목차 바로가기
+        </div>
+        <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-400 font-medium">
+          <li>
+            <a href="#section-1" class="hover:text-blue-600 dark:hover:text-blue-400 transition block py-1">
+              1. 2주간 테마 순환 맵
+            </a>
+          </li>
+          <li>
+            <a href="#section-2" class="hover:text-blue-600 dark:hover:text-blue-400 transition block py-1">
+              2. 매크로 인과체인 & 실전복기
+            </a>
+          </li>
+          <li>
+            <a href="#section-3" class="hover:text-blue-600 dark:hover:text-blue-400 transition block py-1 font-semibold text-blue-600 dark:text-blue-400">
+              3. 3단계 상태별 라인업
+            </a>
+          </li>
+          <li>
+            <a href="#section-4" class="hover:text-blue-600 dark:hover:text-blue-400 transition block py-1">
+              4. 체커리 6대 감사 & 타임라인
+            </a>
+          </li>
+          <li>
+            <a href="#section-5" class="hover:text-blue-600 dark:hover:text-blue-400 transition block py-1">
+              5. 쥬쥬 멘토 실전 계좌 수칙
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 max-w-4xl space-y-8">
+      
+      <!-- Meta Overview Box -->
+      <div class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white p-6 sm:p-8 rounded-2xl shadow-md border border-indigo-950/40">
+        <div class="flex items-center gap-2 text-indigo-300 text-xs sm:text-sm font-semibold mb-2">
+          <span>오케스트레이터 따블</span> • <span>주식 전략 본부 합동 확정본</span>
+        </div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-3">
+          [따블] 2026. 09. 29 주간 테마 분석 및 N형 패턴 모아가기 전략 보고서
+        </h2>
+        <p class="text-slate-300 text-sm leading-relaxed">
+          미국 국채금리 5.24% 고공행진과 코스피 외인 2.9조 투매 속에서도, 차세대 AI 패키징(유리기판/MLCC) 및 FDA 품목허가 바이오텍으로의 강력한 수급 쏠림이 전개되었습니다. 체커리 6대 하드 필터링 및 차티 차트 실측을 적용한 최종 3단계 상태별 실행 로드맵입니다.
+        </p>
+        <div class="mt-4 pt-4 border-t border-indigo-800/50 flex flex-wrap gap-4 text-xs text-indigo-200">
+          <div><strong class="text-white">DB 버전:</strong> v18.6 동기화</div>
+          <div><strong class="text-white">시장 신호:</strong> 코스닥 3일 연속 반등 / 코스피 외인 투매 방어</div>
+          <div><strong class="text-white">핵심 실행주:</strong> 코리아써키트, 필옵틱스</div>
+        </div>
+      </div>
+
+      <!-- Section 1 -->
+      <section id="section-1" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-2 h-5 bg-blue-600 rounded-full inline-block"></span>
+            1. 최근 2주간(9/15 ~ 9/29) 테마 순환 맵 및 파동 수명 진단 (v18.6 DB 반영)
+          </h3>
+          <span class="text-xs px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold">
+            총 1,541 레코드 DB 분석
+          </span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-semibold">
+                <th class="py-3 px-3">테마 / 섹터</th>
+                <th class="py-3 px-3">출현 빈도</th>
+                <th class="py-3 px-3">핵심 촉매 및 최근 자금 순환 경로 (v18.6)</th>
+                <th class="py-3 px-3">현재 파동 상태</th>
+                <th class="py-3 px-3">3단계 분류</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold text-blue-600 dark:text-blue-400">반도체 유리기판 / TGV</td>
+                <td class="py-3 px-3">09-29 신규</td>
+                <td class="py-3 px-3">글로벌 반도체향 2.0mm TGV 초도 장비 수주(필옵틱스 +12.2%), 심텍 SoCAMM LOI(태성 +13.3%)</td>
+                <td class="py-3 px-3 font-semibold text-emerald-600 dark:text-emerald-400">신규 1파 기준봉 폭발</td>
+                <td class="py-3 px-3"><span class="badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold">🟢 즉시 실행조</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold text-indigo-600 dark:text-indigo-400">AI 반도체 기판 / MLCC</td>
+                <td class="py-3 px-3">39회 누적</td>
+                <td class="py-3 px-3">삼성전기 6.8조 증설 및 AI MLCC 32주 쇼티지(아바텍 +9.5%), 코리아써키트(+8.19% 익절 완수)</td>
+                <td class="py-3 px-3 font-semibold text-blue-600 dark:text-blue-400">1파 5일선 N형 지지</td>
+                <td class="py-3 px-3"><span class="badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 font-bold">🟢 즉시 실행조</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold">HLB그룹 / K-바이오 신약</td>
+                <td class="py-3 px-3">09-28~09-29</td>
+                <td class="py-3 px-3">담관암 신약 FDA 최종 승인 & 美 무관세 0% 호재 후 9/29 첫 숨고르기/음봉 수렴 진행 중</td>
+                <td class="py-3 px-3">1파 기준봉 후 첫 음봉 테스트</td>
+                <td class="py-3 px-3"><span class="badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-bold">🟡 레이더 대기</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold">태양광 / 신재생에너지</td>
+                <td class="py-3 px-3">지속 강화</td>
+                <td class="py-3 px-3">美 232조(12월) 앞두고 북미 모듈 가격 급등(+40.7%), 한화솔루션, OCI홀딩스 연속 랠리 후 숨고르기</td>
+                <td class="py-3 px-3">1파 확장 후 5일선 수렴</td>
+                <td class="py-3 px-3"><span class="badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-bold">🟡 레이더 대기</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold">글로벌 의료AI / 기기</td>
+                <td class="py-3 px-3">26회 누적</td>
+                <td class="py-3 px-3">뷰노(+21.99% 이틀 연속 랠리), 루닛(스웨덴 전역 검진), 쓰리빌리언(ARPA-H) 글로벌 B2G 모멘텀</td>
+                <td class="py-3 px-3">1파 기준봉 확장 후 분할 대기</td>
+                <td class="py-3 px-3"><span class="badge bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-bold">🟡 레이더 대기</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold text-rose-600 dark:text-rose-400">2차전지 / 전고체 쇼크</td>
+                <td class="py-3 px-3">하락 반전</td>
+                <td class="py-3 px-3">中 2030 전고체 양산 로드맵 발표로 기존 배터리 소재 우려, SKIET(-7.77%), 포스코퓨처엠(-5.29%) 급락</td>
+                <td class="py-3 px-3 text-rose-500">악재 돌출 추세 훼손</td>
+                <td class="py-3 px-3"><span class="badge bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 font-bold">🔴 필터링 탈락</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition">
+                <td class="py-3 px-3 font-bold text-rose-600 dark:text-rose-400">우주항공 / 스페이스X</td>
+                <td class="py-3 px-3">재료 소멸</td>
+                <td class="py-3 px-3">스페이스X 스타십 14차 궤도 진입 성공했으나 3시간 조기 귀환으로 모멘텀 소멸, LK삼양(-11.74%) 등 급락</td>
+                <td class="py-3 px-3 text-rose-500">D-Day 경과 재료 소멸</td>
+                <td class="py-3 px-3"><span class="badge bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 font-bold">🔴 필터링 탈락</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section id="section-2" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-2 h-5 bg-blue-600 rounded-full inline-block"></span>
+          2. 글로벌 매크로 인과체인 & 실전 매매 검증 (피터 나바로 사슬)
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-2">
+            <h4 class="font-bold text-slate-900 dark:text-white text-sm flex items-center gap-1.5">
+              <span>⚠️</span> 美 국채금리 5.24% 돌파 및 차별화 장세
+            </h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              연준 리사 쿡 이사의 'AI의 단기 인플레 압력 가중' 발언으로 美 10년물 국채금리가 5.240%(19년래 최고)로 치솟았습니다. 외국인은 코스피에서 2.9조 원을 순매도했으나, 엔비디아의 204조 자사주 매입 한도 확대 및 환율 1,356원 안정에 힘입어 코스닥은 3일 연속 상승(+0.38%)하며 차별화에 성공했습니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/60 space-y-2">
+            <h4 class="font-bold text-emerald-900 dark:text-emerald-300 text-sm flex items-center gap-1.5">
+              <span>🛡️</span> 저널리 실전 매매 검증: 원칙 준수 엑시트 완수
+            </h4>
+            <p class="text-xs text-emerald-800 dark:text-emerald-400 leading-relaxed">
+              • <strong>노타 (396주)</strong>: 9/23 및 9/28 분할 매수 후 9/29 오늘 장중 슈팅(+6.2%) 후 탄력 둔화 시 20,150원 본절 매도(-0.21%)로 손실 완벽 통제 및 원금 100% 보존.<br>
+              • <strong>엘앤에프 (45주)</strong>: 9/28 +5.02% 선제 익절 후 9/29 잔여분 110,900원 청산으로 총 +1.01% 안전 현금화.<br>
+              • <strong>코리아써키트</strong>: 9/28 +8.19%(+118.8만 원) 익절 완수 후 5일선 지지 수성 확인.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section id="section-3" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-5">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+          <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-2 h-5 bg-emerald-600 rounded-full inline-block"></span>
+            3. 차트 실측(차티 검증) 기반 3단계 상태별 라인업 (플래니 최신 개편 규격)
+          </h3>
+          <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">
+            6대 하드 필터링 통과
+          </span>
+        </div>
+
+        <!-- 🟢 1. 즉시 실행조 -->
+        <div class="space-y-3">
+          <div class="flex items-center gap-2">
+            <span class="badge bg-emerald-500 text-white font-bold">🟢 1. 즉시 실행조 (Action Pool)</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">1등 대장주 + 거래량 급감 5일선 음봉/단봉 지지 확인 완료</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- 코리아써키트 -->
+            <div class="p-4 rounded-xl border border-emerald-200 dark:border-emerald-800/80 bg-emerald-50/40 dark:bg-emerald-950/20 space-y-2">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="font-bold text-base text-slate-900 dark:text-white">코리아써키트 (007810)</h4>
+                  <p class="text-xs text-emerald-700 dark:text-emerald-400 font-semibold">AI 반도체 기판 / FC-BGA 1대장</p>
+                </div>
+                <span class="badge bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-bold">트랙 A 주력</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                9/28 +8.19% 익절 완수 후, 대형 반도체 투매 속에서도 종가 65,200원선 및 일봉 5일선을 단단히 수성함. 피보나치 75% 지지선(65,553원)과 5일선이 완벽히 수렴하며 견고한 지지력 재확인.
+              </p>
+              <div class="pt-2 border-t border-emerald-200/60 dark:border-emerald-800/40 text-xs space-y-1">
+                <div><strong>1차 매수가:</strong> 64,500원 ~ 65,200원 (비중 10~15%)</div>
+                <div><strong>2차 매수가:</strong> 62,300원 ~ 62,600원 (-3.5% 간격, 비중 15~20%)</div>
+                <div><strong>목표 익절가:</strong> +4% ~ +7% (68,000원 ~ 70,500원 분할 매도)</div>
+                <div><strong>손절선:</strong> 60,000원 (5일선 및 50% 되돌림 붕괴 시)</div>
+              </div>
+            </div>
+
+            <!-- 필옵틱스 -->
+            <div class="p-4 rounded-xl border border-emerald-200 dark:border-emerald-800/80 bg-emerald-50/40 dark:bg-emerald-950/20 space-y-2">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="font-bold text-base text-slate-900 dark:text-white">필옵틱스 (161580)</h4>
+                  <p class="text-xs text-emerald-700 dark:text-emerald-400 font-semibold">반도체 유리기판 / TGV 1대장</p>
+                </div>
+                <span class="badge bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 font-bold">트랙 A 신규</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                글로벌 고객사향 2.0mm TGV(유리관통전극) 장비 수주 확정으로 대량 거래대금을 동반하며 +12.24% 장대양봉으로 전고점 돌파 1파 기준봉 수립.
+              </p>
+              <div class="pt-2 border-t border-emerald-200/60 dark:border-emerald-800/40 text-xs space-y-1">
+                <div><strong>1차 매수가:</strong> 5일선 지지 첫 음봉 출현 시 진입 (비중 10%)</div>
+                <div><strong>2차 매수가:</strong> 1차 대비 -3.5% 하단 사전 예약 (비중 15%)</div>
+                <div><strong>목표 익절가:</strong> +4% ~ +7% 구간 기계적 분할 익절</div>
+                <div><strong>손절선:</strong> 1파 기준봉 시가 훼손 시</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🟡 2. 레이더 대기조 -->
+        <div class="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="badge bg-amber-500 text-white font-bold">🟡 2. 레이더 대기조 (Radar Watchlist)</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">1등 대장주이나 당일 양봉/이격 확대로 첫 음봉 지지 확인 시까지 매수 유예</span>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div class="p-3.5 rounded-xl border border-amber-200 dark:border-amber-800/60 bg-amber-50/40 dark:bg-amber-950/20 space-y-1">
+              <div class="font-bold text-sm text-slate-900 dark:text-white">HLB / HLB제약</div>
+              <div class="text-[11px] text-amber-700 dark:text-amber-400 font-semibold">K-바이오 FDA 승인 대장</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">9/28 상한가 후 9/29 첫 숨고르기 진행 중. 5일선 지지 캔들 확인 시 즉시 실행조 전환.</p>
+            </div>
+            <div class="p-3.5 rounded-xl border border-amber-200 dark:border-amber-800/60 bg-amber-50/40 dark:bg-amber-950/20 space-y-1">
+              <div class="font-bold text-sm text-slate-900 dark:text-white">한화솔루션 / OCI홀딩스</div>
+              <div class="text-[11px] text-amber-700 dark:text-amber-400 font-semibold">美 232조 태양광 대장</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">모듈 가격 급등 속 연속 양봉 랠리. 거래량이 마르는 5일선 음봉 출현 시까지 대기.</p>
+            </div>
+            <div class="p-3.5 rounded-xl border border-amber-200 dark:border-amber-800/60 bg-amber-50/40 dark:bg-amber-950/20 space-y-1">
+              <div class="font-bold text-sm text-slate-900 dark:text-white">뷰노 / 쓰리빌리언</div>
+              <div class="text-[11px] text-amber-700 dark:text-amber-400 font-semibold">글로벌 의료AI B2G 대장</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">中 하이난 독점계약으로 이틀 연속 폭등. 단기 이격 벌어져 5일선 수렴 조정 시까지 매수 유예.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🔴 3. 차트 및 필터링 탈락조 -->
+        <div class="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div class="flex items-center gap-2">
+            <span class="badge bg-rose-500 text-white font-bold">🔴 3. 차트 및 필터링 탈락조 (Chart & Metadata Rejected)</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400">재료 소멸, 악재 돌출, 전고점 매물대 직면으로 매매 전면 배제</span>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs">
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+                  <td class="py-2.5 px-3 font-semibold text-rose-600 dark:text-rose-400 w-44">LK삼양 / 센서뷰</td>
+                  <td class="py-2.5 px-3"><strong>[🚫 필터링 탈락 - 스타십 조기 귀환 재료 소멸]</strong> 스타십 14차 궤도 진입 후 3시간 조기 귀환 소식에 실망 매물 폭탄 급락.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+                  <td class="py-2.5 px-3 font-semibold text-rose-600 dark:text-rose-400 w-44">SKIET / 포스코퓨처엠</td>
+                  <td class="py-2.5 px-3"><strong>[🚫 필터링 탈락 - 中 전고체 2030 로드맵 악재]</strong> 중국 2030 전고체 조기 양산 로드맵으로 기존 배터리 분리막/양극재 수요 둔화 우려 급락.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+                  <td class="py-2.5 px-3 font-semibold text-rose-600 dark:text-rose-400 w-44">대한항공 (003490)</td>
+                  <td class="py-2.5 px-3"><strong>[🚫 차트 탈락 - 전고점 매물벽 충돌]</strong> 바닥 대비 +43% 상승 후 직전 전고점(32,300원) 턱밑 직면으로 쌍봉(M자) 조정 위험.</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/50">
+                  <td class="py-2.5 px-3 font-semibold text-rose-600 dark:text-rose-400 w-44">삼미금속 (012210)</td>
+                  <td class="py-2.5 px-3"><strong>[🚫 차트 탈락 - 5일선 붕괴 장대음봉]</strong> 원전 투자 실익 논란으로 5일선 종가 붕괴 및 추세 훼손.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section id="section-4" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-2 h-5 bg-blue-600 rounded-full inline-block"></span>
+          4. 체커리 6대 하드 필터링 전수 감사 매트릭스 및 실전 타임라인
+        </h3>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300 font-semibold">
+                <th class="py-2.5 px-2.5">종목명</th>
+                <th class="py-2.5 px-2.5">Check 1 (DB)</th>
+                <th class="py-2.5 px-2.5">Check 2 (1대장)</th>
+                <th class="py-2.5 px-2.5">Check 3 (신선도)</th>
+                <th class="py-2.5 px-2.5">Check 4 (차트실측)</th>
+                <th class="py-2.5 px-2.5">Check 5 (타점)</th>
+                <th class="py-2.5 px-2.5">상태분류</th>
+                <th class="py-2.5 px-2.5">최종 감사 판정</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr>
+                <td class="py-2.5 px-2.5 font-bold">코리아써키트</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600 font-semibold">PASS (5일선 수성)</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS (-3.5%)</td>
+                <td class="py-2.5 px-2.5 font-bold text-emerald-600">🟢 즉시 실행</td>
+                <td class="py-2.5 px-2.5 font-bold text-emerald-600">최종 승인 (1위)</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-2.5 font-bold">필옵틱스</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600 font-semibold">PASS (TGV 기준봉)</td>
+                <td class="py-2.5 px-2.5 text-amber-600">HOLD (음봉대기)</td>
+                <td class="py-2.5 px-2.5 font-bold text-emerald-600">🟢 즉시 실행</td>
+                <td class="py-2.5 px-2.5 font-bold text-blue-600">조건부 승인</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-2.5 font-bold">HLB / HLB제약</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-amber-600">HOLD (상한가 숨고르기)</td>
+                <td class="py-2.5 px-2.5 text-amber-600">HOLD (음봉대기)</td>
+                <td class="py-2.5 px-2.5 font-bold text-amber-600">🟡 레이더 대기</td>
+                <td class="py-2.5 px-2.5 font-bold text-amber-600">진입 유예</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-2.5 font-bold">한화솔루션/OCI</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-amber-600">HOLD (연속양봉 수렴)</td>
+                <td class="py-2.5 px-2.5 text-amber-600">HOLD (음봉대기)</td>
+                <td class="py-2.5 px-2.5 font-bold text-amber-600">🟡 레이더 대기</td>
+                <td class="py-2.5 px-2.5 font-bold text-amber-600">진입 유예</td>
+              </tr>
+              <tr>
+                <td class="py-2.5 px-2.5 font-bold">LK삼양 / 센서뷰</td>
+                <td class="py-2.5 px-2.5 text-emerald-600">PASS</td>
+                <td class="py-2.5 px-2.5 text-rose-600">FAIL</td>
+                <td class="py-2.5 px-2.5 text-rose-600">FAIL</td>
+                <td class="py-2.5 px-2.5 text-rose-600">FAIL (조기귀환 폭락)</td>
+                <td class="py-2.5 px-2.5 text-rose-600">FAIL</td>
+                <td class="py-2.5 px-2.5 font-bold text-rose-600">🔴 필터링 탈락</td>
+                <td class="py-2.5 px-2.5 font-bold text-rose-600">매매 배제</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="mt-4 p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2 text-xs sm:text-sm">
+          <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+            📅 순차적 타임라인 로드맵 (9/30 ~ 10월 초)
+          </h4>
+          <ul class="space-y-1.5 text-slate-600 dark:text-slate-300">
+            <li><strong>Step 1. 9/30(수):</strong> 코리아써키트 5일선 지지선(64,500~65,200원) 1차 및 -3.5% 2차 분할 매수 집중. 유리기판(필옵틱스) 첫 음봉 지지 확인 시 분할 진입.</li>
+            <li><strong>Step 2. 10/1(목) ~ 10/2(금):</strong> HLB그룹 및 태양광주(한화솔루션, OCI홀딩스)가 5일선 음봉 지지 및 거래량 잠김 확인 시 즉시 실행조로 승격하여 분할 진입.</li>
+            <li><strong>Step 3. 10월 초:</strong> 10월 7일 누리호 5차 발사 모멘텀 대비 우주항공 2차 눌림목 점검 및 10월 중순 밸류업 프로그램 최종안 대비 고배당 가치주 비중 조율.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section id="section-5" class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <h3 class="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-2 h-5 bg-blue-600 rounded-full inline-block"></span>
+          5. 쥬쥬 멘토 실전 계좌 운용 4대 행동 강령
+        </h3>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60">
+            <div class="font-bold text-blue-600 dark:text-blue-400 mb-1">1. 동시 보유 종목 1~2개 엄수</div>
+            <p class="text-slate-600 dark:text-slate-300 text-xs">
+              반도체 기판/패키징 1종목(코리아써키트 또는 필옵틱스) + 차기 주도주 음봉 1종목(HLB 또는 태양광 음봉 지지 시), 총 2개 이내로 계좌 집중 압축.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60">
+            <div class="font-bold text-blue-600 dark:text-blue-400 mb-1">2. 대기 예수금 50% 상시 방어</div>
+            <p class="text-slate-600 dark:text-slate-300 text-xs">
+              美 10년물 국채금리가 5.24%로 19년 만에 최고치를 경신 중이므로 돌발 변동성 방어 및 평단 보정을 위해 현금 50%를 항시 확보.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60">
+            <div class="font-bold text-blue-600 dark:text-blue-400 mb-1">3. -3.5% 간격 사전 지정가 분할 매수</div>
+            <p class="text-slate-600 dark:text-slate-300 text-xs">
+              양봉 추격 매수를 엄단하고 거래량이 마른 비효율적 음봉에서 1차 진입 후 반드시 -3.5% 하단에 2차 매수를 사전 예약.
+            </p>
+          </div>
+          <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60">
+            <div class="font-bold text-blue-600 dark:text-blue-400 mb-1">4. +4~7% 기계적 50% 분할 익절</div>
+            <p class="text-slate-600 dark:text-slate-300 text-xs">
+              목표 수익 도달 시 욕심부리지 않고 절반을 기계적으로 분할 매도하여 수익을 확정하고 잔여분은 매수가 본절 스탑로스 설정.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs sm:text-sm font-semibold transition-opacity duration-300 opacity-0 pointer-events-none flex items-center gap-2">
+    <span>✓</span>
+    <span id="toastMsg">문서 본문이 클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('themeIcon').innerText = '🌓';
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('themeIcon').innerText = '☀️';
+      }
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      document.getElementById('themeIcon').innerText = '☀️';
+    } else {
+      document.getElementById('themeIcon').innerText = '🌓';
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('보고서 전문이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2200);
+    }
+  </script>
+</body>
+</html>

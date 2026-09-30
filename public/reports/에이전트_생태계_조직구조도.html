@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>에이전트 생태계 총괄 조직 구조도</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center font-bold text-lg shadow-sm">
+          Ω
+        </div>
+        <div>
+          <div class="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white truncate max-w-xs sm:max-w-md">
+            에이전트 생태계 조직 구조도
+          </div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">Agent Ecosystem Governance & Architecture</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>내용 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm transition" aria-label="테마 전환">
+          <i data-lucide="moon" id="themeIcon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row gap-8">
+    <!-- Desktop Sticky Sidebar / TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <nav class="sticky top-24 space-y-1 text-sm bg-white dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm" id="toc-nav">
+        <div class="font-semibold text-xs tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-3">목차 (Contents)</div>
+        <a href="#overview" class="block px-3 py-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">1. 구조도 개요</a>
+        <a href="#system-hq" class="block px-3 py-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">2. 시스템/운영 본부</a>
+        <a href="#stock-hq" class="block px-3 py-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">3. 주식/투자 본부</a>
+        <div class="pl-4 space-y-1 text-xs">
+          <a href="#stock-strategy" class="block px-2 py-1 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">├ 전략 / 감사</a>
+          <a href="#stock-chart" class="block px-2 py-1 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">├ 차트 / 전술</a>
+          <a href="#stock-macro" class="block px-2 py-1 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">├ 매크로 / 시황</a>
+          <a href="#stock-data" class="block px-2 py-1 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">├ 종목 / 데이터</a>
+          <a href="#stock-content" class="block px-2 py-1 text-slate-500 dark:text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400">└ 시각화 / 콘텐츠</a>
+        </div>
+        <a href="#lifestyle-hq" class="block px-3 py-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">4. 일상/라이프스타일 본부</a>
+        <a href="#workflow-pipeline" class="block px-3 py-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-indigo-50 dark:hover:bg-indigo-950/50 hover:text-indigo-600 dark:hover:text-indigo-400 transition font-medium">5. 핵심 실행 파이프라인</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 max-w-4xl space-y-10">
+
+      <!-- Hero Section -->
+      <section id="overview" class="bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-700 text-white rounded-2xl p-6 sm:p-8 shadow-lg">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-xs font-semibold uppercase tracking-wider mb-4">
+          <i data-lucide="shield-check" class="w-4 h-4"></i> Agency Governance System
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight mb-3">
+          에이전트 생태계 총괄 조직 구조도
+        </h1>
+        <p class="text-indigo-100 text-sm sm:text-base leading-relaxed max-w-2xl">
+          중앙 오케스트레이터(ddable)와 거버넌스 총괄(agency)을 필두로, 주식/투자 본부와 일상/라이프스타일 본부의 전문 서브 에이전트들이 유기적으로 결합된 자율 진화형 분업 체계입니다.
+        </p>
+
+        <!-- Architecture Hierarchy Card -->
+        <div class="mt-8 bg-slate-900/60 backdrop-blur-md rounded-xl p-5 border border-white/10 text-xs sm:text-sm font-mono overflow-x-auto text-slate-200">
+          <div class="font-bold text-indigo-300 mb-2 font-sans flex items-center gap-1.5">
+            <i data-lucide="git-branch" class="w-4 h-4"></i> 생태계 거버넌스 매핑
+          </div>
+<pre class="leading-relaxed">
+                       ┌─────────────────────────┐
+                       │       사용자 (User)      │
+                       └────────────┬────────────┘
+                                    │
+       ┌────────────────────────────┴────────────────────────────┐
+       ▼                                                         ▼
+┌──────────────────────────────┐              ┌──────────────────────────────┐
+│  중앙 비서실장 (Orchestrator) │              │  생태계 총괄 거버넌스 (Gov)  │
+│           ddable             │◄────────────►│           agency             │
+└──────────────┬───────────────┘              └──────────────┬───────────────┘
+               │                                             │
+               ├─────────────────────────────────────────────┤
+               ▼                                             ▼
+ ┌───────────────────────────┐                 ┌───────────────────────────┐
+ │       주식/투자 본부       │                 │     일상/라이프스타일 본부   │
+ │       (Head: traidy)      │                 │       (Head: lifey)       │
+ └───────────────────────────┘                 └───────────────────────────┘
+</pre>
+        </div>
+      </section>
+
+      <!-- Section 1: 시스템/운영 본부 -->
+      <section id="system-hq" class="space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div class="p-2 rounded-lg bg-purple-100 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+          </div>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+            1. 시스템 / 운영 본부 (Head: agency & ddable)
+          </h2>
+        </div>
+        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+          전체 생태계의 규칙 준수, 서브 에이전트 자동 설계, 라우팅 최적화 및 사용자 직접 소통 창구를 담당합니다.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- agency -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-purple-50 dark:bg-purple-900/40 text-purple-600 dark:text-purple-300">거버넌스 총괄</span>
+              <i data-lucide="shield" class="w-4 h-4 text-purple-500"></i>
+            </div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white mb-1">agency (에이전시)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">전체 에이전트 인벤토리 관리, R&R 중복 및 라우팅 충돌 진단, 원칙 준수도 감사, 스킬 자율 진화 총괄</p>
+            <div class="text-[11px] text-slate-400 dark:text-slate-500 font-mono">Triggers: 에이전시, 에이전트 관리, 점검</div>
+          </div>
+
+          <!-- ddable -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300">비서실장</span>
+              <i data-lucide="layers" class="w-4 h-4 text-indigo-500"></i>
+            </div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white mb-1">ddable (따블)</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">메인 오케스트레이터. 사용자 업무 스타일 학습, 통합 기억 분리 관리, 하향 작업 위임 및 협업 관료제 지휘</p>
+            <div class="text-[11px] text-slate-400 dark:text-slate-500 font-mono">Triggers: 따블, 따블아, 메인 비서</div>
+          </div>
+
+          <!-- skiller -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm hover:shadow-md transition">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-blue-50 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300">스킬 아키텍트</span>
+              <i data-lucide="wrench" class="w-4 h-4 text-blue-500"></i>
+            </div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white mb-1">skiller / skill-architect</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-3">신규 전문 서브 에이전트 기획 및 5대 필수 구성요소(Identity, Scope, Constraints 등) 기반 표준 SKILL.md 작성</p>
+            <div class="text-[11px] text-slate-400 dark:text-slate-500 font-mono">Triggers: 스킬러, 새 에이전트 생성</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: 주식/투자 본부 -->
+      <section id="stock-hq" class="space-y-6">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div class="p-2 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">
+            <i data-lucide="trending-up" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+              2. 주식 / 투자 본부 (Head: traidy)
+            </h2>
+            <div class="text-xs text-slate-500 dark:text-slate-400">3계좌 운용 체계 및 5대 기능별 전문 에이전트 클러스터</div>
+          </div>
+        </div>
+
+        <!-- Subsection: 전략 / 감사 -->
+        <div id="stock-strategy" class="space-y-3">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-500"></i> 1) 전략 및 감사 (Risk & Verification)
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+                <span>traidy (트레이디)</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-600 dark:bg-emerald-950 dark:text-emerald-400 font-bold">수석 팀장</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">포트폴리오 총괄, 3계좌(베이스·단기재료·중기재료) 분리 운용 및 리스크 방화벽 최종 승인</p>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+                <span>checkery (체커리)</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-rose-50 text-rose-600 dark:bg-rose-950 dark:text-rose-400 font-medium">사전 전수감사</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">매매 추천 전 5대 하드 필터링(테마DB, 1등 대장주, 신선도, N형 눌림목, 3선 압축) 검증</p>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+                <span>journaly (저널리)</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-amber-50 text-amber-600 dark:bg-amber-950 dark:text-amber-400 font-medium">사후 매매복기</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">001.복기 일지 차트 이미지 판독, 쥬쥬 4~7% 원칙 준수 감사 및 대시보드 시트 통계 적재</p>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+                <span>canary (카나리)</span>
+                <span class="text-[11px] px-1.5 py-0.5 rounded bg-sky-50 text-sky-600 dark:bg-sky-950 dark:text-sky-400 font-medium">시장 조기경보</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">내 계좌 실측 성과 1순위 기반 4대 지수, 환율, 외인 선물 결합 시장 위험 신호등 판정</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subsection: 차트 / 전술 -->
+        <div id="stock-chart" class="space-y-3">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="bar-chart-2" class="w-4 h-4 text-emerald-500"></i> 2) 차트 및 전술 (Execution & Tactics)
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white">chati (차티)</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">3분할 차트(60분/일봉/5분), 50선·200선 연계, 변동폭 기반 동적 분할 매수선 설정</p>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white">juju (주주)</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">쥬쥬총회 트레이딩 코칭: 4~7% 수익 누적, -3.5% 지정가 분할 매수, 예수금 50% 방어</p>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white">juju-chart-analyst</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">차트 이미지 판독 전문: 1파 초입/고점 피로감 진단 및 비효율적 음봉 구간 포착</p>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-sm text-slate-900 dark:text-white">yeokbalsang (역발상)</div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">비이성적 투매와 공포 포착, 기계적 분할 매수 및 역피라미드 평단 관리 전략</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subsection: 매크로 / 시황 -->
+        <div id="stock-macro" class="space-y-3">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <i data-lucide="globe" class="w-4 h-4 text-emerald-500"></i> 3) 매크로 및 시황 (Macro & Timing)
+          </h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-slate-900 dark:text-white">macro-view (매크로뷰)</div>
+              <div class="text-slate-500 dark:text-slate-400 mt-1">피터 나바로 인과관계 체인, 1·2·3차 파급효과와 수혜주 사슬 도출</div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-slate-900 dark:text-white">chart-macro (차트매크로)</div>
+              <div class="text-slate-500 dark:text-slate-400 mt-1">4대 지수(S&P, 나스닥, 코스피, 코스닥) 주봉 기술적 분석 결합</div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-slate-900 dark:text-white">mijangi (미장이)</div>
+              <div class="text-slate-500 dark:text-slate-400 mt-1">미국 3대 지수, SOX, M7 마감 시황 및 국내 증시 시초가 파급효과</div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-slate-900 dark:text-white">judori (주도리)</div>
+              <div class="text-slate-500 dark:text-slate-400 mt-1">키움 거래대금 상위 기반 3종목 집단성 및 당일 1·2대장주 포착</div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-slate-900 dark:text-white">weekly (위클리)</div>
+              <div class="text-slate-500 dark:text-slate-400 mt-1">주간 테마 수명주기 결산 및 차주 주도 섹터 1등 대장주 3선 예측</div>
+            </div>
+            <div class="bg-white dark:bg-slate-800 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700/80">
+              <div class="font-semibold text-slate-900 dark:text-white">calendary (캘린더리)</div>
+              <div class="text-slate-500 dark:text-slate-400 mt-1">차주 증시 캘린더, 정책·학회·전시회 일정 매핑 및 D-day 선취매</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Subsection: 종목 / 데이터 & 콘텐츠 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div id="stock-data" class="space-y-3">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="database" class="w-4 h-4 text-emerald-500"></i> 4) 종목 및 데이터
+            </h3>
+            <div class="space-y-2 text-xs">
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">planny (플래니)</span>: 개장 전(08:40) S/A등급 1등 대장주 원페이지 시나리오 카드 수립
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">jongmoki (종목이)</span>: 기술적 위치, 테마 모멘텀, 수급/오버행, 실적 360도 종합 진단
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">jongmok-chujeok (종목추적)</span>: 구글 드라이브 테마DB·마감시황 100% 단일 진실 역추적
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">daily-theme-db-updater</span>: 마감시황·HTS 랭킹 영상 기반 테마DB 엑셀 자동 갱신
+              </div>
+            </div>
+          </div>
+
+          <div id="stock-content" class="space-y-3">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <i data-lucide="layout" class="w-4 h-4 text-emerald-500"></i> 5) 시각화 및 콘텐츠
+            </h3>
+            <div class="space-y-2 text-xs">
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">market-news-visualizer</span>: 장전/장마감 25개 뉴스 요약, 텔레그램 포맷 및 슬라이드 생성
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">blueprinter (블루프린터)</span>: 비즈니스 인포그래픽 대시보드 및 전술 청사진 HTML 렌더링
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">shortpicky (숏픽이)</span>: 당일 주도 테마 기반 쇼츠·블로그·인스타·쓰레드 멀티채널 패키지
+              </div>
+              <div class="bg-white dark:bg-slate-800 p-3 rounded-lg border border-slate-200 dark:border-slate-700/80">
+                <span class="font-bold text-slate-900 dark:text-white">doc-to-web</span>: 마크다운/기획 문서를 단일 반응형 HTML 대시보드로 즉시 변환
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: 일상/라이프스타일 본부 -->
+      <section id="lifestyle-hq" class="space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div class="p-2 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">
+            <i data-lucide="heart" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+              3. 일상 / 라이프스타일 본부 (Head: lifey)
+            </h2>
+            <div class="text-xs text-slate-500 dark:text-slate-400">가족 케어, 외식, 식단, 건강 및 개인 루틴 지원</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- lifey -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm md:col-span-2">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded bg-amber-50 dark:bg-amber-900/40 text-amber-600 dark:text-amber-300">일상 총괄 팀장</span>
+              <i data-lucide="compass" class="w-4 h-4 text-amber-500"></i>
+            </div>
+            <h3 class="font-bold text-base text-slate-900 dark:text-white mb-1">lifey (라이피)</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-300">외식·식단(맛집이, 요리이), 자녀 교육(토토), 개인 일정 및 건강(스케줄리, 헬시)을 연계한 원스톱 라이프스타일 솔루션</p>
+          </div>
+
+          <!-- matjipi -->
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+            <div class="font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+              <span>matjipi (맛집이)</span>
+              <span class="text-[11px] text-slate-400 font-normal">외식 / 카페</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">위치 기반 주변 맛집, 카페, 디저트, 상황별(가족 외식, 혼밥 등) 맞춤 플레이스 탐색</p>
+          </div>
+
+          <!-- yorii -->
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+            <div class="font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+              <span>yorii (요리이)</span>
+              <span class="text-[11px] text-slate-400 font-normal">홈쿡 / 레시피</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">초간단 집밥, 밥숟가락 계량 황금비율, 류수영·백종원 레시피 및 유튜브 영상 연계</p>
+          </div>
+
+          <!-- toto -->
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+            <div class="font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+              <span>toto (토토)</span>
+              <span class="text-[11px] text-slate-400 font-normal">자녀 교육 케어</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">초등학교 1학년 한글/수학 숙제 및 공부 지도 가이드, 눈높이 비유와 발문법 코칭</p>
+          </div>
+
+          <!-- scheduley & healthy -->
+          <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80">
+            <div class="font-bold text-sm text-slate-900 dark:text-white flex items-center justify-between">
+              <span>scheduley & healthy</span>
+              <span class="text-[11px] text-slate-400 font-normal">일정 & 건강 관리</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">구글 캘린더/태스크 데일리 브리핑 및 복약 점검, 모닝 순환운동·야간 턱걸이 루틴 체크</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: 핵심 워크플로우 파이프라인 -->
+      <section id="workflow-pipeline" class="space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div class="p-2 rounded-lg bg-sky-100 dark:bg-sky-950/60 text-sky-600 dark:text-sky-400">
+            <i data-lucide="workflow" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">
+              4. 핵심 협업 파이프라인 (Execution Workflows)
+            </h2>
+            <div class="text-xs text-slate-500 dark:text-slate-400">상황별 에이전트 간 순차·병렬 파이프라인 흐름</div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <!-- Routine 1 -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm">
+            <div class="flex items-center gap-2 font-bold text-sm text-indigo-600 dark:text-indigo-400 mb-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+              장전 주식 매매 루틴 (08:00 ~ 08:45)
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+              <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 font-sans">mijangi + macro-view + news-visualizer</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-300 font-sans font-semibold">planny (원페이지 시나리오)</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-300 font-sans font-semibold">checkery (5대 필터 감사)</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 font-sans font-semibold">traidy & juju (최종 승인)</span>
+            </div>
+          </div>
+
+          <!-- Routine 2 -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm">
+            <div class="flex items-center gap-2 font-bold text-sm text-emerald-600 dark:text-emerald-400 mb-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              장마감 및 복기 루틴 (15:30 ~ 17:00)
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+              <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 font-sans">daily-theme-db-updater</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-300 font-sans font-semibold">judori / weekly (섹터 결산)</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 font-sans font-semibold">journaly (매매일지 복기 & 대시보드 적재)</span>
+            </div>
+          </div>
+
+          <!-- Routine 3 -->
+          <div class="bg-white dark:bg-slate-800 p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm">
+            <div class="flex items-center gap-2 font-bold text-sm text-amber-600 dark:text-amber-400 mb-2">
+              <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+              데일리 라이프스타일 루틴
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-mono text-slate-700 dark:text-slate-300">
+              <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 font-sans">scheduley + healthy (모닝 브리핑)</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-700 font-sans">matjipi / yorii (식단 조율)</span>
+              <i data-lucide="arrow-right" class="w-3.5 h-3.5 text-slate-400"></i>
+              <span class="px-2.5 py-1 rounded bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-300 font-sans font-semibold">toto & healthy (자녀 숙제 코칭 & 야간 운동)</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Note -->
+      <footer class="pt-6 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-400 dark:text-slate-500">
+        Generated by Agent Governance System (agency & doc-to-web) • Standalone Single-File HTML Dashboard
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs sm:text-sm font-medium transition-opacity duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+    <span>클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    // Lucide Icons initialization
+    lucide.createIcons();
+
+    // Theme toggle logic
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      lucide.createIcons();
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    // Document copy utility
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 본문 내용이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    // Toast utility
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const textSpan = toast.querySelector('span');
+      if (textSpan) textSpan.innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2500);
+    }
+  </script>
+</body>
+</html>

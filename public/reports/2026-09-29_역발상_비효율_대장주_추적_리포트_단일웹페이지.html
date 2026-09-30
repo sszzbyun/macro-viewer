@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>역발상 비효율 대장주 추적 리포트 (2026.09.29)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Pretendard Font CDN -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <style>
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-bold text-sm shadow-md shadow-blue-500/20">
+          ⚡
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            역발상 비효율 대장주 추적 리포트
+            <span class="hidden sm:inline-block px-2 py-0.5 text-xs font-semibold rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300">
+              2026.09.29 장마감 동기화
+            </span>
+          </h1>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2.5">
+        <a href="https://docs.google.com/spreadsheets/d/1kvhn4e3wIoM__sw1gieeMTDDg3SWOCYTZQtHp5ZzZgY/edit" target="_blank" rel="noopener noreferrer" 
+           class="hidden md:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 transition">
+          📊 대시보드 바로가기
+        </a>
+        <button id="copyBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+          내용 복사
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm" aria-label="테마 전환">
+          <span id="themeIcon">🌓</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metric Quick Cards Bar -->
+  <div class="border-b border-slate-200 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">코스피 마감</div>
+          <div class="text-lg font-bold text-rose-600 dark:text-rose-400 flex items-baseline gap-1 mt-0.5">
+            6,870.81 <span class="text-xs font-semibold">-0.27% ▼</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">외인 -2.9조 순매도 지속</div>
+        </div>
+        
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">코스닥 마감</div>
+          <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 flex items-baseline gap-1 mt-0.5">
+            849.80 <span class="text-xs font-semibold">+0.38% ▲</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">반도체 소부장 3일 연속 반등</div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">美 10년물 국채금리</div>
+          <div class="text-lg font-bold text-amber-600 dark:text-amber-400 flex items-baseline gap-1 mt-0.5">
+            5.240% <span class="text-xs font-semibold">19년來 최고</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">30년물 5.562% 폭등</div>
+        </div>
+
+        <div class="bg-white dark:bg-slate-900 p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">최우선 공략 1위</div>
+          <div class="text-lg font-bold text-blue-600 dark:text-blue-400 flex items-baseline gap-1 mt-0.5">
+            아이티센피엔에스 <span class="text-xs font-semibold text-emerald-500">T+7</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">피로도 0% / 20일선 수렴</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Navigation / Sticky TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-3">
+          목차 (Table of Contents)
+        </div>
+        <nav class="space-y-1 text-sm font-medium" id="toc-nav">
+          <a href="#section-macro" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+            1. 시장 매크로 & 자금 쏠림 총평
+          </a>
+          <a href="#section-dashboard" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+            2. 실시간 비효율 대장주 현황판
+          </a>
+          <a href="#section-top-pick" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+            3. 【최우선 1위】 아이티센피엔에스
+          </a>
+          <a href="#section-secondary" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+            4. 보조 공략 및 관찰 라인업
+          </a>
+          <a href="#section-lesson" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+            5. 가온전선 삭제 반영과 리스크 교훈
+          </a>
+          <a href="#section-principles" class="block px-3 py-2 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-100 dark:hover:bg-slate-900 transition">
+            6. 쥬쥬 & 역발상 6대 절대 준칙
+          </a>
+        </nav>
+
+        <div class="p-4 rounded-xl bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-900 dark:to-slate-800 border border-blue-100 dark:border-slate-700/60 shadow-sm text-xs space-y-2">
+          <div class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+            🛡️ 리스크 관리 준칙
+          </div>
+          <p class="text-slate-600 dark:text-slate-300 leading-relaxed">
+            "첫 음봉에 비중을 전부 쏟지 마라. 피로감이 없는 1파 초입에서 20일선과 맞닿는 비효율 자리만 기계적으로 공략한다."
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 min-w-0 space-y-12">
+
+      <!-- Section 1: Market Macro -->
+      <section id="section-macro" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-sm tracking-wider uppercase">
+          <span>01</span>
+          <span class="w-8 h-px bg-blue-600 dark:bg-blue-400"></span>
+          <span>Market Environment</span>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+          오늘의 장마감 비효율 스크리닝 총평 (2026.09.29)
+        </h2>
+
+        <div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+          <div class="prose prose-slate dark:prose-invert max-w-none text-sm leading-relaxed space-y-3">
+            <p>
+              미국 10년물 국채금리가 <strong>5.240%(30년물 5.562%)</strong>를 기록하며 2007년 이후 19년 만의 최고치를 재경신했습니다. 이에 외국인이 코스피 시장에서 <strong>2조 9,174억 원</strong>을 대거 순매도하며 코스피는 <strong>6,870.81(-0.27%, -18.93p)</strong>로 이틀 연속 약세를 보였습니다.
+            </p>
+            <p>
+              반면 코스닥은 개인과 기관의 동반 순매수와 반도체 소부장 랠리에 힘입어 <strong>849.80(+0.38%, +3.22p)</strong>으로 3거래일 연속 상승 마감했습니다. 특히 전일 장마감 후 공시된 <strong>삼성전기의 6.8조 원 규모 FC-BGA 생산시설 증설</strong> 및 AI 서버용 MLCC 쇼티지(리드타임 32주 폭증) 소식에 자금이 패키징 기판 및 소부장으로 급격히 쏠렸습니다.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/60">
+              <div class="font-bold text-sm text-amber-900 dark:text-amber-200 flex items-center gap-1.5 mb-1.5">
+                ⚡ 자금 쏠림 섹터 (양봉 과열)
+              </div>
+              <ul class="text-xs text-amber-800 dark:text-amber-300 space-y-1 list-disc list-inside">
+                <li><strong>반도체 기판 / MLCC</strong>: 삼성전기 6.8조 증설로 코리아써키트, 태성, 덕산하이메탈, 아바텍 랠리</li>
+                <li><strong>반도체 소부장</strong>: HPSP(+8.93%), 유진테크(+7.74%), 주성엔지니어링(+6.22%), 피에스케이(+5.53%) 급등</li>
+                <li><strong>유리기판</strong>: 필옵틱스(+12.2%), 한빛레이저(+14.8%) TGV 장비 수주 모멘텀</li>
+              </ul>
+            </div>
+
+            <div class="p-4 rounded-xl bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900/60">
+              <div class="font-bold text-sm text-blue-900 dark:text-blue-200 flex items-center gap-1.5 mb-1.5">
+                🎯 비정상적 비효율 구역 (억울한 음봉)
+              </div>
+              <ul class="text-xs text-blue-800 dark:text-blue-300 space-y-1 list-disc list-inside">
+                <li><strong>정보보안 (아이티센피엔에스)</strong>: 반도체 쏠림으로 거래량 90% 급감 횡보(T+7), 20일선 수렴 완료</li>
+                <li><strong>스페이스X (비츠로테크)</strong>: 스타십 14차 첫 궤도 진입 후 3시간 조기 귀환으로 D-Day 재료 소멸 매물 출회</li>
+                <li><strong>원자력 (우리기술)</strong>: 2차 투매 후 박스권 하단에서 바닥 다지기 지속</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Real-time Dashboard -->
+      <section id="section-dashboard" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-sm tracking-wider uppercase">
+          <span>02</span>
+          <span class="w-8 h-px bg-emerald-600 dark:bg-emerald-400"></span>
+          <span>Live Tracking Dashboard</span>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight flex items-center justify-between">
+          <span>실시간 비효율 대장주 추적 현황 (9/29 동기화)</span>
+          <a href="https://docs.google.com/spreadsheets/d/1kvhn4e3wIoM__sw1gieeMTDDg3SWOCYTZQtHp5ZzZgY/edit" target="_blank" class="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline">
+            구글 스프레드시트 열기 ↗
+          </a>
+        </h2>
+
+        <!-- Responsive Table Container -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 text-xs uppercase border-b border-slate-200 dark:border-slate-800">
+                <tr>
+                  <th class="px-4 py-3 font-semibold">종목명 (코드)</th>
+                  <th class="px-4 py-3 font-semibold">소속 테마</th>
+                  <th class="px-4 py-3 font-semibold">기준봉 대금</th>
+                  <th class="px-4 py-3 font-semibold">경과</th>
+                  <th class="px-4 py-3 font-semibold">피로도 / 이격 상태</th>
+                  <th class="px-4 py-3 font-semibold">현재 상태 및 진입 판정</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800/80">
+                <!-- Row 1: Top Pick -->
+                <tr class="bg-blue-50/50 dark:bg-blue-950/25 hover:bg-blue-50/80 transition">
+                  <td class="px-4 py-3.5 font-bold text-blue-700 dark:text-blue-300">
+                    아이티센피엔에스 <span class="text-xs text-slate-400 font-normal">058970</span>
+                  </td>
+                  <td class="px-4 py-3.5 text-slate-600 dark:text-slate-300">정보보안 1대장</td>
+                  <td class="px-4 py-3.5 font-medium">652억 (2연상)</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200">T+7</span></td>
+                  <td class="px-4 py-3.5 text-emerald-600 dark:text-emerald-400 font-semibold">피로도 0% / 20일선 완벽 수렴</td>
+                  <td class="px-4 py-3.5">
+                    <span class="badge bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-200">
+                      【최우선 1위】 1차 탐색 20% 유효
+                    </span>
+                  </td>
+                </tr>
+
+                <!-- Row 2: Vitzro Tech -->
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                  <td class="px-4 py-3.5 font-bold text-slate-900 dark:text-white">
+                    비츠로테크 <span class="text-xs text-slate-400 font-normal">042370</span>
+                  </td>
+                  <td class="px-4 py-3.5 text-slate-600 dark:text-slate-300">우주항공 1대장</td>
+                  <td class="px-4 py-3.5 font-medium">956억 (상한가)</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">T+6</span></td>
+                  <td class="px-4 py-3.5 text-slate-600 dark:text-slate-400">스타십 조기 귀환 소화</td>
+                  <td class="px-4 py-3.5">
+                    <span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">
+                      D-Day 통과 (추가매수 보류 / 반등 시 정리)
+                    </span>
+                  </td>
+                </tr>
+
+                <!-- Row 3: Woori Tech -->
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                  <td class="px-4 py-3.5 font-bold text-slate-900 dark:text-white">
+                    우리기술 <span class="text-xs text-slate-400 font-normal">032820</span>
+                  </td>
+                  <td class="px-4 py-3.5 text-slate-600 dark:text-slate-300">원전 & SMR 1대장</td>
+                  <td class="px-4 py-3.5 font-medium">5,412억 (초대형)</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-slate-100 text-slate-800 dark:bg-slate-800 dark:text-slate-300">T+12</span></td>
+                  <td class="px-4 py-3.5 text-slate-600 dark:text-slate-400">악재 선반영 박스권 바닥</td>
+                  <td class="px-4 py-3.5">
+                    <span class="badge bg-purple-100 text-purple-800 dark:bg-purple-900/60 dark:text-purple-200">
+                      바닥 수렴 및 반등 대기 (포지션 유지)
+                    </span>
+                  </td>
+                </tr>
+
+                <!-- Row 4: HLB Watchlist -->
+                <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition bg-amber-50/20 dark:bg-amber-950/10">
+                  <td class="px-4 py-3.5 font-bold text-amber-800 dark:text-amber-300">
+                    HLB <span class="text-xs text-slate-400 font-normal">028300</span>
+                  </td>
+                  <td class="px-4 py-3.5 text-slate-600 dark:text-slate-300">제약/바이오 1대장</td>
+                  <td class="px-4 py-3.5 font-medium">4,820억 (상한가)</td>
+                  <td class="px-4 py-3.5"><span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">T+1</span></td>
+                  <td class="px-4 py-3.5 text-amber-600 dark:text-amber-400 font-semibold">1파 윗꼬리 차익 소화 (+1.13%)</td>
+                  <td class="px-4 py-3.5">
+                    <span class="badge bg-rose-100 text-rose-800 dark:bg-rose-900/60 dark:text-rose-200">
+                      🚫 추격매수 금지 (5일선 음봉 대기)
+                    </span>
+                  </td>
+                </tr>
+
+                <!-- Row 5: Gaon Cable (Excluded) -->
+                <tr class="bg-rose-50/20 dark:bg-rose-950/10 text-slate-400">
+                  <td class="px-4 py-3.5 font-medium line-through">가온전선 (000500)</td>
+                  <td class="px-4 py-3.5 line-through">전선/전력설비</td>
+                  <td class="px-4 py-3.5 line-through">1,964억</td>
+                  <td class="px-4 py-3.5 line-through">T+4</td>
+                  <td class="px-4 py-3.5 text-rose-500 font-semibold">5월 최고가 쌍봉 + 20일선 이격 과다</td>
+                  <td class="px-4 py-3.5">
+                    <span class="badge bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400">
+                      [삭제 완료] 고점 피로감 탈락
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Top Pick Analysis -->
+      <section id="section-top-pick" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-sm tracking-wider uppercase">
+          <span>03</span>
+          <span class="w-8 h-px bg-indigo-600 dark:bg-indigo-400"></span>
+          <span>Prime Candidate Deep Dive</span>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+          【최우선 공략 1위】 아이티센피엔에스(058970) 역발상 매매 분석 리포트
+        </h2>
+
+        <!-- Strategy Dashboard Card -->
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-6">
+          
+          <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+            <div>
+              <div class="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Top Recommendation (Score: 92/100 S등급)</div>
+              <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-0.5">아이티센피엔에스 (058970)</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="badge bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">재료등급: S</span>
+              <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300">신선도: 상 (1파 바닥)</span>
+              <span class="badge bg-indigo-100 text-indigo-800 dark:bg-indigo-950 dark:text-indigo-300">대장주: 1등 대장</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+            <div class="space-y-4">
+              <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span> 1. 상승 당위성 및 피로도 0% 검증
+              </h4>
+              <ul class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 space-y-2 leading-relaxed">
+                <li><strong>글로벌 촉매제</strong>: 오픈AI 최신 모델 학습 전격 중단(AI 에이전트 오작동 및 보안 결함 우려), 메타 '뮤즈' 보안 취약점 경고, 美 의회 '자율 AI 개발 금지 법안' 발의 등 글로벌 AI 안전/사이버 안보 규제 강화.</li>
+                <li><strong>국내 정책</strong>: 정부 양자내성암호(PQC) 의무화 및 해운업 사이버 방벽 구축 국책과제 연계 수혜.</li>
+                <li><strong>가온전선과의 결정적 차이</strong>: 상방에 5월 전고점 같은 악성 매물벽이 전혀 없는 <strong>바닥 1파 초입</strong> 종목.</li>
+                <li><strong>이격도 수렴 완료</strong>: 7거래일간 거래량이 90% 마른 채 횡보하여, 아래에서 올라온 <strong>20일선(황금선)과 주가의 이격도가 0%로 완벽 수렴</strong>되어 하방 경직성이 확보됨.</li>
+              </ul>
+            </div>
+
+            <div class="space-y-4">
+              <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="w-2 h-2 rounded-full bg-indigo-500"></span> 2. 비정상적 비효율성(Inefficiency)
+              </h4>
+              <ul class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 space-y-2 leading-relaxed">
+                <li><strong>수급 왜곡</strong>: 삼성전기 6.8조 증설발 반도체 기판 및 소부장 쏠림으로 보안 테마가 완전히 소외됨.</li>
+                <li><strong>가격-가치 괴리</strong>: 호재성 외신은 연일 헤드라인을 장식하는데, 거래량은 평소의 10% 수준으로 마른 채 주가만 바닥에 억울하게 방치됨.</li>
+                <li><strong>악재 검증</strong>: 보안 국책사업 취소나 예산 삭감 등 본질 훼손 뉴스 전무.</li>
+                <li><strong>최종 판정</strong>: <span class="text-blue-600 dark:text-blue-400 font-bold">비효율 극대화 승인 (1차 탐색 매수 20% 최우선 유효 타점)</span></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Execution Card Box -->
+          <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400">
+              실전 분할 매수 & 청산 계획 (표준 모델 2:5)
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+              <div class="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div class="text-[11px] text-slate-400 font-medium">1차 탐색 매수 (20%)</div>
+                <div class="text-sm font-bold text-slate-900 dark:text-white mt-0.5">현재가 및 20일선 지지 영역</div>
+                <div class="text-[11px] text-emerald-600 dark:text-emerald-400 mt-1">이격도 0% 수렴 바닥권</div>
+              </div>
+              <div class="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div class="text-[11px] text-slate-400 font-medium">2차 비중 확대 (50%)</div>
+                <div class="text-sm font-bold text-slate-900 dark:text-white mt-0.5">-5% ~ -7% 추가 투매 시</div>
+                <div class="text-[11px] text-blue-600 dark:text-blue-400 mt-1">2.5배 비중 투입 평단 바닥 수렴</div>
+              </div>
+              <div class="p-3.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700">
+                <div class="text-[11px] text-slate-400 font-medium">목표 익절 & 킬스위치</div>
+                <div class="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">+7% ~ +10% 기계적 청산</div>
+                <div class="text-[11px] text-rose-500 mt-1">보안 프로젝트 취소 시 즉시 손절</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section 4: Secondary & Watchlist -->
+      <section id="section-secondary" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-bold text-sm tracking-wider uppercase">
+          <span>04</span>
+          <span class="w-8 h-px bg-purple-600 dark:bg-purple-400"></span>
+          <span>Secondary Targets & Watchlist</span>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+          보조 공략 및 관찰 라인업 운용 가이드
+        </h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <!-- Card 1: Vitzro Tech -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-400">우주항공 1대장</span>
+                <span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">T+6</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1">비츠로테크 (042370)</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                스타십 14차 첫 궤도 진입에 성공했으나 3시간 조기 귀환으로 D-Day 이벤트 재료 소멸 매물이 출회되었습니다.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-semibold text-amber-600 dark:text-amber-400">
+              ▶ 실행: 추가 매수 엄격 보류 / 기술적 반등 시 본절·약익절 정리
+            </div>
+          </div>
+
+          <!-- Card 2: Woori Tech -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-400">원자력 & SMR 1대장</span>
+                <span class="badge bg-purple-100 text-purple-800 dark:bg-purple-900/60 dark:text-purple-200">T+12</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1">우리기술 (032820)</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                웨스팅하우스 지분율 실망 매물로 2차 투매까지 완료되어 2차 비중확대(50%) 집행 완료. 8기 원전 보고 및 20년 원리금 회수권 확보로 박스권 바닥 안착.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-semibold text-purple-600 dark:text-purple-400">
+              ▶ 실행: 추가 매수 중단 / 기계적 반등(+10~15%) 도달 시 분할 청산
+            </div>
+          </div>
+
+          <!-- Card 3: HLB -->
+          <div class="bg-white dark:bg-slate-900 p-5 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col justify-between space-y-3">
+            <div>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-semibold text-slate-400">제약/바이오 1대장</span>
+                <span class="badge bg-amber-100 text-amber-800 dark:bg-amber-900/60 dark:text-amber-200">T+1 신규</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mt-1">HLB (028300)</h3>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
+                9/28 상한가(4,820억) 이후 오늘 장중 +9.3% 슈팅 후 종가 +1.1% 윗꼬리 차익 매물 소화. 5일선 음봉 눌림목은 아직 미출현.
+              </p>
+            </div>
+            <div class="pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-semibold text-rose-600 dark:text-rose-400">
+              ▶ 실행: 🚫 추격매수 절대 금지 / 5일선 거래량 80% 급감 음봉 대기
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Risk Lesson (Gaon Cable) -->
+      <section id="section-lesson" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-sm tracking-wider uppercase">
+          <span>05</span>
+          <span class="w-8 h-px bg-rose-600 dark:bg-rose-400"></span>
+          <span>Risk Audit & Lesson</span>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+          가온전선 대시보드 삭제 반영과 실전 리스크 교훈
+        </h2>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm space-y-4">
+          <div class="p-4 rounded-xl bg-rose-50/70 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 text-xs sm:text-sm text-rose-900 dark:text-rose-200 space-y-2">
+            <div class="font-bold flex items-center gap-1.5 text-base">
+              💡 사용자 지적: "이 차트는 피로감이 높은 자리가 아닌가?"
+            </div>
+            <p class="leading-relaxed">
+              단순히 당일 거래량 급감 음봉(-6.28%)이라는 단기 수급에 매몰되면 고점의 구조적 함정을 보지 못합니다. 가온전선은 <strong>5월 역사적 최고가(352,860원) 쌍봉 저항</strong>과 <strong>20일선(25만 원)과의 과도한 이격(+20%)</strong>이라는 치명적 리스크를 안고 있었으며, 대표님의 날카로운 지적을 통해 대시보드에서 영구 삭제함으로써 원금 손실 위험을 원천 차단했습니다.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm pt-1">
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white">❌ 함정: 고점 첫 음봉 물타기</div>
+              <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                20일선과 20% 이상 벌어진 고점에서 5일선을 처음 깬 음봉은 지수 충격 시 20일선까지 -15~20%의 추가 하방 공간이 열리므로 절대 첫 음봉에서 매수하지 않는다.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white">⭕ 정석: 1파 초입 & 이격 수렴 바닥</div>
+              <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                아이티센피엔에스처럼 역사적 매물벽이 없고, 바닥 1파 후 거래량이 90% 말라붙으며 20일선이 주가 바로 밑까지 바짝 올라와 이격도가 0%로 수렴한 자리만 공략한다.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6: Core Principles -->
+      <section id="section-principles" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 text-slate-500 dark:text-slate-400 font-bold text-sm tracking-wider uppercase">
+          <span>06</span>
+          <span class="w-8 h-px bg-slate-500 dark:bg-slate-400"></span>
+          <span>Operating Rules</span>
+        </div>
+        <h2 class="text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
+          쥬쥬총회 & 역발상 트레이딩 6대 절대 준칙
+        </h2>
+
+        <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 p-6 shadow-sm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-xs sm:text-sm">
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="text-blue-500">1</span> 단체 섹터 집단성
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                동일 테마 내 최소 5~6개 이상 동반 상승하는 메가트렌드만 유니버스로 압축.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="text-blue-500">2</span> 애매하면 1등 대장만
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                기준봉 거래대금 500억 원 이상 필수 충족. 후발주나 잡주는 전면 배제.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="text-blue-500">3</span> 비정상적 비효율 포착
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                호재가 살아있는데 지수 급락이나 대형주 쏠림으로 거래량 80% 급감한 음봉 공략.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="text-blue-500">4</span> 표준 모델 (2:5 분할)
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                1차 20% 탐색 후 -5%~-7% 추가 투매 시 50%를 투입하여 평단을 바닥으로 강제 수렴 (현금 30% 방어).
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="text-blue-500">5</span> 기계적 생존형 익절
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                상한가 욕심 배제, 비효율 해소 반등 슈팅 시 +7%~+12% 구간에서 전량 수익 확정.
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/60 space-y-1.5">
+              <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span class="text-rose-500">6</span> 재료 소멸 킬스위치
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                화해, 계약 취소, 프로젝트 백지화 등 본질 훼손 발생 시 손실률 불문 전량 손절.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs font-semibold transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2 z-50 flex items-center gap-2">
+    <svg class="w-4 h-4 text-emerald-400 dark:text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+    <span id="toastMsg">문서 본문이 복사되었습니다.</span>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      const isDark = html.classList.contains('dark');
+      if (isDark) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('themeIcon').innerText = '🌙';
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('themeIcon').innerText = '☀️';
+      }
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      document.getElementById('themeIcon').innerText = '☀️';
+    } else {
+      document.getElementById('themeIcon').innerText = '🌙';
+    }
+
+    function copyDocument() {
+      const content = document.getElementById('document-content');
+      navigator.clipboard.writeText(content.innerText).then(() => {
+        showToast('리포트 본문 텍스트가 클립보드에 복사되었습니다.');
+      }).catch(err => {
+        showToast('복사에 실패했습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
