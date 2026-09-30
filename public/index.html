@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>매크로 브리핑 아카이브</title>
+  <style>
+    :root {
+      --bg-sidebar: #0f172a;
+      --text-sidebar: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border-color: #1e293b;
+      --primary: #3b82f6;
+      --primary-hover: #2563eb;
+      --item-hover: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    /* 사이드바 */
+    #sidebar {
+      width: 340px;
+      min-width: 340px;
+      background: var(--bg-sidebar);
+      color: var(--text-sidebar);
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border-color);
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 100;
+    }
+    .sidebar-header {
+      padding: 18px 16px 14px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .sidebar-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .report-count-badge {
+      font-size: 0.75rem;
+      background: #334155;
+      color: #93c5fd;
+      padding: 2px 7px;
+      border-radius: 9999px;
+      margin-left: auto;
+    }
+    .search-box {
+      margin-top: 12px;
+      position: relative;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 9px 12px 9px 34px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+      color: #fff;
+      font-size: 0.88rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .search-box input:focus { border-color: var(--primary); }
+    .search-box input::placeholder { color: #64748b; }
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 0.85rem;
+      color: #64748b;
+      pointer-events: none;
+    }
+
+    .report-list {
+      flex: 1;
+      overflow-y: auto;
+      list-style: none;
+      padding: 8px;
+    }
+    .report-list::-webkit-scrollbar { width: 6px; }
+    .report-list::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
+
+    .report-item {
+      padding: 12px 14px;
+      margin-bottom: 6px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+      border: 1px solid transparent;
+    }
+    .report-item:hover {
+      background: var(--item-hover);
+    }
+    .report-item.active {
+      background: #1d4ed8;
+      border-color: #3b82f6;
+      color: #ffffff;
+    }
+    .report-item.active .report-date {
+      color: #bfdbfe;
+    }
+    .report-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      line-height: 1.4;
+      word-break: break-all;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .report-date {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* 메인 뷰어 영역 */
+    #main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+    .top-bar {
+      height: 56px;
+      min-height: 56px;
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .menu-toggle {
+      display: none;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      padding: 6px 10px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      line-height: 1;
+    }
+    .current-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .current-report-title {
+      font-weight: 600;
+      font-size: 0.96rem;
+      color: #0f172a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .action-btn {
+      font-size: 0.82rem;
+      color: #2563eb;
+      text-decoration: none;
+      padding: 7px 12px;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      background: #eff6ff;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: background 0.15s;
+    }
+    .action-btn:hover { background: #dbeafe; }
+
+    #viewer-frame {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: #ffffff;
+    }
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      gap: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    /* 모바일 반응형 처리 */
+    @media (max-width: 768px) {
+      #sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 82%;
+        max-width: 320px;
+        min-width: unset;
+        transform: translateX(-100%);
+        box-shadow: none;
+      }
+      #sidebar.open {
+        transform: translateX(0);
+        box-shadow: 6px 0 24px rgba(0, 0, 0, 0.4);
+      }
+      .menu-toggle { display: inline-flex; }
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(2px);
+        z-index: 90;
+      }
+      .overlay.open { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 모바일 딤 오버레이 -->
+  <div id="overlay" class="overlay" onclick="toggleMenu(false)"></div>
+
+  <!-- 사이드바 -->
+  <aside id="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">
+        <span>📈 매크로 아카이브</span>
+        <span id="reportBadge" class="report-count-badge">0건</span>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="날짜 또는 키워드 검색..." oninput="handleSearch()">
+      </div>
+    </div>
+    <ul id="reportList" class="report-list"></ul>
+  </aside>
+
+  <!-- 메인 뷰어 영역 -->
+  <main id="main-container">
+    <div class="top-bar">
+      <button class="menu-toggle" onclick="toggleMenu()" title="목록 열기/닫기">☰ 목록</button>
+      <div class="current-info">
+        <div id="currentTitle" class="current-report-title">리포트를 불러오는 중...</div>
+      </div>
+      <div class="actions">
+        <a id="rawLink" class="action-btn" href="#" target="_blank" style="display: none;">새 탭으로 열기 ↗</a>
+      </div>
+    </div>
+    <iframe id="viewer-frame" src="about:blank"></iframe>
+  </main>
+
+  <script>
+    let allReports = [];
+    let currentActiveIdx = -1;
+
+    async function init() {
+      try {
+        const res = await fetch('reports.json');
+        if (!res.ok) throw new Error("reports.json 파일을 찾을 수 없습니다.");
+        allReports = await res.json();
+        
+        document.getElementById('reportBadge').innerText = `${allReports.length}건`;
+        renderList(allReports);
+
+        if (allReports.length > 0) {
+          selectReport(0);
+        } else {
+          showEmptyState("아직 등록된 리포트가 없습니다.<br>public/reports 폴더에 HTML 파일을 추가해 주세요.");
+        }
+      } catch (err) {
+        console.error("데이터 로드 오류:", err);
+        showEmptyState("리포트 목록(reports.json)을 불러오지 못했습니다.<br>빌드가 완료되었는지 확인해 주세요.");
+      }
+    }
+
+    function renderList(list) {
+      const container = document.getElementById('reportList');
+      container.innerHTML = '';
+
+      if (list.length === 0) {
+        container.innerHTML = `<li style="padding: 24px; text-align: center; color: #64748b; font-size: 0.88rem;">일치하는 리포트가 없습니다.</li>`;
+        return;
+      }
+
+      list.forEach((item) => {
+        const originalIndex = allReports.indexOf(item);
+        const li = document.createElement('li');
+        li.className = `report-item ${originalIndex === currentActiveIdx ? 'active' : ''}`;
+        li.onclick = () => {
+          selectReport(originalIndex);
+          if (window.innerWidth <= 768) {
+            toggleMenu(false);
+          }
+        };
+        li.innerHTML = `
+          <div class="report-title">${escapeHtml(item.title)}</div>
+          <div class="report-date">📅 ${escapeHtml(item.date)}</div>
+        `;
+        container.appendChild(li);
+      });
+    }
+
+    function selectReport(index) {
+      if (!allReports[index]) return;
+      currentActiveIdx = index;
+      const report = allReports[index];
+
+      document.getElementById('viewer-frame').src = report.url;
+      document.getElementById('currentTitle').innerText = `[${report.date}] ${report.title}`;
+
+      const rawLink = document.getElementById('rawLink');
+      rawLink.href = report.url;
+      rawLink.style.display = 'inline-block';
+
+      renderList(getFilteredList());
+    }
+
+    function getFilteredList() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      if (!query) return allReports;
+      return allReports.filter(r =>
+        r.title.toLowerCase().includes(query) || r.date.toLowerCase().includes(query)
+      );
+    }
+
+    function handleSearch() {
+      renderList(getFilteredList());
+    }
+
+    function toggleMenu(forceState) {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('overlay');
+      const shouldOpen = typeof forceState === 'boolean' ? forceState : !sidebar.classList.contains('open');
+      
+      sidebar.classList.toggle('open', shouldOpen);
+      overlay.classList.toggle('open', shouldOpen);
+    }
+
+    function showEmptyState(msg) {
+      document.getElementById('currentTitle').innerText = "안내";
+      document.getElementById('main-container').innerHTML = `
+        <div class="empty-state">
+          <div style="font-size: 2.5rem;">📄</div>
+          <div>${msg}</div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+      );
+    }
+
+    init();
+  </script>
+</body>
+</html>

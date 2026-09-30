@@ -1,0 +1,8 @@
+{
+  "name": "macro-report-viewer",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-index.js"
+  }
+}
