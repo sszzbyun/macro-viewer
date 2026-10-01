@@ -1,0 +1,1254 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[따블] 2026. 10. 01 장마감 시각화 브리핑 및 종합 대시보드</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.5); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(107, 114, 128, 0.8); }
+    .badge-s { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .dark .badge-s { background-color: rgba(153, 27, 27, 0.25); color: #f87171; border-color: rgba(153, 27, 27, 0.5); }
+    .badge-a { background-color: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .dark .badge-a { background-color: rgba(30, 64, 175, 0.25); color: #60a5fa; border-color: rgba(30, 64, 175, 0.5); }
+    .badge-pass { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+    .dark .badge-pass { background-color: rgba(6, 95, 70, 0.25); color: #34d399; border-color: rgba(6, 95, 70, 0.5); }
+    .badge-fail { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .dark .badge-fail { background-color: rgba(153, 27, 27, 0.25); color: #f87171; border-color: rgba(153, 27, 27, 0.5); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center px-2.5 py-1 bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 rounded-lg font-bold text-xs tracking-wide">
+          따블 오케스트레이션
+        </span>
+        <div class="font-bold text-base sm:text-lg tracking-tight truncate max-w-xs sm:max-w-md">
+          2026. 10. 01 장마감 시각화 종합 브리핑
+        </div>
+        <span class="hidden md:inline-flex items-center gap-1 px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+          <i data-lucide="check-circle" class="w-3 h-3"></i> HTS 실측 거래대금 v19.2 반영
+        </span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyDocument()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm flex items-center gap-1.5">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>전문 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm" aria-label="테마 전환">
+          <i data-lucide="sun-moon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+
+    <!-- Sidebar Navigation / TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <nav class="sticky top-24 p-5 bg-white dark:bg-slate-800/70 rounded-2xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-3" id="toc-nav">
+        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+          목차 바로가기
+        </div>
+        <ul class="space-y-1.5 text-sm text-slate-600 dark:text-slate-400 font-medium">
+          <li>
+            <a href="#section-hero" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              • 장마감 핵심 요약
+            </a>
+          </li>
+          <li>
+            <a href="#section-macro" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              1. 글로벌 매크로 & 나바로 체인
+            </a>
+          </li>
+          <li>
+            <a href="#section-themes" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              2. 6대 테마 거래대금 랭킹
+            </a>
+          </li>
+          <li>
+            <a href="#section-top10" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              3. 시장 주도주 Top 10 (1000억+)
+            </a>
+          </li>
+          <li>
+            <a href="#section-details" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              4. 6대 테마 30종목 전수 명세
+            </a>
+          </li>
+          <li>
+            <a href="#section-checkery" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              5. 체커리 5대 하드 전수 감사
+            </a>
+          </li>
+          <li>
+            <a href="#section-picks" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              6. S/A급 대장주 3선 실행 카드
+            </a>
+          </li>
+          <li>
+            <a href="#section-journal" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              7. 실전 매매 복기 & 쥬쥬 원칙
+            </a>
+          </li>
+          <li>
+            <a href="#section-news" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              8. 5대 핵심 뉴스 25선
+            </a>
+          </li>
+          <li>
+            <a href="#section-telegram" class="hover:text-indigo-600 dark:hover:text-indigo-400 transition block py-1">
+              9. 텔레그램 즉시 복사용
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 max-w-4xl space-y-10">
+
+      <!-- Hero Banner -->
+      <section id="section-hero" class="bg-gradient-to-br from-indigo-950 via-slate-900 to-slate-950 text-white p-6 sm:p-8 rounded-3xl shadow-xl border border-indigo-900/40 relative overflow-hidden">
+        <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 bg-indigo-500/20 border border-indigo-500/40 text-indigo-300 rounded-md font-bold text-xs">
+              기준일자: 2026. 10. 01 (목) 15:30 KST
+            </span>
+            <span class="px-2.5 py-1 bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 rounded-md font-bold text-xs flex items-center gap-1">
+              <i data-lucide="shield-check" class="w-3.5 h-3.5"></i> 카나리 신호등: GREEN (정상)
+            </span>
+          </div>
+          <span class="text-xs text-slate-400 font-mono">DB v19.2 | HTS 실측 100% 검증</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white mb-3">
+          마이크론 HBM 완판 & 韓 반도체 수출 $603억 돌파발 코스닥 대폭등 (+4.48%)
+        </h1>
+        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+          10월 첫 거래일, 국내 증시는 글로벌 AI 반도체 훈풍과 사상 초유의 9월 수출 호조(1,209.4억 달러, YoY +83.5%)가 결합되며 역사적 랠리를 펼쳤습니다. 외국인과 기관이 코스닥에서 8,008억 원을 쌍끌이 순매수하며 894선까지 수직 상승했습니다. HTS 실측 데이터 파싱 결과, 반도체기판/MLCC 테마에만 2조 1,567억 원, 반도체 소부장에 5,811억 원 등 6대 주도 테마에 총 3조 8,335억 원의 메가 유동성이 집중되었습니다.
+        </p>
+
+        <!-- Metric KPI Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+          <div class="bg-white/5 backdrop-blur border border-white/10 p-3.5 rounded-2xl">
+            <div class="text-xs text-slate-400 font-medium">코스피 지수</div>
+            <div class="text-lg sm:text-xl font-bold text-rose-400 mt-0.5">6,971.35 <span class="text-xs">+1.95% ▲</span></div>
+            <div class="text-[11px] text-slate-400 mt-1">기관 +3,344억 순매수</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur border border-white/10 p-3.5 rounded-2xl">
+            <div class="text-xs text-slate-400 font-medium">코스닥 지수</div>
+            <div class="text-lg sm:text-xl font-bold text-rose-400 mt-0.5">894.29 <span class="text-xs">+4.48% ▲</span></div>
+            <div class="text-[11px] text-slate-400 mt-1">외인·기관 +8,008억 쌍끌이</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur border border-white/10 p-3.5 rounded-2xl">
+            <div class="text-xs text-slate-400 font-medium">원/달러 환율</div>
+            <div class="text-lg sm:text-xl font-bold text-emerald-400 mt-0.5">1,358.4원 <span class="text-xs">+2.7원 ▲</span></div>
+            <div class="text-[11px] text-slate-400 mt-1">수출 네고 물량 유입 방어</div>
+          </div>
+          <div class="bg-white/5 backdrop-blur border border-white/10 p-3.5 rounded-2xl">
+            <div class="text-xs text-slate-400 font-medium">6대 테마 총 거래대금</div>
+            <div class="text-lg sm:text-xl font-bold text-amber-400 mt-0.5">3조 8,335억</div>
+            <div class="text-[11px] text-slate-400 mt-1">기판/반도체 메가 유동성</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1: Macro & Navarro Ripple Effect -->
+      <section id="section-macro" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+            <i data-lucide="globe" class="w-4 h-4"></i>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-white">1. 글로벌 매크로 4대 지표 & 피터 나바로 3단계 인과체인</h2>
+        </div>
+
+        <!-- 4-Macro Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 text-xs font-semibold">
+                <th class="p-3 rounded-l-xl">구분</th>
+                <th class="p-3">핵심 지표</th>
+                <th class="p-3">변동 추이</th>
+                <th class="p-3">매크로 해석 & 인과관계</th>
+                <th class="p-3 rounded-r-xl">시장 신호</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60 text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+              <tr>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">금리/통화</td>
+                <td class="p-3">美 10년물 국채</td>
+                <td class="p-3 font-mono font-bold text-rose-600 dark:text-rose-400">5.3% 돌파 (24년래 최고)</td>
+                <td class="p-3">2분기 GDP(2.2%) 및 소비지출 급증(+0.6%). 美 재무부 60억$ 바이백에도 장기금리 고공행진.</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-400">⚠️ 경계</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">환율/외환</td>
+                <td class="p-3">원/달러 환율</td>
+                <td class="p-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">1,358.4원 (+2.7원)</td>
+                <td class="p-3">글로벌 강달러 속 9월 수출 1,209억$ 돌파 및 대규모 반도체 수출 네고로 상단 완벽 방어.</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-400">🟢 호재</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">원자재</td>
+                <td class="p-3">WTI / 호르무즈</td>
+                <td class="p-3 font-mono font-bold">$90.42 / 972만 배럴 회복</td>
+                <td class="p-3">호르무즈 일 972만 배럴 통과로 봉쇄 리스크 완화. 금값은 고금리 부담에 -6.6% 조정.</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-100 text-slate-800 dark:bg-slate-700 dark:text-slate-300">🟡 중립</span></td>
+              </tr>
+              <tr>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">시장지수</td>
+                <td class="p-3">코스피 / 코스닥</td>
+                <td class="p-3 font-mono font-bold text-rose-600 dark:text-rose-400">코스피 +1.95% / 코스닥 +4.48%</td>
+                <td class="p-3">마이크론 어닝 서프라이즈 및 HBM 완판, 韓 9월 반도체 수출 $603억 돌파로 코스닥 대폭등.</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-bold bg-rose-100 text-rose-800 dark:bg-rose-950/60 dark:text-rose-400">🔥 강력기회</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Navarro Chain Cards -->
+        <div class="space-y-4 pt-2">
+          <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
+            피터 나바로 3대 인과체인 심층 분석
+          </h3>
+
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div class="font-bold text-sm text-indigo-600 dark:text-indigo-400">
+              [인과체인 1] 마이크론 HBM 완판 선언 & 韓 9월 반도체 수출 $603억 돌파 ➔ 패키징/소부장 폭발
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <p>• <strong>Trigger (원인):</strong> 마이크론 분기매출 542.3억 달러(매출총이익률 87%, 2027년까지 HBM 완판) 및 한국 9월 반도체 수출 603억 달러(+262.8% YoY) 사상 최초 600억 달러 돌파.</p>
+              <p>• <strong>1차 파급:</strong> 외인·기관 코스닥 8,008억 쌍끌이 순매수 유입, 코스닥 +4.48% 대폭등. 주성엔지니어링(+3.66%) 에코프로비엠 제치고 시총 상위 도약.</p>
+              <p>• <strong>2차/3차 파급:</strong> AI 에이전트 확산으로 CPU 리드타임 30주 폭증 ➔ FC-BGA 기판 및 서버용 MLCC 쇼티지(삼성전기, 대덕전자) ➔ 첨단 패키징 1대장(윈팩 +26.03%, 아모텍 +17.33%) 집중 수혜.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div class="font-bold text-sm text-indigo-600 dark:text-indigo-400">
+              [인과체인 2] 美 2,000억$ 대미 에너지 투자 공식화 vs 알래스카 LNG '조건부' 옥석 가리기
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <p>• <strong>Trigger (원인):</strong> 트럼프-러트닉 대형 원전 8기(1,200억$) 및 가스발전(220억$) 발표 vs 韓 산업부 "알래스카 LNG는 조건부 미확정" 선긋기.</p>
+              <p>• <strong>1차 파급:</strong> 알래스카 LNG 단순 강관주(하이스틸, 금강철강) 급락 반락 ➔ 실질 수주 보유 에너지 인프라주(두산에너빌리티 8,400억 수주, LS일렉트릭 1,800억 변압기 수주)로 자금 이동.</p>
+              <p>• <strong>2차/3차 파급:</strong> 텍사스 가스발전 IRR 15%대 중반 확인으로 전력 EPC 및 전력 기자재 공급망 채산성 확보.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <div class="font-bold text-sm text-indigo-600 dark:text-indigo-400">
+              [인과체인 3] 10월 글로벌 3대 바이오 학회(Bio Japan, CPHI, World ADC) & 中 국경절 28만 명 방한
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <p>• <strong>Trigger (원인):</strong> 10월 글로벌 메가 제약바이오 학회 집중 개막 및 파이프라인 L/O 기대감 + 中 국경절 방한 유커 28만 명 돌파.</p>
+              <p>• <strong>1차 파급:</strong> 바이오텍(알지노믹스 +23.28%, 지투지바이오 +23.06%, 삼천당제약 +15.39%) 폭등 및 화장품(한국화장품제조 +12.64%) 동반 강세.</p>
+              <p>• <strong>2차/3차 파급:</strong> ADC 및 대사질환(GLP-1) 플랫폼 가치 재평가 및 K-뷰티 수출 호조 지속.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: 6 Major Themes Ranking -->
+      <section id="section-themes" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <i data-lucide="layers" class="w-4 h-4"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">2. 당일 6대 주도 테마 실측 거래대금 랭킹 & 유동성 분석</h2>
+          </div>
+          <span class="text-xs font-bold text-indigo-600 dark:text-indigo-400">총 3조 8,335억 원</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Card 1 -->
+          <div class="p-5 rounded-2xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-900/60">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-indigo-600 text-white">유동성 1위</span>
+              <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400">평균 +9.38%</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">반도체기판 / MLCC 등</h4>
+            <div class="text-2xl font-black text-indigo-600 dark:text-indigo-400 my-1">2조 1,567.1억 원</div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <p>• <strong>1등 대장주:</strong> 아모텍 (+17.33% / 311.3억 원)</p>
+              <p>• <strong>대형 주도주:</strong> 삼성전기(1조 6,411.6억), 대덕전자(2,646.3억), 삼화콘덴서(2,030.8억)</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-800 text-white dark:bg-slate-700">유동성 2위</span>
+              <span class="text-xs font-semibold text-rose-600 dark:text-rose-400">평균 +18.16%</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">반도체 관련주 (소부장/HBM)</h4>
+            <div class="text-2xl font-black text-slate-900 dark:text-white my-1">5,811.3억 원</div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <p>• <strong>1등 대장주:</strong> 윈팩 (+26.03% / 369.0억 원)</p>
+              <p>• <strong>핵심 수급주:</strong> 대덕전자(2,646.3억), 디아이(2,274.7억), 티에프이(379.8억)</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-800 text-white dark:bg-slate-700">유동성 3위</span>
+              <span class="text-xs font-semibold text-rose-600 dark:text-rose-400">평균 +13.87%</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">로봇 관련주 (피지컬 AI)</h4>
+            <div class="text-2xl font-black text-slate-900 dark:text-white my-1">4,968.1억 원</div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <p>• <strong>1등 대장주:</strong> 리브스메드 (+19.74% / 225.7억 원)</p>
+              <p>• <strong>수급 집중주:</strong> 코스모로보틱스(2,368.6억), 고영(1,099.1억), HT로보틱스(1,043.0억)</p>
+            </div>
+          </div>
+
+          <!-- Card 4 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-800 text-white dark:bg-slate-700">유동성 4위</span>
+              <span class="text-xs font-semibold text-rose-600 dark:text-rose-400">평균 +17.83%</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">제약 / 바이오 (학회 D-Day)</h4>
+            <div class="text-2xl font-black text-slate-900 dark:text-white my-1">3,438.7억 원</div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <p>• <strong>1등 대장주:</strong> 알지노믹스 (+23.28% / 426.4억 원)</p>
+              <p>• <strong>대형 수혜주:</strong> 삼천당제약(1,544.2억), 올릭스(713.4억), 지투지바이오(471.1억)</p>
+            </div>
+          </div>
+
+          <!-- Card 5 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-800 text-white dark:bg-slate-700">유동성 5위</span>
+              <span class="text-xs font-semibold text-rose-600 dark:text-rose-400">평균 +11.78%</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">우주항공 (10월 일정 연계)</h4>
+            <div class="text-2xl font-black text-slate-900 dark:text-white my-1">1,606.5억 원</div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <p>• <strong>1등 대장주:</strong> LK 삼양 (+22.77% / 119.4억 원)</p>
+              <p>• <strong>구성 종목:</strong> LIG D&A(832.0억), 한양디지텍(257.9억), 에이치브이엠(202.3억)</p>
+            </div>
+          </div>
+
+          <!-- Card 6 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-slate-800 text-white dark:bg-slate-700">유동성 6위</span>
+              <span class="text-xs font-semibold text-rose-600 dark:text-rose-400">평균 +8.63%</span>
+            </div>
+            <h4 class="text-lg font-bold text-slate-900 dark:text-white">화장품 / K-뷰티 (국경절 연휴)</h4>
+            <div class="text-2xl font-black text-slate-900 dark:text-white my-1">943.7억 원</div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <p>• <strong>1등 대장주:</strong> 한국화장품제조 (+12.64% / 317.2억 원)</p>
+              <p>• <strong>수혜주:</strong> 엘앤씨바이오(322.3억), 코스맥스(246.2억), 본느(38.2억)</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Market Top 10 by Trading Value -->
+      <section id="section-top10" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <i data-lucide="award" class="w-4 h-4"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">3. 당일 시장 거래대금 최상위 주도주 (Top 10: 1,000억 원 이상)</h2>
+          </div>
+          <span class="text-xs text-slate-500 dark:text-slate-400">상승률 상위 1,878개 종목 전수 스크리닝</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 text-xs font-semibold">
+                <th class="p-3 text-center rounded-l-xl">순위</th>
+                <th class="p-3">종목명</th>
+                <th class="p-3">소속 테마</th>
+                <th class="p-3 text-right">등락률</th>
+                <th class="p-3 text-right">실측 거래대금</th>
+                <th class="p-3 text-right">실측 거래량</th>
+                <th class="p-3 rounded-r-xl">핵심 모멘텀 및 수급 배경</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60 text-slate-700 dark:text-slate-300 text-xs sm:text-sm">
+              <tr class="bg-indigo-50/30 dark:bg-indigo-950/20 font-semibold">
+                <td class="p-3 text-center font-bold text-indigo-600 dark:text-indigo-400">1</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">삼성전기</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">기판/MLCC</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+3.17%</td>
+                <td class="p-3 text-right font-mono font-bold text-indigo-600 dark:text-indigo-400">1조 6,411.6억</td>
+                <td class="p-3 text-right font-mono">1,077,570주</td>
+                <td class="p-3 text-xs">AI 서버용 MLCC 글로벌 수주 행진 및 기관·외인 대량 매수</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">2</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">브릴스</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">로봇 (신규상장)</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+59.49%</td>
+                <td class="p-3 text-right font-mono font-bold">6,958.2억</td>
+                <td class="p-3 text-right font-mono">17,862,713주</td>
+                <td class="p-3 text-xs">코스닥 신규상장 2일차 무인화 로봇 대시세 분출</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">3</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">제주반도체</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">온디바이스 AI</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+14.18%</td>
+                <td class="p-3 text-right font-mono font-bold">3,183.1억</td>
+                <td class="p-3 text-right font-mono">3,771,574주</td>
+                <td class="p-3 text-xs">온디바이스 AI LPDDR 메모리 수요 폭증</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">4</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">대덕전자</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">FC-BGA/기판</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+12.75%</td>
+                <td class="p-3 text-right font-mono font-bold">2,646.3억</td>
+                <td class="p-3 text-right font-mono">1,850,863주</td>
+                <td class="p-3 text-xs">AI 서버용 FC-BGA 기판 증설 및 CPU 납기 폭증 수혜</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">5</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">코스모로보틱스</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">피지컬 AI</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+15.03%</td>
+                <td class="p-3 text-right font-mono font-bold">2,368.6억</td>
+                <td class="p-3 text-right font-mono">27,599,668주</td>
+                <td class="p-3 text-xs">삼성전자 웨어러블 로봇 특허 공개 수혜 유동성 집중</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">6</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">디아이</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">HBM 검사</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+13.08%</td>
+                <td class="p-3 text-right font-mono font-bold">2,274.7억</td>
+                <td class="p-3 text-right font-mono">5,618,696주</td>
+                <td class="p-3 text-xs">마이크론 및 삼성전자 HBM 웨이퍼 번인 테스터 공급</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">7</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">삼화콘덴서</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">MLCC/전장</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+6.37%</td>
+                <td class="p-3 text-right font-mono font-bold">2,030.8억</td>
+                <td class="p-3 text-right font-mono">1,282,920주</td>
+                <td class="p-3 text-xs">AI 데이터센터용 고용량 MLCC 수주 확대</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">8</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">삼천당제약</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">제약/바이오</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+15.39%</td>
+                <td class="p-3 text-right font-mono font-bold">1,544.2억</td>
+                <td class="p-3 text-right font-mono">792,493주</td>
+                <td class="p-3 text-xs">10월 글로벌 학회 D-day 및 경구용 비만/인슐린 L/O</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold">9</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">고영</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">로봇/3D검사</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+10.02%</td>
+                <td class="p-3 text-right font-mono font-bold">1,099.1억</td>
+                <td class="p-3 text-right font-mono">3,320,962주</td>
+                <td class="p-3 text-xs">뇌수술용 의료로봇 및 3D 반도체 검사 장비</td>
+              </tr>
+              <tr>
+                <td class="p-3 text-center font-bold rounded-bl-xl">10</td>
+                <td class="p-3 text-slate-900 dark:text-white font-bold">HT로보틱스</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs bg-slate-200 dark:bg-slate-700">피지컬 AI</span></td>
+                <td class="p-3 text-right font-mono text-rose-600 dark:text-rose-400">+12.75%</td>
+                <td class="p-3 text-right font-mono font-bold">1,043.0억</td>
+                <td class="p-3 text-right font-mono">17,203,593주</td>
+                <td class="p-3 text-xs rounded-br-xl">정부 20만 대 로봇 보급 정책 드라이브 수혜</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 4: 6 Themes 30 Stocks Table -->
+      <section id="section-details" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <i data-lucide="table" class="w-4 h-4"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">4. 당일 6대 테마 30종목 전수 실측 거래 명세표</h2>
+          </div>
+          <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">테마 DB v19.2 연계 100% 무결성 확인</span>
+        </div>
+
+        <!-- Theme 1 & 2 Tabbed or Stacked -->
+        <div class="space-y-6">
+          <div>
+            <h3 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-2 flex items-center justify-between">
+              <span>① 반도체 관련주 (총 5,811.3억 원 / 22,885,162주)</span>
+              <span class="text-xs text-slate-500 font-normal">평균 +18.16%</span>
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                  <tr>
+                    <th class="p-2.5">종목명</th>
+                    <th class="p-2.5 text-right">등락률</th>
+                    <th class="p-2.5 text-right">실측 거래대금</th>
+                    <th class="p-2.5 text-right">실측 거래량</th>
+                    <th class="p-2.5">핵심 상승 이유</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <tr class="bg-rose-50/40 dark:bg-rose-950/20 font-semibold">
+                    <td class="p-2.5 text-slate-900 dark:text-white font-bold">[1등대장] 윈팩</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+26.03%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">369.0억</td>
+                    <td class="p-2.5 text-right font-mono">10,096,771주</td>
+                    <td class="p-2.5 text-xs">美 마이크론 어닝 서프라이즈 및 9월 반도체 수출 600억 달러 돌파</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">세미티에스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+22.92%</td>
+                    <td class="p-2.5 text-right font-mono">141.4억</td>
+                    <td class="p-2.5 text-right font-mono">4,790,285주</td>
+                    <td class="p-2.5 text-xs">美 마이크론 어닝 서프라이즈 및 9월 반도체 수출 600억 달러 돌파</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">티에프이</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+16.12%</td>
+                    <td class="p-2.5 text-right font-mono">379.8억</td>
+                    <td class="p-2.5 text-right font-mono">528,547주</td>
+                    <td class="p-2.5 text-xs">美 마이크론 어닝 서프라이즈 및 9월 반도체 수출 600억 달러 돌파</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">디아이</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+13.08%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">2,274.7억</td>
+                    <td class="p-2.5 text-right font-mono">5,618,696주</td>
+                    <td class="p-2.5 text-xs">美 마이크론 어닝 서프라이즈 및 9월 반도체 수출 600억 달러 돌파</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">대덕전자</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+12.64%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">2,646.3억</td>
+                    <td class="p-2.5 text-right font-mono">1,850,863주</td>
+                    <td class="p-2.5 text-xs">美 마이크론 어닝 서프라이즈 및 9월 반도체 수출 600억 달러 돌파</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-2 flex items-center justify-between">
+              <span>② 반도체기판 / MLCC 등 (총 2조 1,567.1억 원 / 6,334,476주)</span>
+              <span class="text-xs text-slate-500 font-normal">평균 +9.38%</span>
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                  <tr>
+                    <th class="p-2.5">종목명</th>
+                    <th class="p-2.5 text-right">등락률</th>
+                    <th class="p-2.5 text-right">실측 거래대금</th>
+                    <th class="p-2.5 text-right">실측 거래량</th>
+                    <th class="p-2.5">핵심 상승 이유</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <tr class="bg-rose-50/40 dark:bg-rose-950/20 font-semibold">
+                    <td class="p-2.5 text-slate-900 dark:text-white font-bold">[1등대장] 아모텍</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+17.33%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">311.3억</td>
+                    <td class="p-2.5 text-right font-mono">1,511,198주</td>
+                    <td class="p-2.5 text-xs">삼성전기 'AI 서버용 MLCC' 수주 행진 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">대덕전자</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+12.75%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">2,646.3억</td>
+                    <td class="p-2.5 text-right font-mono">1,850,863주</td>
+                    <td class="p-2.5 text-xs">삼성전기 'AI 서버용 MLCC' 수주 행진 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">켐트로닉스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+7.29%</td>
+                    <td class="p-2.5 text-right font-mono">167.1억</td>
+                    <td class="p-2.5 text-right font-mono">611,925주</td>
+                    <td class="p-2.5 text-xs">삼성전기 'AI 서버용 MLCC' 수주 행진 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">삼화콘덴서</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+6.37%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">2,030.8억</td>
+                    <td class="p-2.5 text-right font-mono">1,282,920주</td>
+                    <td class="p-2.5 text-xs">삼성전기 'AI 서버용 MLCC' 수주 행진 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">삼성전기</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+3.17%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">16,411.6억</td>
+                    <td class="p-2.5 text-right font-mono">1,077,570주</td>
+                    <td class="p-2.5 text-xs">삼성전기 'AI 서버용 MLCC' 수주 행진 속 개별 이슈 부각</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-2 flex items-center justify-between">
+              <span>③ 제약 / 바이오 (총 3,438.7억 원 / 4,304,294주)</span>
+              <span class="text-xs text-slate-500 font-normal">평균 +17.83%</span>
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                  <tr>
+                    <th class="p-2.5">종목명</th>
+                    <th class="p-2.5 text-right">등락률</th>
+                    <th class="p-2.5 text-right">실측 거래대금</th>
+                    <th class="p-2.5 text-right">실측 거래량</th>
+                    <th class="p-2.5">핵심 상승 이유</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <tr class="bg-rose-50/40 dark:bg-rose-950/20 font-semibold">
+                    <td class="p-2.5 text-slate-900 dark:text-white font-bold">[1등대장] 알지노믹스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+23.28%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">426.4억</td>
+                    <td class="p-2.5 text-right font-mono">1,539,244주</td>
+                    <td class="p-2.5 text-xs">10월 제약·바이오 글로벌 이벤트 및 학회 기대감</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">지투지바이오</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+23.06%</td>
+                    <td class="p-2.5 text-right font-mono">471.1억</td>
+                    <td class="p-2.5 text-right font-mono">1,143,598주</td>
+                    <td class="p-2.5 text-xs">10월 제약·바이오 글로벌 이벤트 및 학회 기대감</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">삼천당제약</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+15.39%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">1,544.2억</td>
+                    <td class="p-2.5 text-right font-mono">792,493주</td>
+                    <td class="p-2.5 text-xs">10월 제약·바이오 글로벌 이벤트 및 학회 기대감</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">올릭스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+14.05%</td>
+                    <td class="p-2.5 text-right font-mono">713.4억</td>
+                    <td class="p-2.5 text-right font-mono">633,181주</td>
+                    <td class="p-2.5 text-xs">10월 제약·바이오 글로벌 이벤트 및 학회 기대감</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">보로노이</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+13.38%</td>
+                    <td class="p-2.5 text-right font-mono">283.6억</td>
+                    <td class="p-2.5 text-right font-mono">195,778주</td>
+                    <td class="p-2.5 text-xs">10월 제약·바이오 글로벌 이벤트 및 학회 기대감</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-2 flex items-center justify-between">
+              <span>④ 로봇 관련주 (총 4,968.1억 원 / 50,393,921주)</span>
+              <span class="text-xs text-slate-500 font-normal">평균 +13.87%</span>
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                  <tr>
+                    <th class="p-2.5">종목명</th>
+                    <th class="p-2.5 text-right">등락률</th>
+                    <th class="p-2.5 text-right">실측 거래대금</th>
+                    <th class="p-2.5 text-right">실측 거래량</th>
+                    <th class="p-2.5">핵심 상승 이유</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <tr class="bg-rose-50/40 dark:bg-rose-950/20 font-semibold">
+                    <td class="p-2.5 text-slate-900 dark:text-white font-bold">[1등대장] 리브스메드</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+19.74%</td>
+                    <td class="p-2.5 text-right font-mono">225.7억</td>
+                    <td class="p-2.5 text-right font-mono">639,816주</td>
+                    <td class="p-2.5 text-xs">삼성전자 AI 웨어러블 로봇 특허 글로벌 공개 소식</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">코스모로보틱스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+15.03%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">2,368.6억</td>
+                    <td class="p-2.5 text-right font-mono">27,599,668주</td>
+                    <td class="p-2.5 text-xs">삼성전자 AI 웨어러블 로봇 특허 글로벌 공개 소식</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">HT로보틱스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+12.75%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">1,043.0억</td>
+                    <td class="p-2.5 text-right font-mono">17,203,593주</td>
+                    <td class="p-2.5 text-xs">삼성전자 AI 웨어러블 로봇 특허 글로벌 공개 소식</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">제우스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+11.82%</td>
+                    <td class="p-2.5 text-right font-mono">231.7억</td>
+                    <td class="p-2.5 text-right font-mono">1,629,882주</td>
+                    <td class="p-2.5 text-xs">삼성전자 AI 웨어러블 로봇 특허 글로벌 공개 소식</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">고영</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+10.02%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">1,099.1억</td>
+                    <td class="p-2.5 text-right font-mono">3,320,962주</td>
+                    <td class="p-2.5 text-xs">삼성전자 AI 웨어러블 로봇 특허 글로벌 공개 소식</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-2 flex items-center justify-between">
+              <span>⑤ 우주항공 (총 1,606.5억 원 / 4,607,779주)</span>
+              <span class="text-xs text-slate-500 font-normal">평균 +11.78%</span>
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                  <tr>
+                    <th class="p-2.5">종목명</th>
+                    <th class="p-2.5 text-right">등락률</th>
+                    <th class="p-2.5 text-right">실측 거래대금</th>
+                    <th class="p-2.5 text-right">실측 거래량</th>
+                    <th class="p-2.5">핵심 상승 이유</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <tr class="bg-rose-50/40 dark:bg-rose-950/20 font-semibold">
+                    <td class="p-2.5 text-slate-900 dark:text-white font-bold">[1등대장] LK 삼양</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+22.77%</td>
+                    <td class="p-2.5 text-right font-mono">119.4억</td>
+                    <td class="p-2.5 text-right font-mono">2,855,701주</td>
+                    <td class="p-2.5 text-xs">국제우주항공기술대전 개막 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">한양디지텍</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+12.68%</td>
+                    <td class="p-2.5 text-right font-mono">257.9억</td>
+                    <td class="p-2.5 text-right font-mono">754,519주</td>
+                    <td class="p-2.5 text-xs">국제우주항공기술대전 개막 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">한양이엔지</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+9.24%</td>
+                    <td class="p-2.5 text-right font-mono">194.8억</td>
+                    <td class="p-2.5 text-right font-mono">560,715주</td>
+                    <td class="p-2.5 text-xs">국제우주항공기술대전 개막 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">에이치브이엠</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+8.03%</td>
+                    <td class="p-2.5 text-right font-mono">202.3억</td>
+                    <td class="p-2.5 text-right font-mono">320,365주</td>
+                    <td class="p-2.5 text-xs">국제우주항공기술대전 개막 속 개별 이슈 부각</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">LIG D&A</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+6.16%</td>
+                    <td class="p-2.5 text-right font-mono">832.0억</td>
+                    <td class="p-2.5 text-right font-mono">116,479주</td>
+                    <td class="p-2.5 text-xs">국제우주항공기술대전 개막 속 개별 이슈 부각</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h3 class="text-base font-bold text-indigo-600 dark:text-indigo-400 mb-2 flex items-center justify-between">
+              <span>⑥ 화장품 / K-뷰티 (총 943.7억 원 / 3,463,825주)</span>
+              <span class="text-xs text-slate-500 font-normal">평균 +8.63%</span>
+            </h3>
+            <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+              <table class="w-full text-left text-xs sm:text-sm">
+                <thead class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                  <tr>
+                    <th class="p-2.5">종목명</th>
+                    <th class="p-2.5 text-right">등락률</th>
+                    <th class="p-2.5 text-right">실측 거래대금</th>
+                    <th class="p-2.5 text-right">실측 거래량</th>
+                    <th class="p-2.5">핵심 상승 이유</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                  <tr class="bg-rose-50/40 dark:bg-rose-950/20 font-semibold">
+                    <td class="p-2.5 text-slate-900 dark:text-white font-bold">[1등대장] 한국화장품제조</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+12.64%</td>
+                    <td class="p-2.5 text-right font-mono font-bold">317.2억</td>
+                    <td class="p-2.5 text-right font-mono">1,938,339주</td>
+                    <td class="p-2.5 text-xs">글로벌 수출 확대 기대감 및 中 국경절 연휴 방한 수혜</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">본느</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+11.51%</td>
+                    <td class="p-2.5 text-right font-mono">38.2억</td>
+                    <td class="p-2.5 text-right font-mono">670,068주</td>
+                    <td class="p-2.5 text-xs">글로벌 수출 확대 기대감 및 中 국경절 연휴 방한 수혜</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">엘앤씨바이오</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+8.69%</td>
+                    <td class="p-2.5 text-right font-mono">322.3억</td>
+                    <td class="p-2.5 text-right font-mono">588,036주</td>
+                    <td class="p-2.5 text-xs">글로벌 수출 확대 기대감 및 中 국경절 연휴 방한 수혜</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">에이블씨엔씨</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+5.82%</td>
+                    <td class="p-2.5 text-right font-mono">19.8억</td>
+                    <td class="p-2.5 text-right font-mono">177,590주</td>
+                    <td class="p-2.5 text-xs">글로벌 수출 확대 기대감 및 中 국경절 연휴 방한 수혜</td>
+                  </tr>
+                  <tr>
+                    <td class="p-2.5">코스맥스</td>
+                    <td class="p-2.5 text-right font-mono text-rose-600 dark:text-rose-400">+4.49%</td>
+                    <td class="p-2.5 text-right font-mono">246.2억</td>
+                    <td class="p-2.5 text-right font-mono">89,792주</td>
+                    <td class="p-2.5 text-xs">글로벌 수출 확대 기대감 및 中 국경절 연휴 방한 수혜</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Checkery Audit -->
+      <section id="section-checkery" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+            <i data-lucide="shield-alert" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">5. 체커리(Checkery) 실측 거래대금 기반 5대 하드 전수 감사</h2>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">데이터 락(Data Lock) 정상 해제 및 무결점 승인 종목 선별</div>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs sm:text-sm border-collapse">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 font-semibold">
+                <th class="p-2.5 rounded-l-xl">종목명</th>
+                <th class="p-2.5">소속 테마</th>
+                <th class="p-2.5 text-right">등락률</th>
+                <th class="p-2.5 text-right">실측 거래대금</th>
+                <th class="p-2.5 text-center">Check 1<br><span class="text-[10px] font-normal text-slate-400">DB연계</span></th>
+                <th class="p-2.5 text-center">Check 2<br><span class="text-[10px] font-normal text-slate-400">1등대장</span></th>
+                <th class="p-2.5 text-center">Check 3<br><span class="text-[10px] font-normal text-slate-400">신선도</span></th>
+                <th class="p-2.5 text-center">Check 4<br><span class="text-[10px] font-normal text-slate-400">타점규율</span></th>
+                <th class="p-2.5 text-center">Check 5<br><span class="text-[10px] font-normal text-slate-400">3선/비중</span></th>
+                <th class="p-2.5 text-center rounded-r-xl">최종 감사 판정</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700/60">
+              <tr class="bg-emerald-50/30 dark:bg-emerald-950/20 font-medium">
+                <td class="p-2.5 font-bold text-slate-900 dark:text-white">윈팩</td>
+                <td class="p-2.5">반도체소부장</td>
+                <td class="p-2.5 text-right font-mono text-rose-600 font-bold">+26.03%</td>
+                <td class="p-2.5 text-right font-mono">369.0억</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS (1대장)</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS (상)</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center"><span class="badge-pass px-2 py-0.5 rounded text-xs font-bold">승인 (1파 5일선 대기)</span></td>
+              </tr>
+              <tr class="bg-emerald-50/30 dark:bg-emerald-950/20 font-medium">
+                <td class="p-2.5 font-bold text-slate-900 dark:text-white">아모텍</td>
+                <td class="p-2.5">기판/MLCC</td>
+                <td class="p-2.5 text-right font-mono text-rose-600 font-bold">+17.33%</td>
+                <td class="p-2.5 text-right font-mono">311.3억</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS (1대장)</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS (상)</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center"><span class="badge-pass px-2 py-0.5 rounded text-xs font-bold">승인 (1파 5일선 대기)</span></td>
+              </tr>
+              <tr class="bg-emerald-50/30 dark:bg-emerald-950/20 font-medium">
+                <td class="p-2.5 font-bold text-slate-900 dark:text-white">알지노믹스</td>
+                <td class="p-2.5">제약/바이오</td>
+                <td class="p-2.5 text-right font-mono text-rose-600 font-bold">+23.28%</td>
+                <td class="p-2.5 text-right font-mono">426.4억</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS (1대장)</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS (상)</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center"><span class="badge-pass px-2 py-0.5 rounded text-xs font-bold">승인 (1파 5일선 대기)</span></td>
+              </tr>
+              <tr class="bg-rose-50/30 dark:bg-rose-950/20 text-slate-500">
+                <td class="p-2.5 line-through">하이스틸</td>
+                <td class="p-2.5">알래스카LNG</td>
+                <td class="p-2.5 text-right font-mono text-blue-600">-7.2%</td>
+                <td class="p-2.5 text-right font-mono">129.0억</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-rose-600 font-bold">FAIL (후발)</td>
+                <td class="p-2.5 text-center text-rose-600 font-bold">FAIL (소멸)</td>
+                <td class="p-2.5 text-center text-rose-600 font-bold">FAIL</td>
+                <td class="p-2.5 text-center">-</td>
+                <td class="p-2.5 text-center"><span class="badge-fail px-2 py-0.5 rounded text-xs font-bold">🚫 영구 배제</span></td>
+              </tr>
+              <tr class="bg-rose-50/30 dark:bg-rose-950/20 text-slate-500">
+                <td class="p-2.5 line-through">금강철강</td>
+                <td class="p-2.5">알래스카LNG</td>
+                <td class="p-2.5 text-right font-mono text-blue-600">-8.5%</td>
+                <td class="p-2.5 text-right font-mono">234.0억</td>
+                <td class="p-2.5 text-center text-emerald-600 font-bold">PASS</td>
+                <td class="p-2.5 text-center text-rose-600 font-bold">FAIL (후발)</td>
+                <td class="p-2.5 text-center text-rose-600 font-bold">FAIL (소멸)</td>
+                <td class="p-2.5 text-center text-rose-600 font-bold">FAIL</td>
+                <td class="p-2.5 text-center">-</td>
+                <td class="p-2.5 text-center"><span class="badge-fail px-2 py-0.5 rounded text-xs font-bold">🚫 영구 배제</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 6: Action Cards -->
+      <section id="section-picks" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+            <i data-lucide="target" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">6. 익일(10/02) 전략 풀: S/A등급 1등 대장주 3선 실행 카드</h2>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Keep 4대 준칙 및 정량 검증 메타데이터 완료</div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Card 1 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-indigo-600 text-white">종목 1</span>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">윈팩 (097800)</h3>
+                <span class="text-xs text-slate-500">HBM 첨단 패키징 1대장</span>
+              </div>
+              <span class="text-xs font-bold text-rose-600 dark:text-rose-400 font-mono">+26.03% | 거래대금 369.0억</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">재료: S등급</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">신선도: 상</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">성격: 대기업연계</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">대장: 1등대장(O)</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">타점: 1파 5일선 N형</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">권장: 고비중</span>
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1 bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+              <p>• <strong>원패스 메타데이터:</strong> 2026-10-01 DB / 반도체 관련주 1위 / 거래량 10,096,771주 / 2연속 급등 속 탄력 1위</p>
+              <p>• <strong>실행 시나리오:</strong> 기준봉 익일 시초 추격 매수 절대 금지. 거래량 70% 이상 급감하는 첫 5일선 음봉 눌림목 확인 후 -3.5% 간격 분할 매수.</p>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-indigo-600 text-white">종목 2</span>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">아모텍 (052710)</h3>
+                <span class="text-xs text-slate-500">AI 서버용 MLCC 1대장</span>
+              </div>
+              <span class="text-xs font-bold text-rose-600 dark:text-rose-400 font-mono">+17.33% | 거래대금 311.3억</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">재료: S등급</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">신선도: 상</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">성격: 실적/인프라수주</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">대장: 1등대장(O)</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">타점: 1파 5일선 N형</span>
+              <span class="badge-s px-2 py-0.5 rounded font-semibold">권장: 고비중</span>
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1 bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+              <p>• <strong>원패스 메타데이터:</strong> 2026-10-01 DB / 반도체기판·MLCC 1위 / 거래량 1,511,198주 / 중소형 탄력 1위</p>
+              <p>• <strong>실행 시나리오:</strong> 삼성전기·대덕전자의 메가 유동성을 등에 업은 중소형 1대장. 5일선 첫 지지선 확인 후 2회 분할 매수.</p>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-indigo-600 text-white">종목 3</span>
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">알지노믹스 (476830)</h3>
+                <span class="text-xs text-slate-500">10월 글로벌 학회 1대장</span>
+              </div>
+              <span class="text-xs font-bold text-rose-600 dark:text-rose-400 font-mono">+23.28% | 거래대금 426.4억</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 text-xs">
+              <span class="badge-a px-2 py-0.5 rounded font-semibold">재료: A등급</span>
+              <span class="badge-a px-2 py-0.5 rounded font-semibold">신선도: 상</span>
+              <span class="badge-a px-2 py-0.5 rounded font-semibold">성격: 신산업/개별이슈</span>
+              <span class="badge-a px-2 py-0.5 rounded font-semibold">대장: 1등대장(O)</span>
+              <span class="badge-a px-2 py-0.5 rounded font-semibold">타점: 1파 5일선 N형</span>
+              <span class="badge-a px-2 py-0.5 rounded font-semibold">권장: 중비중</span>
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1 bg-white dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700/60">
+              <p>• <strong>원패스 메타데이터:</strong> 2026-10-01 DB / 제약·바이오 1위 / 거래량 1,539,244주 / 10월 학회 모멘텀 1위</p>
+              <p>• <strong>실행 시나리오:</strong> 10월 초 학회 D-day 이전 첫 음봉 지지 확인 후 단기 4~7% 기계적 분할 익절 타깃 대응.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7: Trading Journal Review -->
+      <section id="section-journal" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center gap-2.5 border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+            <i data-lucide="book-open" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">7. 당일 실전 매매 복기 & 쥬쥬 4~7% 원칙 청문회</h2>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">N형패턴_실전매매일지_대시보드 실측치 연계</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <!-- Journal 1 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-950/60 dark:text-amber-400">단기재료 트랙</span>
+              <span class="font-bold text-sm text-slate-900 dark:text-white">KBI동양철관 (008970)</span>
+            </div>
+            <div class="p-3 bg-white dark:bg-slate-800 rounded-xl text-xs space-y-1">
+              <p>• <strong>체결 내역:</strong> 09:15 매수 1,534원 (3,259주) ➔ 09:20 매도 1,537원 (3,259주 전량)</p>
+              <p>• <strong>실현 손익:</strong> <span class="font-mono font-bold text-blue-600">-2,386원 (-0.05%) 본절 방어</span></p>
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1.5">
+              <p>• <strong class="text-emerald-600 dark:text-emerald-400">칭찬 (모범 대응):</strong> 매수 5분 만에 호가창 탄력 둔화 감지 후 칼같은 본절 매도. 이후 <strong>1,402원(-13.7%)까지 수직 폭락</strong>했으므로 계좌를 구한 결정적 리스크 관리.</p>
+              <p>• <strong class="text-rose-600 dark:text-rose-400">청문회 일침 (반성점):</strong> +14.3% 갭상승 종목의 떨어지는 칼날을 장 시작 15분 만에 잡은 점, 1등 대장주가 아닌 2등 후발주를 매수한 점은 원칙 위반. 갭상승 종목의 장초반 섣부른 눌림 매수를 엄단할 것.</p>
+            </div>
+          </div>
+
+          <!-- Journal 2 -->
+          <div class="p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="px-2 py-0.5 rounded text-xs font-bold bg-indigo-100 text-indigo-800 dark:bg-indigo-950/60 dark:text-indigo-400">중기재료 트랙</span>
+              <span class="font-bold text-slate-900 dark:text-white">스피어 (347700)</span>
+            </div>
+            <div class="p-3 bg-white dark:bg-slate-800 rounded-xl text-xs space-y-1">
+              <p>• <strong>체결 내역:</strong> 5회 분할 매수 평단 22,525원 보정 (총 1,400주, 3,153만 원) ➔ 10/01 11:10 22,946원 전량 청산</p>
+              <p>• <strong>실현 손익:</strong> <span class="font-mono font-bold text-rose-600">+521,145원 (+1.65%) 전량 익절</span></p>
+            </div>
+            <div class="text-xs text-slate-600 dark:text-slate-400 space-y-1.5">
+              <p>• <strong class="text-emerald-600 dark:text-emerald-400">전략적 의의:</strong> D-day 재료 소멸 후 물려 있던 자금을 바닥권 분할 매수로 평단을 낮춰 본절 이상에서 전량 현금화(3,153만 원 회수). 향후 10월 초 우주항공 1등 대장주인 <strong>나라스페이스테크</strong>로 갈아타기 위한 완벽한 포트폴리오 교체 매매 완료.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8: 25 News Block -->
+      <section id="section-news" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-4">
+          <div class="flex items-center gap-2.5">
+            <div class="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/80 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
+              <i data-lucide="newspaper" class="w-4 h-4"></i>
+            </div>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-white">8. 당일 장마감 5대 부문 핵심 뉴스 25선</h2>
+          </div>
+          <span class="text-xs text-slate-400 font-mono">5개 부문 각 5선</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+          <!-- Col 1 -->
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <h4 class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">■ 종합 시황 및 글로벌 매크로</h4>
+              <p>1. [코스피 6,971선·코스닥 894선 대폭등]: 美 마이크론 호실적 및 9월 수출 1,209억$ 돌파에 코스피 +1.95%, 코스닥 +4.48% 급등 마감</p>
+              <p>2. [달러-원 환율 1,358.4원 소폭 상승]: 미 국채금리 5.3% 강달러 속 +2.7원 상승했으나, 역대 최대 수출 네고 물량 유입으로 상단 방어</p>
+              <p>3. [9월 수출 1,209억 달러 역대 최대 경신]: 전년비 +83.5% 폭증, 1~9월 누적 8,000억$ 돌파로 작년 연간치(7,093억$) 조기 추월</p>
+              <p>4. [아시아 주요국 증시 동반 급등]: 일본 닛케이 +3.30%, 대만 +0.86% 등 반도체 주도 동반 강세 (중국·홍콩 국경절 휴장)</p>
+              <p>5. [트럼프 '파월 사임 촉구' vs 연은 '추가 인상']: 통화정책 갈등 속 미 10년물 금리 5.3% 안착, 미 재무부 60억$ 국채 바이백 단행</p>
+            </div>
+
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <h4 class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">■ 기업 및 산업</h4>
+              <p>6. [마이크론 4분기 매출 542.3억$ 사상 최대]: 데이터센터 매출 11배 폭증, 매출총이익률 87% 및 "내년 HBM 물량 완판" 선언</p>
+              <p>7. [9월 반도체 수출 603억$ 사상 첫 돌파]: 전년비 +262.8% 폭증하며 사상 첫 600억$ 고지 점령, 삼전(+2.79%)·닉스(+3.21%) 동반 랠리</p>
+              <p>8. [코스닥 소부장 대시세 속 주성엔지니어링 도약]: 주성엔지니어링(+3.66%) 코스닥 시총 상위 등극, 삼천당제약(+15.4%)·원익IPS(+9.1%) 폭등</p>
+              <p>9. [두산에너빌리티, 베트남 오몬3 8,400억 수주]: 글로벌 발전 플랜트 대형 수주 성사 및 미국 원전 8기(1,200억$) 시공 참여 가시화</p>
+              <p>10. [LS일렉트릭, 美 AIDC 1,800억 변압기 수주]: 북미 AI 데이터센터 전력망 병목 지속에 따른 초고압 전력기기 대형 수주</p>
+            </div>
+          </div>
+
+          <!-- Col 2 -->
+          <div class="space-y-4">
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <h4 class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">■ 경제, 증시 및 부동산</h4>
+              <p>11. [연 수출 1조 달러 조기 달성 가시화]: 반도체 슈퍼사이클 지속으로 이르면 11월 1조$ 돌파 및 1인당 국민소득 4만$ 가시권</p>
+              <p>12. [KB증권 "코스피 8,500선 간다" 10월 대세론]: 반도체發 법인세 초과세수 63.2조원 달성 및 국채발행 10조원 축소로 밸류업 탄력</p>
+              <p>13. [거주자 외화예금 1,406억$ 사상 최고]: 수출 대금 대거 유입으로 두 달 연속 사상 최대 기록 경신 속 외환 건전성 확보</p>
+              <p>14. [내년 2월 토큰증권(STO) 하위법규 예고]: 주식·채권 토큰화 제도 개편 속 카카오-한투증권 디지털자산 전자지갑 동맹</p>
+              <p>15. [서울 아파트값 86주 연속 상승 속 강남권 둔화]: 강남 3구 매수세 숨고르기 속 마용성 및 도심 중대형 오피스텔 중심 상승</p>
+            </div>
+
+            <div class="p-4 bg-slate-50 dark:bg-slate-900/50 rounded-2xl border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <h4 class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">■ 정치, 사회 및 국제/해외</h4>
+              <p>16. [한미, 美 대형 원전 8기 1,200억$ 건설 공식화]: 미국 전역 원전 8기(2기 한국형) 시공 참여 및 연말 100억$ 선지급 협의 착수</p>
+              <p>17. [텍사스 가스화력 대미투자 1호 220억$ 착수]: IRR 15%대 중반의 북미 전력 인프라 대형 프로젝트에 국내 EPC 참여 확정</p>
+              <p>18. [정부, 7.9조원 기업투자 병목 해소 인허가 1년 단축]: 전기차·반도체 첨단 공장 인허가 패스트트랙 가동</p>
+              <p>19. [알래스카 LNG '조건부' 발표 속 옥석 가리기]: 산업부 "아직 미확정" 선긋기로 단순 강관 테마주 급락, 실체적 수혜주 압축</p>
+              <p>20. [아마존, 콘스텔레이션과 원전 전력 20년 장기 계약]: 빅테크 AI 데이터센터 무탄소 기저부하 전력 확보 경쟁 가속</p>
+              <p>21. [호르무즈 하루 972만 배럴 통과 회복]: 원유 수송 정상화로 이란의 해협 봉쇄 압박 약화 속 유가 WTI 90$선 안정</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 9: Telegram Copy Block -->
+      <section id="section-telegram" class="bg-white dark:bg-slate-800/80 p-6 sm:p-8 rounded-3xl border border-slate-200 dark:border-slate-700/80 shadow-sm space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-700 pb-3">
+          <div class="flex items-center gap-2">
+            <i data-lucide="send" class="w-4 h-4 text-indigo-500"></i>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white">9. 텔레그램 즉시 복사용 코드블록</h3>
+          </div>
+          <button onclick="copyTelegram()" class="px-2.5 py-1 text-xs font-semibold rounded-md bg-indigo-50 text-indigo-600 dark:bg-indigo-950 dark:text-indigo-400 hover:bg-indigo-100 transition">
+            코드 복사
+          </button>
+        </div>
+
+        <pre id="telegram-code" class="p-4 bg-slate-900 text-slate-200 rounded-2xl text-xs overflow-x-auto leading-relaxed font-mono">📢 [2026. 10. 01 장마감 핵심 뉴스 25선]
+
+■ 종합 시황 및 글로벌 매크로
+1. [코스피 6,971선·코스닥 894선 대폭등]: 美 마이크론 호실적 및 9월 수출 1,209억$ 돌파에 코스피 +1.95%, 코스닥 +4.48% 급등 마감
+2. [달러-원 환율 1,358.4원 소폭 상승]: 미 국채금리 5.3% 강달러 속 +2.7원 상승했으나, 역대 최대 수출 네고 물량 유입으로 상단 방어
+3. [9월 수출 1,209억 달러 역대 최대 경신]: 전년비 +83.5% 폭증, 1~9월 누적 8,000억$ 돌파로 작년 연간치(7,093억$) 조기 추월
+4. [아시아 주요국 증시 동반 급등]: 일본 닛케이 +3.30%, 대만 +0.86% 등 반도체 주도 동반 강세 (중국·홍콩 국경절 휴장)
+5. [트럼프 '파월 사임 촉구' vs 연은 '추가 인상']: 통화정책 갈등 속 미 10년물 금리 5.3% 안착, 미 재무부 60억$ 국채 바이백 단행
+
+■ 기업 및 산업
+6. [마이크론 4분기 매출 542.3억$ 사상 최대]: 데이터센터 매출 11배 폭증, 매출총이익률 87% 및 "내년 HBM 물량 완판" 선언
+7. [9월 반도체 수출 603억$ 사상 첫 돌파]: 전년비 +262.8% 폭증하며 사상 첫 600억$ 고지 점령, 삼전(+2.79%)·닉스(+3.21%) 동반 랠리
+8. [코스닥 소부장 대시세 속 주성엔지니어링 도약]: 주성엔지니어링(+3.66%) 코스닥 시총 상위 등극, 삼천당제약(+15.4%)·원익IPS(+9.1%) 폭등
+9. [두산에너빌리티, 베트남 오몬3 8,400억 수주]: 글로벌 발전 플랜트 대형 수주 성사 및 미국 원전 8기(1,200억$) 시공 참여 가시화
+10. [LS일렉트릭, 美 AIDC 1,800억 변압기 수주]: 북미 AI 데이터센터 전력망 병목 지속에 따른 초고압 전력기기 대형 수주
+
+■ 경제, 증시 및 부동산
+11. [연 수출 1조 달러 조기 달성 가시화]: 반도체 슈퍼사이클 지속으로 이르면 11월 1조$ 돌파 및 1인당 국민소득 4만$ 가시권
+12. [KB증권 "코스피 8,500선 간다" 10월 대세론]: 반도체發 법인세 초과세수 63.2조원 달성 및 국채발행 10조원 축소로 밸류업 탄력
+13. [거주자 외화예금 1,406억$ 사상 최고]: 수출 대금 대거 유입으로 두 달 연속 사상 최대 기록 경신 속 외환 건전성 확보
+14. [내년 2월 토큰증권(STO) 하위법규 예고]: 주식·채권 토큰화 제도 개편 속 카카오-한투증권 디지털자산 전자지갑 동맹
+15. [서울 아파트값 86주 연속 상승 속 강남권 둔화]: 강남 3구 매수세 숨고르기 속 마용성 및 도심 중대형 오피스텔 중심 상승
+
+■ 정치, 사회 및 국내 기타
+16. [한미, 美 대형 원전 8기 1,200억$ 건설 공식화]: 미국 전역 원전 8기(2기 한국형) 시공 참여 및 연말 100억$ 선지급 협의 착수
+17. [텍사스 가스화력 대미투자 1호 220억$ 착수]: IRR 15%대 중반의 북미 전력 인프라 대형 프로젝트에 국내 EPC 참여 확정
+18. [정부, 7.9조원 기업투자 병목 해소 인허가 1년 단축]: 전기차·반도체 첨단 공장 인허가 패스트트랙 가동
+19. [알래스카 LNG '조건부' 발표 속 옥석 가리기]: 산업부 "아직 미확정" 선긋기로 단순 강관 테마주 급락, 실체적 수혜주 압축
+20. [정부, 로봇 20만대 보급 및 신규 상장 브릴스 +56%]: 제조업 피지컬 AI 전환 드라이브 속 신규 상장 로봇주 폭등
+
+■ 국제 및 해외
+21. [아마존, 콘스텔레이션과 원전 전력 20년 장기 계약]: 빅테크 AI 데이터센터 무탄소 기저부하 전력 확보 경쟁 가속
+22. [호르무즈 하루 972만 배럴 통과 회복]: 원유 수송 정상화로 이란의 해협 봉쇄 압박 약화 속 유가 WTI 90$선 안정
+23. [금값 한 달 새 6.6% 급락 속 중국 사재기]: 고금리 장기화에 따른 금 가격 조정 속 중국 민간 실물 금 매집 지속
+24. [앤드로픽 "피지컬 AI, 노동 74% 대체 가능"]: 로봇 원가 절감 시 제조업 인력 74% 자동화 전망 발표
+25. [美 USTR, 中 철강 과잉생산 공동 감시체계]: 미국·일본·유럽 공조로 중국산 철강의 우회 덤핑 수출 전면 차단</pre>
+      </section>
+
+      <!-- Footer Info -->
+      <footer class="pt-6 pb-12 text-center text-xs text-slate-400 dark:text-slate-500 border-t border-slate-200 dark:border-slate-800 space-y-2">
+        <p>본 대시보드는 메인 오케스트레이터 '따블'과 주식 전략 본부에 의해 자동 생성되었습니다.</p>
+        <p>공식 데이터 출처: HTS 실측 텍스트 파일(상승률상위_2026.10.01.txt) & 주식테마_동향_데이터베이스 v19.2</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-2xl text-sm font-medium transition-opacity duration-300 opacity-0 pointer-events-none z-50 flex items-center gap-2">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toast-msg">클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      lucide.createIcons();
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 전문이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function copyTelegram() {
+      const text = document.getElementById('telegram-code').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('텔레그램 뉴스 25선이 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-msg').innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2500);
+    }
+  </script>
+</body>
+</html>
