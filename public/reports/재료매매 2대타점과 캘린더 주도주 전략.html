@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재료매매 2대 타점 & 캘린더 주도주 전략 - 쥬쥬 4~7% 원칙</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    
+    <!-- Custom Configuration & Styling -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        
+        body {
+            font-family: 'Pretendard', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Custom Scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #475569;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+
+        /* Glassmorphism utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .dark .glass {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Table Styles */
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+        }
+        .dark th {
+            background-color: #1e293b;
+        }
+        th, td {
+            border: 1px solid #e2e8f0;
+            padding: 1rem;
+            text-align: left;
+        }
+        .dark th, .dark td {
+            border-color: #334155;
+        }
+        
+        /* Utility Classes for Typography */
+        h1, h2, h3, h4 { letter-spacing: -0.025em; }
+        .text-gradient {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .dark .text-gradient {
+            background: linear-gradient(135deg, #60a5fa, #93c5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100 antialiased selection:bg-primary-200 selection:text-primary-900 dark:selection:bg-primary-900 dark:selection:text-primary-100">
+
+    <!-- Navigation / Header -->
+    <header class="fixed top-0 w-full z-50 glass shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo/Title -->
+                <div class="flex-shrink-0 flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
+                    <i class="ph-fill ph-chart-line-up text-primary-600 dark:text-primary-400 text-2xl"></i>
+                    <span class="font-bold text-lg hidden sm:block tracking-tight text-slate-800 dark:text-slate-100">재료매매 웹대시보드</span>
+                </div>
+
+                <!-- Desktop Tools -->
+                <div class="hidden md:flex items-center space-x-4">
+                    <button onclick="copyToClipboard(window.location.href, '링크가 복사되었습니다!')" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-medium text-slate-600 dark:text-slate-300">
+                        <i class="ph ph-link text-lg"></i> 링크 복사
+                    </button>
+                    <button onclick="copyFullContent()" class="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-sm font-medium text-slate-600 dark:text-slate-300">
+                        <i class="ph ph-copy text-lg"></i> 본문 복사
+                    </button>
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300" aria-label="Toggle Dark Mode">
+                        <i class="ph ph-moon text-xl hidden dark:block" id="theme-toggle-dark-icon"></i>
+                        <i class="ph ph-sun text-xl block dark:hidden" id="theme-toggle-light-icon"></i>
+                    </button>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden flex items-center gap-2">
+                     <button id="theme-toggle-mobile" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors text-slate-600 dark:text-slate-300" aria-label="Toggle Dark Mode">
+                        <i class="ph ph-moon text-xl hidden dark:block"></i>
+                        <i class="ph ph-sun text-xl block dark:hidden"></i>
+                    </button>
+                    <button id="mobile-menu-btn" class="p-2 rounded-md text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none">
+                        <i class="ph ph-list text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Progress Bar (Optional, nice touch) -->
+        <div class="h-1 w-full bg-slate-200 dark:bg-slate-800">
+            <div class="h-1 bg-primary-600 dark:bg-primary-400 w-0 transition-all duration-300" id="scroll-progress"></div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Panel -->
+    <div id="mobile-menu" class="fixed inset-0 z-40 hidden md:hidden bg-slate-900/50 backdrop-blur-sm transition-opacity opacity-0">
+        <div class="absolute right-0 top-16 w-64 h-[calc(100vh-4rem)] bg-white dark:bg-slate-900 shadow-xl overflow-y-auto transform translate-x-full transition-transform duration-300" id="mobile-menu-content">
+            <div class="p-4 space-y-4">
+                <div class="border-b border-slate-200 dark:border-slate-800 pb-4 mb-4">
+                    <button onclick="copyToClipboard(window.location.href, '링크가 복사되었습니다!')" class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300">
+                        <span>링크 복사</span> <i class="ph ph-link"></i>
+                    </button>
+                    <button onclick="copyFullContent()" class="w-full flex items-center justify-between p-3 rounded-lg hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300 mt-2">
+                        <span>본문 전체 복사</span> <i class="ph ph-copy"></i>
+                    </button>
+                </div>
+                <!-- Mobile TOC will be injected here -->
+                <nav id="mobile-toc" class="space-y-1"></nav>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16 flex flex-col md:flex-row gap-8 relative">
+        
+        <!-- Sidebar Navigation (TOC) - Desktop -->
+        <aside class="hidden md:block w-64 flex-shrink-0">
+            <div class="sticky top-28 bg-white dark:bg-slate-800/50 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700/50">
+                <h4 class="text-sm font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-4">목차</h4>
+                <nav id="desktop-toc" class="space-y-2 text-sm">
+                    <!-- Automatically populated by JS -->
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Content Document -->
+        <main class="flex-1 min-w-0" id="main-content">
+            <!-- Hero Section -->
+            <div class="mb-12 bg-white dark:bg-slate-800/50 rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200 dark:border-slate-700/50">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 text-xs font-semibold mb-6">
+                    <i class="ph-fill ph-strategy"></i> 투자 전략 가이드
+                </div>
+                <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-slate-900 dark:text-white leading-tight mb-6">
+                    재료 매매 2대 타점 &<br/> 캘린더 주도주 전략
+                </h1>
+                <p class="text-lg text-slate-600 dark:text-slate-400 font-medium mb-6">
+                    쥬쥬 4~7% 원칙 · 트레이디 3계좌 · 테마달력 연계
+                </p>
+                
+                <div class="bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 rounded-xl p-6 border-l-4 border-l-primary-500">
+                    <h3 class="text-sm font-bold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2 flex items-center gap-2">
+                        <i class="ph-fill ph-lightbulb"></i> 쥬쥬 철학 핵심
+                    </h3>
+                    <p class="text-slate-700 dark:text-slate-300 italic font-medium">
+                        "기법은 20%, 리스크 관리가 80%입니다. 150km 빠른 공(장대양봉)은 보내주고, 50km 느린 공(음봉 눌림)을 기다립니다."
+                    </p>
+                </div>
+            </div>
+
+            <!-- Content Sections -->
+            <article class="prose prose-slate dark:prose-invert prose-lg max-w-none space-y-16">
+                
+                <!-- Section 1: Summary -->
+                <section id="section-1" class="scroll-mt-28">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                        <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm">1</span> 
+                        핵심 개요 (Executive Summary)
+                    </h2>
+                    <p>
+                        재료 매매의 본질은 <strong>재료의 본질적 가치와 주가 반영 시점 사이의 시차(Time-Lag)</strong>를 공략하는 전략적 행위입니다. 시장이 호재를 소화하는 과정(하락과 수렴)을 역이용하여, 가격 메리트를 극대화하는 <span class="text-primary-600 dark:text-primary-400 font-bold">'바닥 매집(제1타점)'</span>과 시간 효율성을 극대화하는 <span class="text-rose-600 dark:text-rose-400 font-bold">'상승 초입 공략(제2타점)'</span>으로 분리 대응합니다.
+                    </p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-4 mt-8">
+                        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h3 class="text-lg font-bold text-primary-600 dark:text-primary-400 flex items-center gap-2 mb-3">
+                                <i class="ph-fill ph-trend-down"></i> 제1타점 핵심
+                            </h3>
+                            <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300 list-none p-0">
+                                <li class="flex items-center gap-2"><i class="ph ph-check-circle text-primary-500"></i> 안전마진 바닥 매집</li>
+                                <li class="flex items-center gap-2"><i class="ph ph-check-circle text-primary-500"></i> 원위치 주가 회귀</li>
+                                <li class="flex items-center gap-2"><i class="ph ph-check-circle text-primary-500"></i> 시간의 무기화</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white dark:bg-slate-800 rounded-xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+                            <h3 class="text-lg font-bold text-rose-600 dark:text-rose-400 flex items-center gap-2 mb-3">
+                                <i class="ph-fill ph-trend-up"></i> 제2타점 핵심
+                            </h3>
+                            <ul class="space-y-2 text-sm text-slate-700 dark:text-slate-300 list-none p-0">
+                                <li class="flex items-center gap-2"><i class="ph ph-check-circle text-rose-500"></i> 돌려나가는 초입 매매</li>
+                                <li class="flex items-center gap-2"><i class="ph ph-check-circle text-rose-500"></i> 2~3개월 이평선 수렴</li>
+                                <li class="flex items-center gap-2"><i class="ph ph-check-circle text-rose-500"></i> 2~4주 승부</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-6 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-xl p-4 flex items-start gap-3">
+                        <i class="ph-fill ph-warning-circle text-amber-500 mt-1 text-xl"></i>
+                        <div>
+                            <strong class="block text-amber-800 dark:text-amber-300 mb-1">익절 & 손절 원칙 (Sell on News & 칼손절)</strong>
+                            <p class="text-sm text-amber-700 dark:text-amber-400 m-0">4~7% 확정 분할 익절 · 기준선 이탈 즉시 컷</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Comparison -->
+                <section id="section-2" class="scroll-mt-28">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                        <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm">2</span> 
+                        재료 매매 2대 타점 심층 비교
+                    </h2>
+                    <p class="mb-6">내가 들어가는 타점이 '가격을 싸게 사는 바닥 매집'인지, '타이밍을 맞추는 초입 매매'인지를 명확히 구분해야 매매 실패를 원천 차단할 수 있습니다.</p>
+                    
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700 shadow-sm">
+                        <table class="w-full text-sm">
+                            <thead>
+                                <tr>
+                                    <th class="w-1/4 min-w-[120px]">비교 항목</th>
+                                    <th class="w-3/8 min-w-[200px] text-primary-700 dark:text-primary-400 bg-primary-50/50 dark:bg-primary-900/10">제1타점: 바닥 긁기 (저가 매집)</th>
+                                    <th class="w-3/8 min-w-[200px] text-rose-700 dark:text-rose-400 bg-rose-50/50 dark:bg-rose-900/10">제2타점: 돌려나가는 흐름 (초입 매매)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200 dark:divide-slate-700 bg-white dark:bg-slate-800">
+                                <tr>
+                                    <td class="font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">운용 철학</td>
+                                    <td class="italic font-medium">"가격을 최저가로 사 모으겠다"</td>
+                                    <td class="italic font-medium">"상승 타이밍을 조준하여 회전율을 높이겠다"</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">배정 계좌</td>
+                                    <td>중기재료 계좌 (3~6개월)</td>
+                                    <td>단기재료 계좌 (1~4주)</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">진입 시점</td>
+                                    <td>
+                                        <ul class="list-disc pl-4 space-y-1 mb-0 text-slate-600 dark:text-slate-400">
+                                            <li>단기/시장 악재로 비이성적 폭락 시</li>
+                                            <li>D-Day가 6개월~1년 뒤로 멀어 대중이 외면할 때</li>
+                                            <li>재료 소멸 후 <strong>'원위치 주가(안전마진)'</strong> 도달 시</li>
+                                        </ul>
+                                    </td>
+                                    <td>
+                                        <ul class="list-disc pl-4 space-y-1 mb-0 text-slate-600 dark:text-slate-400">
+                                            <li>2~3개월 조정 후 하락 멈추고 횡보할 때</li>
+                                            <li>5일선·20일선 정배열 전환 및 종가 관리 포착 시</li>
+                                            <li>관련 뉴스가 슬슬 시장에 노출되기 시작할 때</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">장점 & 단점</td>
+                                    <td>
+                                        <span class="inline-block bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs px-2 py-0.5 rounded mr-1 mb-1">[장점]</span> 평단 극소화, 편안한 심리, 고비중 가능<br/>
+                                        <span class="inline-block bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-2 py-0.5 rounded mr-1 mt-2">[단점]</span> 상승까지 긴 시간 인내 필요 (타이밍 예측 불가)
+                                    </td>
+                                    <td>
+                                        <span class="inline-block bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 text-xs px-2 py-0.5 rounded mr-1 mb-1">[장점]</span> 2~4주 내 빠른 수익 실현 (높은 자금 회전율)<br/>
+                                        <span class="inline-block bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-xs px-2 py-0.5 rounded mr-1 mt-2">[단점]</span> 평단가가 상대적으로 높음, 손절 빈번 가능성
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="font-semibold bg-slate-50 dark:bg-slate-800/50 text-slate-700 dark:text-slate-300">필수 전제 조건</td>
+                                    <td class="text-primary-700 dark:text-primary-400 font-semibold">"이 재료는 무조건 터진다"는 100% 확신</td>
+                                    <td class="text-rose-700 dark:text-rose-400 font-semibold">"기준선 깨지면 미련 없이 자른다"는 칼손절 각오</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Section 3: Technical -->
+                <section id="section-3" class="scroll-mt-28">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                        <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm">3</span> 
+                        기술적 분석 & 시장 원리
+                    </h2>
+                    
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+                                <i class="ph-fill ph-chart-polar text-primary-500"></i> 이평선 수렴과 2~3개월 이격도 법칙
+                            </h3>
+                            <p class="text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 p-4 rounded-lg border-l-4 border-slate-300 dark:border-slate-600 mb-4">
+                                주가가 급등하면 이동평균선 간격이 벌어집니다. 벌어진 이격은 <strong>반드시 2~3개월의 기간 조정을 거치며 좁혀집니다.</strong>
+                            </p>
+                            <ul class="space-y-2 list-disc pl-5">
+                                <li><strong>정배열 초입 포착:</strong> 60일선과 120일선 등 장기 이평선들이 모이며 다시 정배열을 만드는 구간이 제2타점의 기술적 완성 단계입니다.</li>
+                                <li><strong>우상향 흐름 유지:</strong> 일시적인 이평선 이탈은 가능하나, 전체적인 저점과 고점을 높여가는 묵직한 우상향 흐름을 유지해야 합니다.</li>
+                            </ul>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-3 flex items-center gap-2">
+                                <i class="ph-fill ph-shield-check text-emerald-500"></i> 안전마진(Margin of Safety) 3단계 판정법
+                            </h3>
+                            <p>안전마진이란 기대감이 반영되기 전의 <strong>'재료 발생 전 원위치 주가'</strong>까지 주가가 완전히 회귀하여 하방 리스크가 닫힌 상태를 의미합니다.</p>
+                            
+                            <div class="grid sm:grid-cols-3 gap-4 mt-4">
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 relative overflow-hidden group hover:border-primary-400 transition-colors">
+                                    <div class="absolute -right-4 -top-4 text-7xl font-black text-slate-100 dark:text-slate-800 opacity-50 z-0 group-hover:scale-110 transition-transform">1</div>
+                                    <div class="relative z-10">
+                                        <h4 class="font-bold text-lg mb-2">원위치 확인</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400">과거 특정 이슈로 급등하기 직전의 박스권 바닥 가격 체크.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 relative overflow-hidden group hover:border-primary-400 transition-colors">
+                                    <div class="absolute -right-4 -top-4 text-7xl font-black text-slate-100 dark:text-slate-800 opacity-50 z-0 group-hover:scale-110 transition-transform">2</div>
+                                    <div class="relative z-10">
+                                        <h4 class="font-bold text-lg mb-2">거품 소멸 진입</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400">재료 소멸 투매로 그 원위치 가격대까지 밀려 내려왔는지 확인.</p>
+                                    </div>
+                                </div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 relative overflow-hidden group hover:border-primary-400 transition-colors">
+                                    <div class="absolute -right-4 -top-4 text-7xl font-black text-slate-100 dark:text-slate-800 opacity-50 z-0 group-hover:scale-110 transition-transform">3</div>
+                                    <div class="relative z-10">
+                                        <h4 class="font-bold text-lg mb-2">후속 재료 유무</h4>
+                                        <p class="text-sm text-slate-600 dark:text-slate-400">주가는 바닥이지만 2~3개월 후 터질 확실한 후속 일정이 살아있는지 점검.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 4: Rules -->
+                <section id="section-4" class="scroll-mt-28">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                        <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm">4</span> 
+                        타점별 매도(익절 & 손절) 프로토콜
+                    </h2>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Strategy 1 -->
+                        <div class="bg-primary-50 dark:bg-primary-900/10 rounded-2xl p-6 border border-primary-100 dark:border-primary-900/30 h-full flex flex-col">
+                            <h3 class="text-xl font-bold text-primary-800 dark:text-primary-300 mb-3">제1타점 매도 전략 <span class="text-base font-normal opacity-80">(바닥 긁기)</span></h3>
+                            <p class="text-sm text-primary-700 dark:text-primary-400 mb-5">안전마진에서 최저가로 모았기 때문에 평단가가 극도로 낮습니다. 단기 잔파도에 흔들릴 필요가 전혀 없습니다.</p>
+                            
+                            <div class="space-y-4 mt-auto">
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm">
+                                    <strong class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1">
+                                        <i class="ph-fill ph-check-circle"></i> 익절
+                                    </strong>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 m-0">D-Day 도래 및 본격적인 대형 슈팅까지 시간을 무기화하여 편안하게 끌고 가서 대박 익절.</p>
+                                </div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm">
+                                    <strong class="flex items-center gap-2 text-rose-600 dark:text-rose-400 mb-1">
+                                        <i class="ph-fill ph-x-circle"></i> 손절
+                                    </strong>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 m-0">재료 자체가 훼손되었을 때만 손절. 단기 지수 하락은 오히려 추가 매집 기회입니다.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Strategy 2 -->
+                        <div class="bg-rose-50 dark:bg-rose-900/10 rounded-2xl p-6 border border-rose-100 dark:border-rose-900/30 h-full flex flex-col">
+                            <h3 class="text-xl font-bold text-rose-800 dark:text-rose-300 mb-3">제2타점 매도 전략 <span class="text-base font-normal opacity-80">(돌려나가는 초입)</span></h3>
+                            <p class="text-sm text-rose-700 dark:text-rose-400 mb-5">시간을 단축하여 빠르게 먹기 위해 높은 가격에 탔습니다. 기계적인 원칙 대응이 생명입니다.</p>
+                            
+                            <div class="space-y-4 mt-auto">
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm">
+                                    <strong class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 mb-1">
+                                        <i class="ph-fill ph-check-circle"></i> 익절
+                                    </strong>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 m-0">4~7% 구간 기계적 분할 익절 또는 D-Day 갭상승 시 즉각 전량 익절 (Sell on News).</p>
+                                </div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg shadow-sm">
+                                    <strong class="flex items-center gap-2 text-rose-600 dark:text-rose-400 mb-1">
+                                        <i class="ph-fill ph-scissors"></i> 손절 (칼손절)
+                                    </strong>
+                                    <p class="text-sm text-slate-700 dark:text-slate-300 m-0">설정한 핵심 지지선 이탈 시 뒤도 안 돌아보고 즉각 칼손절.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Cases -->
+                <section id="section-5" class="scroll-mt-28">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                        <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm">5</span> 
+                        6대 실전 대표 사례 분석 (Case Studies)
+                    </h2>
+                    
+                    <div class="grid sm:grid-cols-2 gap-4">
+                        <!-- Case 1 -->
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <h4 class="text-lg font-bold mb-2 flex items-center justify-between">
+                                와이랩 <span class="text-xs font-normal px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">네이버웹툰 IPO</span>
+                            </h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                '내년 상장' 뉴스 후 당장 상장이 아니라는 실망감에 전저점 이탈 급락 ➔ <strong class="text-primary-600 dark:text-primary-400">제1타점 매집</strong>. 이후 상장 가시화 및 우상향 전환 시 <strong class="text-rose-600 dark:text-rose-400">제2타점 형성</strong>.
+                            </p>
+                        </div>
+                        <!-- Case 2 -->
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <h4 class="text-lg font-bold mb-2 flex items-center justify-between">
+                                아티스트스튜디오 <span class="text-xs font-normal px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">오징어게임 2·3</span>
+                            </h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                시즌 2 출시 후 재료 소멸 급락으로 '출시 전 원위치 주가(안전마진)' 도달 ➔ 시즌 3에 대한 장기 확신으로 <strong class="text-primary-600 dark:text-primary-400">제1타점 저가 매집</strong>.
+                            </p>
+                        </div>
+                        <!-- Case 3 -->
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <h4 class="text-lg font-bold mb-2 flex items-center justify-between">
+                                제주은행 <span class="text-xs font-normal px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">FOMC 금리</span>
+                            </h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                2개월 간격 정기 일정 사이클 활용. 소외기 바닥 매집(제1타점)과 FOMC 직전 정배열 턴어라운드(제2타점)를 유기적으로 병행.
+                            </p>
+                        </div>
+                        <!-- Case 4 -->
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <h4 class="text-lg font-bold mb-2 flex items-center justify-between">
+                                인산가 <span class="text-xs font-normal px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">오염수 방류</span>
+                            </h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                2~3개월 뒤 방류 일정 확정 상태에서 대중 관심 식어 바닥으로 내려왔을 때 <strong class="text-primary-600 dark:text-primary-400">제1타점 매집</strong> ➔ 방류 임박 폭발 시 익절.
+                            </p>
+                        </div>
+                        <!-- Case 5 -->
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <h4 class="text-lg font-bold mb-2 flex items-center justify-between">
+                                하나마이크론 <span class="text-xs font-normal px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">반도체 수렴</span>
+                            </h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                대형 상승 후 이격 과다 시 매수 금지. 2~3개월간 이평선 수렴 거치며 정배열 초입 만드는 <strong class="text-rose-600 dark:text-rose-400">제2타점</strong>까지 기다려 재상승 공략.
+                            </p>
+                        </div>
+                        <!-- Case 6 -->
+                        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 rounded-xl shadow-sm hover:shadow-md transition-shadow">
+                            <h4 class="text-lg font-bold mb-2 flex items-center justify-between">
+                                SOS랩 <span class="text-xs font-normal px-2 py-1 bg-slate-100 dark:bg-slate-700 rounded-full">노이즈 역이용</span>
+                            </h4>
+                            <p class="text-sm text-slate-600 dark:text-slate-400">
+                                머스크 발언 등 단기 노이즈로 펀더멘털과 무관하게 급락한 바닥을 역이용(제1타점)하거나, 바닥을 다지고 돌려나가는 초입(제2타점) 공략.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Top 5 Stocks -->
+                <section id="section-6" class="scroll-mt-28">
+                    <div class="bg-slate-900 text-white rounded-3xl p-8 sm:p-10 shadow-lg relative overflow-hidden mb-8">
+                        <div class="absolute right-0 top-0 opacity-10 pointer-events-none transform translate-x-1/4 -translate-y-1/4">
+                            <i class="ph-fill ph-calendar text-9xl text-white"></i>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold mb-4 relative z-10 flex flex-wrap items-center gap-3">
+                            <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm inline-flex font-bold">6</span> 
+                            구글 캘린더 '테마달력' 5대 핵심 주도주 심층 진단
+                        </h2>
+                        <p class="text-slate-300 relative z-10 text-lg">9월 테마달력 54건 전수 조사 결과 압축된 최상위 5대 종목의 실전 공략 카드</p>
+                    </div>
+
+                    <div class="space-y-12">
+                        <!-- Stock 1 -->
+                        <div class="relative pl-4 sm:pl-12 border-l-2 border-primary-200 dark:border-primary-900/50">
+                            <div class="absolute -left-[17px] top-0 bg-primary-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-slate-50 dark:ring-slate-900">1</div>
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700">
+                                    <div>
+                                        <h3 class="text-2xl font-bold flex items-center gap-2">
+                                            서산 <span class="text-sm font-normal text-slate-500">호남반도체 인프라 토목 대장</span>
+                                        </h3>
+                                        <p class="text-sm font-semibold text-primary-600 dark:text-primary-400 mt-1">제1타점 (바닥 매집 ➔ 초입 전환)</p>
+                                    </div>
+                                    <a href="https://www.google.com/calendar/event?eid=Nm85aTRqZjZra3VldWdwNXQ5anVxZ2UybmMgNjFkMWNmMDg1M2EwZTY1MDgzNTZlNTNkYzEzYTAyYTc5MjQ3YmQyODIyZjUzNDNkYTk4NjJhYmU1NmI5MTVjY0Bn" target="_blank" class="shrink-0 inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors no-underline">
+                                        <i class="ph-fill ph-calendar-plus"></i> 캘린더 보기
+                                    </a>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-info"></i> 안전마진 & 재료 팩트</h4>
+                                        <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc pl-5 m-0">
+                                            <li>6월 첫 유치설 이전 과거 바닥 가격대까지 7~8월에 걸쳐 회귀하여 하방 경직성 확보.</li>
+                                            <li>광주 군공항 63만평 우선 개발 및 9/29 국무회의 전력 계통 의결로 2027년 상반기 착공 로드맵 확정.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-target"></i> 매수 & 매도 시나리오</h4>
+                                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 m-0 list-none pl-0">
+                                            <li><strong class="text-primary-600 dark:text-primary-400">매수:</strong> 군공항 이전 잡음 투매 음봉 시 1차 15%, -3.5% 지점 2차 20% 분할 매수.</li>
+                                            <li><strong class="text-rose-600 dark:text-rose-400">매도:</strong> 10월 정부 지원위 1차 회의 및 부지 보상 착수 슈팅 시까지 시간을 무기화하여 보유 후 익절.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stock 2 -->
+                        <div class="relative pl-4 sm:pl-12 border-l-2 border-primary-200 dark:border-primary-900/50">
+                            <div class="absolute -left-[17px] top-0 bg-primary-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-slate-50 dark:ring-slate-900">2</div>
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700">
+                                    <div>
+                                        <h3 class="text-2xl font-bold flex items-center gap-2">
+                                            나라스페이스테크 <span class="text-sm font-normal text-slate-500">초소형 위성 군집 운용 1등</span>
+                                        </h3>
+                                        <p class="text-sm font-semibold text-rose-600 dark:text-rose-400 mt-1">제2타점 (단기 D-Day 조준 선취매)</p>
+                                    </div>
+                                    <a href="https://www.google.com/calendar/event?eid=NW9uM3R2Mm1rcDEycThwazVvMTRvN2JwOXMgNjFkMWNmMDg1M2EwZTY1MDgzNTZlNTNkYzEzYTAyYTc5MjQ3YmQyODIyZjUzNDNkYTk4NjJhYmU1NmI5MTVjY0Bn" target="_blank" class="shrink-0 inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors no-underline">
+                                        <i class="ph-fill ph-calendar-plus"></i> 캘린더 보기
+                                    </a>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-info"></i> 10월 D-Day 파이프라인 3연타</h4>
+                                        <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc pl-5 m-0">
+                                            <li>9/30~10/2: 창원 국제우주항공기술대전(AEROTEC)</li>
+                                            <li>10/5~10/9: 튀르키예 세계 최대 우주대회(IAC 2026)</li>
+                                            <li class="font-bold text-slate-800 dark:text-slate-200">10/7: 누리호 5차 발사 추진 (초소형 군집위성 15기 탑재)</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-target"></i> 실전 매수 & 매도 카드</h4>
+                                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 m-0 list-none pl-0">
+                                            <li><strong class="text-primary-600 dark:text-primary-400">매수:</strong> 스타십 재료 소멸 음봉 딛고 5일선 지지 시 -3.5% 지정가 분할 매수.</li>
+                                            <li><strong class="text-rose-600 dark:text-rose-400">매도:</strong> 10/5~10/7 언론 스포트라이트 시 4~7% 기계적 전량 익절 (Sell on News). 지지선 이탈 시 칼손절.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stock 3 -->
+                        <div class="relative pl-4 sm:pl-12 border-l-2 border-primary-200 dark:border-primary-900/50">
+                            <div class="absolute -left-[17px] top-0 bg-primary-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-slate-50 dark:ring-slate-900">3</div>
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700">
+                                    <div>
+                                        <h3 class="text-2xl font-bold flex items-center gap-2">
+                                            삼미금속 <span class="text-sm font-normal text-slate-500">원전 부품/단조 3천억 대장주</span>
+                                        </h3>
+                                        <p class="text-sm font-semibold text-rose-600 dark:text-rose-400 mt-1">제2타점 (3,061억 1파 5일선 N형)</p>
+                                    </div>
+                                    <a href="https://www.google.com/calendar/event?eid=Z2FmdWlvbXRrbG45NXA1NTVkZTJyZGJhaWsgNjFkMWNmMDg1M2EwZTY1MDgzNTZlNTNkYzEzYTAyYTc5MjQ3YmQyODIyZjUzNDNkYTk4NjJhYmU1NmI5MTVjY0Bn" target="_blank" class="shrink-0 inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors no-underline">
+                                        <i class="ph-fill ph-calendar-plus"></i> 캘린더 보기
+                                    </a>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-info"></i> 핵심 재료 연속성</h4>
+                                        <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc pl-5 m-0">
+                                            <li>산업부 대미투자 1호(가스발전)에 이어 <strong>2·3호 원전 추진 공식 발표</strong>.</li>
+                                            <li>체코 원전 본계약 협상 및 美 빅테크 AI 데이터센터 원전 PPA 장기계약 훈풍 지속.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-target"></i> 실전 매수 & 매도 카드</h4>
+                                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 m-0 list-none pl-0">
+                                            <li><strong class="text-primary-600 dark:text-primary-400">매수:</strong> 3천억 기준봉 이후 첫 장대음봉(-3.5% 지점)에서 1차(15%), 2차(20%) 사전 지정가.</li>
+                                            <li><strong class="text-rose-600 dark:text-rose-400">매도:</strong> 반등 시 4~7% 구간 1차 익절, 대미 공식 보고 시 전량 청산. 기준봉 시초가 깨지면 즉각 손절.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stock 4 -->
+                        <div class="relative pl-4 sm:pl-12 border-l-2 border-primary-200 dark:border-primary-900/50">
+                            <div class="absolute -left-[17px] top-0 bg-primary-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-slate-50 dark:ring-slate-900">4</div>
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700">
+                                    <div>
+                                        <h3 class="text-2xl font-bold flex items-center gap-2">
+                                            삼현 <span class="text-sm font-normal text-slate-500">피지컬 AI 로봇관절 1등</span>
+                                        </h3>
+                                        <p class="text-sm font-semibold text-rose-600 dark:text-rose-400 mt-1">제2타점 (10월 로보월드 D-Day 초입)</p>
+                                    </div>
+                                    <a href="https://www.google.com/calendar/event?eid=ZnVkMjlwZjhtOWJtYTBlY2swdHUwcGgxYzAgNjFkMWNmMDg1M2EwZTY1MDgzNTZlNTNkYzEzYTAyYTc5MjQ3YmQyODIyZjUzNDNkYTk4NjJhYmU1NmI5MTVjY0Bn" target="_blank" class="shrink-0 inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors no-underline">
+                                        <i class="ph-fill ph-calendar-plus"></i> 캘린더 보기
+                                    </a>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-info"></i> 10월 로보월드 & 피지컬 AI D-Day</h4>
+                                        <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc pl-5 m-0">
+                                            <li>9/15 1,527억 거래대금 분출 후 약 2주간 거래량이 마르며 기간 조정 진행.</li>
+                                            <li>10월 중순 <strong>'2026 로보월드'</strong> 박람회 개막 및 휴머노이드 로봇관절 공급망 모멘텀.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-target"></i> 실전 매수 & 매도 카드</h4>
+                                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 m-0 list-none pl-0">
+                                            <li><strong class="text-primary-600 dark:text-primary-400">매수:</strong> 60분봉 50선 및 일봉 5일선 지지 음봉에서 -3.5% 간격 분할 매수.</li>
+                                            <li><strong class="text-rose-600 dark:text-rose-400">매도:</strong> 로보월드 개막 직전 혹은 당일 급등 슈팅 시 4~7% 기계적 익절. 20일선 붕괴 시 칼손절.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stock 5 -->
+                        <div class="relative pl-4 sm:pl-12 border-l-2 border-transparent">
+                            <div class="absolute -left-[17px] top-0 bg-primary-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shadow-md ring-4 ring-slate-50 dark:ring-slate-900">5</div>
+                            <div class="bg-white dark:bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-200 dark:border-slate-700">
+                                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 pb-4 border-b border-slate-100 dark:border-slate-700">
+                                    <div>
+                                        <h3 class="text-2xl font-bold flex items-center gap-2">
+                                            성호전자 <span class="text-sm font-normal text-slate-500">AIDC 광통신 5,100억 주도주</span>
+                                        </h3>
+                                        <p class="text-sm font-semibold text-rose-600 dark:text-rose-400 mt-1">제2타점 (2주 수렴 ➔ 2차 N형 임박)</p>
+                                    </div>
+                                    <a href="https://www.google.com/calendar/event?eid=dWRpcHVmdXM0dmM2bGc2ODljMGl0dG5ncGcgNjFkMWNmMDg1M2EwZTY1MDgzNTZlNTNkYzEzYTAyYTc5MjQ3YmQyODIyZjUzNDNkYTk4NjJhYmU1NmI5MTVjY0Bn" target="_blank" class="shrink-0 inline-flex items-center gap-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 px-4 py-2 rounded-lg text-sm font-medium transition-colors no-underline">
+                                        <i class="ph-fill ph-calendar-plus"></i> 캘린더 보기
+                                    </a>
+                                </div>
+                                <div class="space-y-4">
+                                    <div>
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-info"></i> 수급 및 이격 수렴 상태</h4>
+                                        <ul class="text-sm text-slate-600 dark:text-slate-400 space-y-1 list-disc pl-5 m-0">
+                                            <li>9/18 <strong>5,131억 원의 시장 최대 거래대금</strong> 분출 후 2주간 거래량이 1/5 이하로 급감하며 이격 완벽 수렴.</li>
+                                            <li>정부 AIDC 광통신 국산화 과제 및 4분기 엔비디아 블랙웰 서버 출하 연동.</li>
+                                        </ul>
+                                    </div>
+                                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-lg">
+                                        <h4 class="font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2 mb-2"><i class="ph-fill ph-target"></i> 실전 매수 & 매도 카드</h4>
+                                        <ul class="text-sm text-slate-700 dark:text-slate-300 space-y-2 m-0 list-none pl-0">
+                                            <li><strong class="text-primary-600 dark:text-primary-400">매수:</strong> 20일선 수렴 지지선 음봉에서 1차 15%, -3.5% 지점 2차 20%.</li>
+                                            <li><strong class="text-rose-600 dark:text-rose-400">매도:</strong> 2차 N형 파동 발생 시 4~7% 구간 기계적 분할 익절. 20일선 종가 이탈 시 즉시 손절.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 7: Portfolio -->
+                <section id="section-7" class="scroll-mt-28">
+                    <h2 class="text-2xl font-bold flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2 mb-6">
+                        <span class="bg-primary-500 text-white rounded-md w-8 h-8 flex items-center justify-center text-sm">7</span> 
+                        포트폴리오 2-Track 분리 실행 가이드
+                    </h2>
+                    
+                    <div class="bg-rose-50 dark:bg-rose-900/10 border border-rose-200 dark:border-rose-900/50 rounded-xl p-5 mb-8 flex items-start gap-4">
+                        <div class="shrink-0 bg-white dark:bg-slate-800 p-2 rounded-full text-rose-500 shadow-sm">
+                            <i class="ph-fill ph-warning-circle text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-rose-800 dark:text-rose-300 mb-1">트레이디(Traidy) 3단계 계좌 분리 엄수 원칙</h3>
+                            <p class="text-sm text-rose-700 dark:text-rose-400 m-0">
+                                단기재료 종목(나라스페이스테크, 삼미금속, 삼현, 성호전자)이 물렸다고 중기재료 계좌로 이관하여 물타기하는 행위는 절대 불허합니다. 계좌별 고유 원칙을 100% 분리 집행합니다.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <!-- Mid-term Account -->
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700">
+                            <div class="bg-primary-500 text-white px-6 py-4 flex items-center gap-2">
+                                <i class="ph-fill ph-wallet"></i>
+                                <h3 class="font-bold text-lg m-0 text-white">중기재료 계좌</h3>
+                                <span class="ml-auto bg-white/20 px-2 py-1 rounded text-xs">서산</span>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">목표 기간</span>
+                                    <p class="font-semibold text-slate-800 dark:text-slate-200 m-0">3~6개월 (10월 부지 보상 및 착공 슈팅)</p>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">분할 방식</span>
+                                    <p class="font-semibold text-slate-800 dark:text-slate-200 m-0">음봉 투매 시 2~3회 (-3.5% 간격, 총비중 35~55%)</p>
+                                </div>
+                                <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
+                                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">손절 원칙</span>
+                                    <p class="font-semibold text-slate-800 dark:text-slate-200 m-0">정책 전면 백지화 시에만 대응 (시간의 무기화)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Short-term Account -->
+                        <div class="bg-white dark:bg-slate-800 rounded-2xl overflow-hidden shadow-sm border border-slate-200 dark:border-slate-700">
+                            <div class="bg-rose-500 text-white px-6 py-4 flex items-center gap-2">
+                                <i class="ph-fill ph-lightning"></i>
+                                <h3 class="font-bold text-lg m-0 text-white">단기재료 계좌</h3>
+                                <span class="ml-auto bg-white/20 px-2 py-1 rounded text-xs">나라·성호·삼현·삼미</span>
+                            </div>
+                            <div class="p-6 space-y-4">
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">목표 기간</span>
+                                    <p class="font-semibold text-slate-800 dark:text-slate-200 m-0">2~4주 (D-Day 조준 타이밍 매매)</p>
+                                </div>
+                                <div>
+                                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">분할 방식</span>
+                                    <p class="font-semibold text-slate-800 dark:text-slate-200 m-0">5일선 지지 시 -3.5% 간격 2분할 (15% ➔ 20%)</p>
+                                </div>
+                                <div class="pt-4 border-t border-slate-100 dark:border-slate-700">
+                                    <span class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">익절/손절 원칙</span>
+                                    <p class="font-semibold text-rose-600 dark:text-rose-400 m-0">4~7% 기계적 익절 / 지지선 깨지면 칼손절</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+
+            <!-- Footer -->
+            <footer class="mt-20 pt-8 border-t border-slate-200 dark:border-slate-800 text-center text-sm text-slate-500 dark:text-slate-400">
+                <p class="font-semibold text-slate-700 dark:text-slate-300 mb-2">기법은 20%, 리스크 관리가 80%입니다. 원칙은 그 자리에 있습니다.</p>
+                <p>&copy; 2026 주주총회 트레이딩 아카데미 & 따블 비서실. All rights reserved.</p>
+            </footer>
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-800 text-white px-6 py-3 rounded-full shadow-xl transition-all duration-300 opacity-0 pointer-events-none translate-y-4 z-50 flex items-center gap-2">
+        <i class="ph-fill ph-check-circle text-emerald-400"></i>
+        <span id="toast-message" class="text-sm font-medium"></span>
+    </div>
+
+    <!-- Scripts for Interactivity -->
+    <script>
+        // 1. Theme Toggling
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeToggleMobileBtn = document.getElementById('theme-toggle-mobile');
+        
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.theme = 'light';
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.theme = 'dark';
+            }
+        }
+
+        // Setup theme based on user preference or localStorage
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        themeToggleMobileBtn.addEventListener('click', toggleTheme);
+
+        // 2. Table of Contents (TOC) Generation
+        function generateTOC() {
+            const sections = document.querySelectorAll('section[id^="section-"]');
+            const desktopNav = document.getElementById('desktop-toc');
+            const mobileNav = document.getElementById('mobile-toc');
+            
+            let html = '';
+            sections.forEach((section, index) => {
+                const headingText = section.querySelector('h2').innerText.replace(/^\d+\s/, ''); // Remove the leading number badge text
+                html += `
+                    <a href="#${section.id}" class="toc-link block px-3 py-2 rounded-lg text-slate-600 hover:text-primary-600 hover:bg-primary-50 dark:text-slate-400 dark:hover:text-primary-400 dark:hover:bg-primary-900/20 transition-colors">
+                        ${index + 1}. ${headingText}
+                    </a>
+                `;
+            });
+            
+            desktopNav.innerHTML = html;
+            mobileNav.innerHTML = html;
+        }
+        
+        generateTOC();
+
+        // 3. ScrollSpy & Progress Bar
+        const sections = document.querySelectorAll('section[id^="section-"]');
+        const tocLinks = document.querySelectorAll('.toc-link');
+        const progressBar = document.getElementById('scroll-progress');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            
+            // Highlight active TOC item
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            tocLinks.forEach(link => {
+                link.classList.remove('text-primary-600', 'bg-primary-50', 'dark:text-primary-400', 'dark:bg-primary-900/20', 'font-bold');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('text-primary-600', 'bg-primary-50', 'dark:text-primary-400', 'dark:bg-primary-900/20', 'font-bold');
+                }
+            });
+
+            // Update progress bar
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        });
+
+        // 4. Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const mobileMenuContent = document.getElementById('mobile-menu-content');
+
+        function toggleMobileMenu() {
+            const isHidden = mobileMenu.classList.contains('hidden');
+            if (isHidden) {
+                mobileMenu.classList.remove('hidden');
+                // trigger reflow
+                void mobileMenu.offsetWidth;
+                mobileMenu.classList.remove('opacity-0');
+                mobileMenuContent.classList.remove('translate-x-full');
+            } else {
+                mobileMenu.classList.add('opacity-0');
+                mobileMenuContent.classList.add('translate-x-full');
+                setTimeout(() => {
+                    mobileMenu.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        mobileMenuBtn.addEventListener('click', toggleMobileMenu);
+        mobileMenu.addEventListener('click', (e) => {
+            if(e.target === mobileMenu) toggleMobileMenu();
+        });
+        
+        // Close menu on link click
+        document.querySelectorAll('#mobile-toc a').forEach(link => {
+            link.addEventListener('click', toggleMobileMenu);
+        });
+
+        // 5. Copy Functions
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+
+        function showToast(message) {
+            toastMessage.textContent = message;
+            toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-4');
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-4');
+            }, 3000);
+        }
+
+        function copyToClipboard(text, successMessage) {
+            const tempInput = document.createElement("textarea");
+            tempInput.value = text;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            showToast(successMessage);
+        }
+
+        function copyFullContent() {
+            // Get content, remove unwanted elements (like icons or raw HTML formatting if possible, simple text extraction for now)
+            const mainContent = document.getElementById('main-content');
+            
+            // Create a temporary element to hold the text we want to copy, avoiding raw HTML tags in clipboard
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = mainContent.innerHTML;
+            
+            // Remove interactive elements not needed in text copy
+            const buttons = tempDiv.querySelectorAll('button, a.shrink-0');
+            buttons.forEach(b => b.remove());
+            
+            const textToCopy = tempDiv.innerText || tempDiv.textContent;
+            copyToClipboard(textToCopy, "문서 전체가 복사되었습니다!");
+        }
+    </script>
+</body>
+</html>
