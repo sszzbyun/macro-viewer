@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[카나리] 2026. 10. 03 주간 시장 위험도 및 신호등 공식 경보 리포트</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; }
+    ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+
+    .glass-header {
+      background-color: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+    }
+    .dark .glass-header {
+      background-color: rgba(15, 23, 42, 0.88);
+    }
+    
+    .pulse-green {
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      animation: pulse-green 2s infinite;
+    }
+    @keyframes pulse-green {
+      0% {
+        transform: scale(0.97);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7);
+      }
+      70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+      }
+      100% {
+        transform: scale(0.97);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 glass-header border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+          CANARY ALERT
+        </span>
+        <h1 class="font-bold text-sm sm:text-base md:text-lg tracking-tight truncate text-slate-900 dark:text-white">
+          [카나리] 2026. 10. 03 주간 시장 위험도 및 신호등 공식 경보 리포트
+        </h1>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="copyBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-xs cursor-pointer">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>본문 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition shadow-xs cursor-pointer text-sm" aria-label="테마 전환">
+          <i data-lucide="moon" class="w-4 h-4 hidden dark:block text-amber-300"></i>
+          <i data-lucide="sun" class="w-4 h-4 block dark:hidden text-slate-700"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Navigation / TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <p class="text-xs font-semibold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-3">목차 (Contents)</p>
+          <nav class="space-y-1 text-sm font-medium" id="toc-nav">
+            <a href="#summary-header" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+              📌 개요 & 철학
+            </a>
+            <a href="#section-1" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+              1. 종합 판정 (GREEN)
+            </a>
+            <a href="#section-2" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+              2. 3대 영역 스코어링
+            </a>
+            <div class="pl-3 space-y-1 text-xs text-slate-500 dark:text-slate-400">
+              <a href="#matrix-1" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 1순위: 내 계좌 실측 (40점)</a>
+              <a href="#matrix-2" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 2순위: 국내 지수/수급 (35점)</a>
+              <a href="#matrix-3" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 3순위: 미장/매크로 (25점)</a>
+            </div>
+            <a href="#section-3" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+              3. 계좌 실측 심층 감사
+            </a>
+            <div class="pl-3 space-y-1 text-xs text-slate-500 dark:text-slate-400">
+              <a href="#audit-wins" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 정석 매매 6건 전승</a>
+              <a href="#audit-errors" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 개인 실수 4건 방어 복기</a>
+            </div>
+            <a href="#section-4" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+              4. 에이전트 연합 실행 명령
+            </a>
+            <div class="pl-3 space-y-1 text-xs text-slate-500 dark:text-slate-400">
+              <a href="#order-traidy" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 트레이디 (@traidy)</a>
+              <a href="#order-planny" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 플래니 (@planny)</a>
+              <a href="#order-checkery" class="block py-1 hover:text-emerald-600 dark:hover:text-emerald-400 transition truncate">• 체커리 (@checkery)</a>
+            </div>
+          </nav>
+        </div>
+
+        <!-- Quick Status Widget -->
+        <div class="p-4 rounded-xl bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950/40 dark:to-teal-950/20 border border-emerald-200 dark:border-emerald-800/50 shadow-xs">
+          <div class="text-xs font-semibold text-emerald-800 dark:text-emerald-300 mb-1">시장 경보 등급</div>
+          <div class="text-xl font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+            <span>🟢 정상 (GREEN)</span>
+          </div>
+          <div class="mt-2 text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+            <div>• 종합 스코어: <span class="font-bold text-emerald-700 dark:text-emerald-300">95 / 100점</span></div>
+            <div>• 가용 슬롯: <span class="font-bold">3개 전원 가동</span></div>
+            <div>• 대기 예수금: <span class="font-bold">50% 방어선 준수</span></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 max-w-4xl space-y-8">
+      
+      <!-- Meta Information Card -->
+      <section id="summary-header" class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-100 dark:border-slate-800 text-xs text-slate-500 dark:text-slate-400">
+          <div class="flex items-center gap-2">
+            <i data-lucide="calendar" class="w-4 h-4 text-emerald-600"></i>
+            <span><strong>보고서 일시:</strong> 2026년 10월 3일(토) 09:30 KST (정기 주간 점검)</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600"></i>
+            <span><strong>작성 주체:</strong> 조기경보 및 시장 위험 판정 전담 에이전트 '카나리(Canary)'</span>
+          </div>
+        </div>
+
+        <!-- Core Philosophy Box -->
+        <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/70 border border-slate-200/80 dark:border-slate-700/80 flex items-start gap-3">
+          <div class="p-2 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300 shrink-0 mt-0.5">
+            <i data-lucide="quote" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 mb-0.5">핵심 철학 (Account-First Realism)</div>
+            <p class="text-sm font-semibold text-slate-800 dark:text-slate-100">
+              "내 계좌의 최근 실측 반응(본절 빈도, 손익률)이 가장 정직한 카나리아다"
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+              지수나 외부 거시 지표보다, 실제 내 계좌의 매매 성공률과 본절 탈출 빈도가 시장의 본질적 체력을 가장 먼저 대변합니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- Reference Sources Pills -->
+        <div>
+          <div class="text-xs font-semibold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-2">참조 데이터 소스 (Single Source of Truth)</div>
+          <div class="flex flex-wrap gap-2 text-xs">
+            <a href="https://docs.google.com/spreadsheets/d/1P_VqF0ZyAZrweG-OdQXwYt7QCfBO6leJRrUEhnLw1Eg/edit" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 transition">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-emerald-600"></i>
+              <span>N형패턴_실전매매일지_대시보드</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+            </a>
+            <a href="https://docs.google.com/document/d/1I_VV-t3PuF25RbssGL0no6KxVdXWbQRP6_QyHlVk1bE/edit" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 transition">
+              <i data-lucide="file-text" class="w-3.5 h-3.5 text-blue-600"></i>
+              <span>2026. 10. 02 장마감뉴스</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+            </a>
+            <a href="https://docs.google.com/document/d/1tSWipgZc7dXV8tqTOlgOU8qKvICEioIjnj9ni_tJk-I/edit" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 transition">
+              <i data-lucide="network" class="w-3.5 h-3.5 text-purple-600"></i>
+              <span>[매크로뷰] 10.02 장마감 매크로 인과체인</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+            </a>
+            <a href="https://docs.google.com/document/d/1v3m8fBYckkrmcC0GZJp80BZI7I7uZ7fmhbyIGbMwSas/edit" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-emerald-50 hover:text-emerald-700 dark:hover:bg-emerald-950/50 dark:hover:text-emerald-300 border border-slate-200 dark:border-slate-700 transition">
+              <i data-lucide="trending-up" class="w-3.5 h-3.5 text-indigo-600"></i>
+              <span>[미장이] 10.03 미장 마감 & 국장 시초가</span>
+              <i data-lucide="external-link" class="w-3 h-3 text-slate-400"></i>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- 1. 종합 판정 Section -->
+      <section id="section-1" class="space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <span class="p-1.5 rounded-lg bg-emerald-100 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300">
+            <i data-lucide="activity" class="w-5 h-5"></i>
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            1. 종합 판정: 🟢 정상 (GREEN)
+          </h2>
+        </div>
+
+        <!-- Big KPI Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- Card 1: Traffic Light & Score -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between relative overflow-hidden">
+            <div class="absolute -right-4 -bottom-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-xl pointer-events-none"></div>
+            <div>
+              <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">시장 위험도 등급</div>
+              <div class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-emerald-500 pulse-green shrink-0"></span>
+                <span>정상 (GREEN)</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 flex items-baseline justify-between">
+              <span class="text-xs text-slate-500">종합 스코어</span>
+              <span class="text-xl font-bold text-slate-900 dark:text-white">95 <span class="text-xs font-normal text-slate-400">/ 100점</span></span>
+            </div>
+          </div>
+
+          <!-- Card 2: Slot Allocation -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">차주 가용 슬롯 권고</div>
+              <div class="text-2xl font-extrabold text-blue-600 dark:text-blue-400 mt-1">
+                3개 정상 가동
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <div class="flex justify-between">
+                <span>트랙 A (단기 5선):</span>
+                <span class="font-bold text-slate-900 dark:text-white">2개 (65%)</span>
+              </div>
+              <div class="flex justify-between">
+                <span>트랙 B (중기 20선):</span>
+                <span class="font-bold text-slate-900 dark:text-white">1개 (35%)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3: Cash Defense Line -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">대기 예수금 방어선</div>
+              <div class="text-2xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">
+                50% 기본 유지
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400">
+              <p class="font-medium text-slate-700 dark:text-slate-300">
+                무리한 100% 몰빵 엄단
+              </p>
+              <p class="text-[11px] text-slate-500 mt-0.5">
+                돌발 충격 대비용 상시 보존
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 4: Veto Rule Status -->
+          <div class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">계좌 거부권 (Veto Rule)</div>
+              <div class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">
+                거부권 미발동
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-400 space-y-0.5">
+              <div class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>2회 연속 본절/손절 0건</span>
+              </div>
+              <div class="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-medium">
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
+                <span>코스피 20일선 완벽 안착</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Veto Rule Detailed Verification Callout -->
+        <div class="p-4 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-sm">
+          <div class="font-bold text-emerald-900 dark:text-emerald-200 flex items-center gap-2 mb-1.5">
+            <i data-lucide="shield-alert" class="w-4 h-4 text-emerald-600"></i>
+            <span>계좌 거부권 (Veto Rule) 정밀 검증 결과</span>
+          </div>
+          <ul class="space-y-1 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">•</span>
+              <span><strong>최근 2회 연속 본절 탈출 또는 1회 손절 발생 여부:</strong> <span class="text-emerald-700 dark:text-emerald-300 font-bold">전무</span> (정석 매매 100% 승률, 전승 익절 기록 중)</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-emerald-500 font-bold">•</span>
+              <span><strong>코스피 20일선 이탈 여부:</strong> <span class="text-emerald-700 dark:text-emerald-300 font-bold">안착 유지</span> (역사적 7,000선 돌파 후 7,003.74 안착)</span>
+            </li>
+            <li class="flex items-start gap-2 text-emerald-800 dark:text-emerald-300 font-semibold pt-1 border-t border-emerald-200/60 dark:border-emerald-800/60">
+              <span>➔</span>
+              <span>거부권 발동 사유 없음: <strong>🟢 Green (정상) 신호등 확정</strong></span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- 2. 세부 스코어링 매트릭스 Section -->
+      <section id="section-2" class="space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <span class="p-1.5 rounded-lg bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+            <i data-lucide="layout-grid" class="w-5 h-5"></i>
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            2. 3대 핵심 영역별 세부 스코어링 매트릭스
+          </h2>
+        </div>
+
+        <p class="text-sm text-slate-600 dark:text-slate-400">
+          카나리(Canary) 알고리즘은 <strong>[1순위] 내 계좌 실측 반응 (40%)</strong>, <strong>[2순위] 국내 2대 지수 & 수급 (35%)</strong>, <strong>[3순위] 미장 & 글로벌 매크로 (25%)</strong>의 3단계 가중치를 적용하여 종합 위험도를 계량화합니다.
+        </p>
+
+        <!-- Scoring Table -->
+        <div class="rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs bg-white dark:bg-slate-900">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+              <thead>
+                <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-b border-slate-200 dark:border-slate-700">
+                  <th class="py-3 px-4 font-bold text-center w-28 sm:w-36">평가 영역</th>
+                  <th class="py-3 px-4 font-bold">세부 평가 항목</th>
+                  <th class="py-3 px-4 font-bold text-center w-24 sm:w-32">획득 / 배점</th>
+                  <th class="py-3 px-4 font-bold">실측 상태 진단 및 근거</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-200 dark:divide-slate-800">
+                
+                <!-- Row Group 1: 내 계좌 실측 반응 -->
+                <tr id="matrix-1" class="hover:bg-slate-50/50 dark:hover:bg-slate-850/50">
+                  <td rowspan="2" class="py-4 px-4 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-850/80 border-r border-slate-200 dark:border-slate-800 align-top text-center">
+                    <span class="inline-block px-2 py-0.5 rounded text-[11px] font-extrabold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/60 dark:text-emerald-300 mb-1">[1순위]</span>
+                    <div class="font-bold">내 계좌 실측</div>
+                    <div class="text-xs text-emerald-600 font-semibold">(40점 만점)</div>
+                  </td>
+                  <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 align-top">
+                    최근 매매 승률 및 본절 여부
+                  </td>
+                  <td class="py-3 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400 align-top">
+                    25 / 25점
+                  </td>
+                  <td class="py-3 px-4 text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+                    <div>• <strong class="text-slate-900 dark:text-white">정석 매매 6건 전승 (승률 100%)</strong></div>
+                    <div class="text-xs pl-3 text-slate-500 dark:text-slate-400">
+                      - 10/02 코리아써키트(+12.11%), 나라스페이스(+7.10%), 이수스페셜티(+4.01%)<br>
+                      - 09/30 OCI홀딩스(+5.42%), 09/29 엘앤에프(+1.01%), 09/28 코리아써키트(+8.19%)
+                    </div>
+                    <div>• 최근 4~7% 이상 대승 연속 달성, 턴어라운드 실패로 인한 본절/손절 0건</div>
+                    <div>• 개인 실수(노타, 동양철관, 아모텍, 스피어) 4건도 본절/약익절로 손실 0원 완벽 방어</div>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-850/50">
+                  <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 align-top">
+                    대장주 지지력 & DB 기회
+                  </td>
+                  <td class="py-3 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400 align-top">
+                    15 / 15점
+                  </td>
+                  <td class="py-3 px-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+                    • S/A등급 주도 섹터(반도체 기판, 피지컬 AI, 2차전지, 우주항공) 1등 대장주의 5일선/20일선 음봉 눌림목 지지력 완벽 작동<br>
+                    • 테마 DB 내 고확신 기회 풍부하게 유지
+                  </td>
+                </tr>
+
+                <!-- Row Group 2: 국내 2대 지수 & 수급 -->
+                <tr id="matrix-2" class="hover:bg-slate-50/50 dark:hover:bg-slate-850/50">
+                  <td rowspan="2" class="py-4 px-4 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-850/80 border-r border-slate-200 dark:border-slate-800 align-top text-center">
+                    <span class="inline-block px-2 py-0.5 rounded text-[11px] font-extrabold bg-blue-100 text-blue-800 dark:bg-blue-900/60 dark:text-blue-300 mb-1">[2순위]</span>
+                    <div class="font-bold">국내 지수·수급</div>
+                    <div class="text-xs text-blue-600 font-semibold">(35점 만점)</div>
+                  </td>
+                  <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 align-top">
+                    코스피/코스닥 20일선 위치
+                  </td>
+                  <td class="py-3 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400 align-top">
+                    20 / 20점
+                  </td>
+                  <td class="py-3 px-4 text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+                    <div>• <strong class="text-slate-900 dark:text-white">코스피 7,003.74(+0.46%):</strong> 역사적 7,000선 돌파 및 일봉 20일선 상단 완벽 안착</div>
+                    <div>• <strong class="text-slate-900 dark:text-white">코스닥 893.29(-0.11%):</strong> 10/1 +4.48% 대폭등 후 건전한 매물 소화, 일봉 20일선 및 60분봉 200선 위 확고한 우상향 정배열 안착</div>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-850/50">
+                  <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 align-top">
+                    외인 선물 & 등락비율 ADR
+                  </td>
+                  <td class="py-3 px-4 text-center font-bold text-amber-600 dark:text-amber-400 align-top">
+                    10 / 15점
+                  </td>
+                  <td class="py-3 px-4 text-slate-600 dark:text-slate-300 leading-relaxed">
+                    • 10/2 코스피는 기관 순매수가 7,000선 견인. 외인은 주중 대규모 순매수 후 코스닥에서 단기 차익 실현으로 소폭 혼조<br>
+                    • 주간 누적 수급 및 ADR은 10/1 코스닥 폭등에 힘입어 전반적 우상향 건전성 유지 (단기 숨고르기 감안 5점 차감)
+                  </td>
+                </tr>
+
+                <!-- Row Group 3: 미장 & 글로벌 매크로 -->
+                <tr id="matrix-3" class="hover:bg-slate-50/50 dark:hover:bg-slate-850/50">
+                  <td rowspan="2" class="py-4 px-4 font-bold text-slate-900 dark:text-white bg-slate-50 dark:bg-slate-850/80 border-r border-slate-200 dark:border-slate-800 align-top text-center">
+                    <span class="inline-block px-2 py-0.5 rounded text-[11px] font-extrabold bg-purple-100 text-purple-800 dark:bg-purple-900/60 dark:text-purple-300 mb-1">[3순위]</span>
+                    <div class="font-bold">미장·매크로</div>
+                    <div class="text-xs text-purple-600 font-semibold">(25점 만점)</div>
+                  </td>
+                  <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 align-top">
+                    나스닥/S&P 주봉 5주선 추세
+                  </td>
+                  <td class="py-3 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400 align-top">
+                    15 / 15점
+                  </td>
+                  <td class="py-3 px-4 text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+                    <div>• <strong class="text-slate-900 dark:text-white">10/2 뉴욕 증시 급반등:</strong> 다우(+0.90%), S&P 500 7,734(+0.89%), 나스닥 27,110(+0.91%), 필라델피아 반도체(+1.3%)</div>
+                    <div>• S&P 500 사상 최고치에 0.8% 차 재접근, 주봉 5주선 및 일봉 20일선 위 견고한 정배열 유지</div>
+                  </td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-850/50">
+                  <td class="py-3 px-4 font-semibold text-slate-800 dark:text-slate-200 align-top">
+                    환율 / VIX / 금리 환경
+                  </td>
+                  <td class="py-3 px-4 text-center font-bold text-emerald-600 dark:text-emerald-400 align-top">
+                    10 / 10점
+                  </td>
+                  <td class="py-3 px-4 text-slate-600 dark:text-slate-300 leading-relaxed space-y-1">
+                    <div>• <strong class="text-slate-900 dark:text-white">원/달러 환율 1,350.6원(▼-7.8원):</strong> 9월 역대 최대 수출 네고 물량 폭발로 1,360원 이하 안정권 진입 (1,380원 돌파 리스크 완전 소멸)</div>
+                    <div>• <strong class="text-slate-900 dark:text-white">VIX 지수 15선 중반 급락:</strong> 18 이하 절대 안정권 진입</div>
+                    <div>• <strong class="text-slate-900 dark:text-white">美 10년물 국채금리 5.22~5.24% 하향:</strong> 9월 고용 둔화로 연준 추가 인상 우려 소멸</div>
+                  </td>
+                </tr>
+
+                <!-- Summary Total Row -->
+                <tr class="bg-emerald-50 dark:bg-emerald-950/50 font-bold border-t-2 border-emerald-300 dark:border-emerald-700">
+                  <td class="py-4 px-4 text-center text-emerald-900 dark:text-emerald-200 font-extrabold text-base">합계</td>
+                  <td class="py-4 px-4 text-emerald-900 dark:text-emerald-200 font-extrabold text-base">100점 만점 종합 점수</td>
+                  <td class="py-4 px-4 text-center text-emerald-600 dark:text-emerald-400 font-extrabold text-lg">95 / 100점</td>
+                  <td class="py-4 px-4 text-emerald-900 dark:text-emerald-100 font-bold">
+                    🟢 Green 판정 (시장 위험도 극히 낮음, 듀얼 트랙 100% 정상 가동 권고)
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. 계좌 실측 반응 심층 감사 Section -->
+      <section id="section-3" class="space-y-6">
+        <div class="flex items-center gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <span class="p-1.5 rounded-lg bg-indigo-100 text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">
+            <i data-lucide="microscope" class="w-5 h-5"></i>
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            3. 계좌 실측 반응 심층 감사 (Canary Forensic Audit)
+          </h2>
+        </div>
+
+        <!-- 3-1. 원칙 준수 정석 매매 -->
+        <div id="audit-wins" class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+              <span>1) '원칙 준수 정석 매매' vs '개인 실수(원칙 위반)' 완전 분리</span>
+            </h3>
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+              정석 매매 승률 100% (6전 6승)
+            </span>
+          </div>
+
+          <p class="text-sm text-slate-600 dark:text-slate-400">
+            이번 주(9/28 ~ 10/2) 총 10건의 실전 매매 중 <strong>원칙 준수 정석 매매 6건은 승률 100%</strong>를 기록했습니다. 4~7% 이상 대승 릴레이를 이어가며 진성 턴어라운드 실패가 단 1건도 발생하지 않았습니다.
+          </p>
+
+          <!-- Success Trade Cards Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 pt-1">
+            
+            <!-- Item 1: 코리아써키트 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">코리아써키트</span>
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-red-100 text-red-700 dark:bg-red-950/80 dark:text-red-300 border border-red-200 dark:border-red-800">
+                  2회 공략 모두 대승
+                </span>
+              </div>
+              <div class="flex items-center gap-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                <span>9/28 +8.19% (+118.8만 원)</span>
+                <span>➔</span>
+                <span>10/02 +12.11% (+72.9만 원)</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">
+                1등 대장주의 5일선 음봉 눌림목 포착 및 3단계 분할 익절 완벽 실행.
+              </p>
+            </div>
+
+            <!-- Item 2: 나라스페이스테크놀로지 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">나라스페이스테크놀로지</span>
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  +7.10% (+70.5만 원)
+                </span>
+              </div>
+              <div class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                매매 일자: 10/02 (우주항공 모멘텀)
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">
+                10월 초 우주항공 모멘텀 겨냥, 20일선 지지선 분할 매집 후 1,487억 원 대형 슈팅 최고가권 분할 청산.
+              </p>
+            </div>
+
+            <!-- Item 3: OCI홀딩스 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">OCI홀딩스</span>
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+                  +5.42% (+113.1만 원)
+                </span>
+              </div>
+              <div class="text-xs font-semibold text-slate-500 dark:text-slate-400">
+                매매 일자: 09/30 (재생에너지)
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">
+                4회 분할 매수로 평단 보정 후 반등 시 3단계 분할 매도 완수 (쥬쥬 평단 보정 수칙 완벽 구현).
+              </p>
+            </div>
+
+            <!-- Item 4: 이수스페셜티케미칼 & 엘앤에프 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-2">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">이수스페셜티 & 엘앤에프</span>
+                <span class="px-2 py-0.5 rounded text-xs font-bold bg-blue-100 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+                  2차전지 원칙 청산
+                </span>
+              </div>
+              <div class="text-xs font-semibold text-slate-500 dark:text-slate-400 space-y-0.5">
+                <div>• 이수스페셜티: 10/02 <span class="text-emerald-600 dark:text-emerald-400 font-bold">+4.01% (+31.2만 원)</span> (5일선 눌림목)</div>
+                <div>• 엘앤에프: 09/29 <span class="text-emerald-600 dark:text-emerald-400 font-bold">+1.01% (+5.0만 원)</span> (장중 +5% 분할익절 후 본절)</div>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400">
+                전고체 배터리 주도주 5일선 눌림목 진입 후 4~7% 원칙 청산 및 계좌 방어 완수.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3-2. 개인 실수 4건 방어 복기 -->
+        <div id="audit-errors" class="space-y-3">
+          <div class="flex items-center justify-between">
+            <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+              <span>2) 개인 실수 4건의 리스크 관리 및 방어 복기</span>
+            </h3>
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300 dark:border-amber-800">
+              실수 발생 시 손실 0원 방어
+            </span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+            
+            <!-- Error 1: 노타 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">노타</span>
+                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800">
+                  -0.21% (본절 탈출)
+                </span>
+              </div>
+              <div class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <span class="text-slate-400">• 원인:</span> 장초반 +6.2% 도달 시 1차 분할 익절 미실행 실기.<br>
+                <span class="text-emerald-600 dark:text-emerald-400 font-semibold">• 방어 조치:</span> 호가 둔화 즉시 매수가(20,150원) 본절 탈출로 계좌 보존.
+              </div>
+            </div>
+
+            <!-- Error 2: KBI동양철관 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">KBI동양철관</span>
+                <span class="text-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/50 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800">
+                  -0.05% (본절 탈출)
+                </span>
+              </div>
+              <div class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <span class="text-slate-400">• 원인:</span> 1등 대장주(동일스틸럭스)가 아닌 2등 후발주 선택 및 +14.3% 갭상승 조급 진입.<br>
+                <span class="text-emerald-600 dark:text-emerald-400 font-semibold">• 방어 조치:</span> 매수 5분 만에 즉각 본절 탈출하여 -1,400원대 폭락 회피.
+              </div>
+            </div>
+
+            <!-- Error 3: 스피어 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">스피어</span>
+                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+                  +1.65% (+52.1만 원 약익절)
+                </span>
+              </div>
+              <div class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <span class="text-slate-400">• 원인:</span> 후발주 매집 오류 및 재료소멸 실기.<br>
+                <span class="text-emerald-600 dark:text-emerald-400 font-semibold">• 방어 조치:</span> 10월 일정 반등 시 나라스페이스(1등주) 교체 매매 자금 확보를 위해 약익절 엑시트 완료.
+              </div>
+            </div>
+
+            <!-- Error 4: 아모텍 -->
+            <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 dark:text-white text-sm">아모텍</span>
+                <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+                  +0.05% (본절 방어)
+                </span>
+              </div>
+              <div class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                <span class="text-slate-400">• 원인:</span> 거래대금 311억 미달 및 시초가 일괄 진입 오류.<br>
+                <span class="text-emerald-600 dark:text-emerald-400 font-semibold">• 방어 조치:</span> 1시간 만에 21,109원 본절 매도로 -3% 이상 추가 하락 방어.
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Forensic Audit Takeaway Callout -->
+          <div class="p-4 rounded-xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-xs sm:text-sm text-slate-700 dark:text-slate-200 space-y-1">
+            <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
+              <i data-lucide="check-check" class="w-4 h-4 text-emerald-600"></i>
+              <span>카나리 총평 (Canary Forensic Verdict)</span>
+            </div>
+            <p class="leading-relaxed">
+              시장 체력이 고갈되어 발생하는 <strong>'진성 턴어라운드 실패'는 0건</strong>이었으며, 개인 실수가 발생한 종목조차 쥬쥬의 본절 탈출 프로토콜을 즉각 가동하여 <strong>손실을 0원으로 방어</strong>했습니다. 따라서 계좌의 시장 감응도와 탄력성은 <strong>최상급</strong>입니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 4. 에이전트 연합 하향 실행 명령 Section -->
+      <section id="section-4" class="space-y-4">
+        <div class="flex items-center gap-2 pb-2 border-b border-slate-200 dark:border-slate-800">
+          <span class="p-1.5 rounded-lg bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-300">
+            <i data-lucide="send" class="w-5 h-5"></i>
+          </span>
+          <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+            4. 에이전트 연합 하향 실행 명령 (Action Orders)
+          </h2>
+        </div>
+
+        <p class="text-sm text-slate-600 dark:text-slate-400">
+          카나리의 🟢 Green 판정 및 95점 스코어에 의거하여, 각 서브 에이전트에 하달하는 차주 실전 집행 명령입니다.
+        </p>
+
+        <!-- Action Orders Stack -->
+        <div class="space-y-4">
+          
+          <!-- Order 1: 트레이디 -->
+          <div id="order-traidy" class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="px-2.5 py-1 rounded-md bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 font-bold text-xs">
+                  수석 팀장
+                </span>
+                <span class="font-bold text-base text-slate-900 dark:text-white">트레이디 (@traidy) 앞</span>
+              </div>
+              <span class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950 px-2 py-0.5 rounded border border-emerald-200 dark:border-emerald-800">
+                가용 슬롯 3개 100% 가동 승인
+              </span>
+            </div>
+
+            <div class="space-y-3 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <div>
+                <strong class="text-slate-900 dark:text-white font-semibold">1. 차주 가용 슬롯: 3개 100% 정상 가동 승인</strong>
+                <ul class="list-disc pl-5 mt-1 space-y-0.5 text-xs">
+                  <li><strong>트랙 A (단기 5일선 N형 눌림목 속도전):</strong> 2개 슬롯 배정 (가용 자금의 65%)</li>
+                  <li><strong>트랙 B (중기 20일선 N형 안착 추세전):</strong> 1개 슬롯 배정 (가용 자금의 35%)</li>
+                </ul>
+              </div>
+
+              <div>
+                <strong class="text-slate-900 dark:text-white font-semibold">2. 대기 예수금 거버넌스: 50% 기본 방어선 철저 유지</strong>
+                <p class="text-xs mt-0.5 text-slate-500 dark:text-slate-400">
+                  🟢 Green 장세라 하더라도 100% 몰빵 매수를 절대 불허하며, 돌발 변수 방어를 위한 예수금 50%를 상시 보존할 것.
+                </p>
+              </div>
+
+              <div>
+                <strong class="text-slate-900 dark:text-white font-semibold">3. 목표 수익률:</strong>
+                <span class="text-emerald-600 dark:text-emerald-400 font-bold">차주 월 15~20% 복리 드라이브 정상 전개</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Order 2: 플래니 -->
+          <div id="order-planny" class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="px-2.5 py-1 rounded-md bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 font-bold text-xs">
+                  시나리오 플래너
+                </span>
+                <span class="font-bold text-base text-slate-900 dark:text-white">플래니 (@planny) 앞</span>
+              </div>
+              <span class="text-xs font-semibold text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950 px-2 py-0.5 rounded border border-purple-200 dark:border-purple-800">
+                1등 대장주 3선 엄선
+              </span>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <strong class="text-slate-900 dark:text-white font-semibold">주도 테마 1등 대장주 3선 압축 엄선 원칙:</strong>
+              <ul class="list-disc pl-5 space-y-1 text-xs">
+                <li>차주 개장 전(08:40) 브리핑 시 <strong>반도체 첨단 패키징(HBM 기판)</strong>, <strong>피지컬 AI/로봇</strong>, <strong>전력 인프라</strong> 등 S/A등급 주도 섹터 1등 대장주로만 3종목 엄선.</li>
+                <li><strong>1파 5일선 음봉 눌림목 타점 사전 지정가 분할 매수(-3.5% 간격)</strong> 실행 카드 작성.</li>
+                <li><strong>거래대금 500억 원 미달 종목 및 2~3등 후발주는 리스트에서 원천 제외할 것.</strong></li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Order 3: 체커리 -->
+          <div id="order-checkery" class="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+              <div class="flex items-center gap-2.5">
+                <span class="px-2.5 py-1 rounded-md bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 font-bold text-xs">
+                  사전 감사관
+                </span>
+                <span class="font-bold text-base text-slate-900 dark:text-white">체커리 (@checkery) 앞</span>
+              </div>
+              <span class="text-xs font-semibold text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950 px-2 py-0.5 rounded border border-amber-200 dark:border-amber-800">
+                5대 하드 필터링 전수 감사
+              </span>
+            </div>
+
+            <div class="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              <strong class="text-slate-900 dark:text-white font-semibold">5대 하드 필터링 전수 감사 엄수 수칙:</strong>
+              <ul class="list-disc pl-5 space-y-1 text-xs">
+                <li>플래니의 추천 종목이 이번 주 반성 사례(아모텍, KBI동양철관)와 같은 <strong>후발주/거래대금 미달주</strong>가 아닌지 철저히 대조 검증.</li>
+                <li>트레이디의 <strong>3개 슬롯 및 65:35 자금 배분 룰</strong> 위반 여부를 사전 감사하여 불량 주문을 원천 차단할 것.</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Footer & Sign-off -->
+      <footer class="pt-8 pb-12 border-t border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500 dark:text-slate-400 space-y-2">
+        <div class="flex items-center justify-center gap-2 font-semibold text-slate-700 dark:text-slate-300">
+          <i data-lucide="shield" class="w-4 h-4 text-emerald-600"></i>
+          <span>보고서 작성 완료: 조기경보 및 시장 위험 판정 에이전트 '카나리(Canary)'</span>
+        </div>
+        <p>© 2026 트레이딩 거버넌스 연합. 본 리포트는 쥬쥬 4~7% 원칙 및 내 계좌 실측 반응을 기반으로 자동 생성되었습니다.</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs sm:text-sm font-semibold transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2 flex items-center gap-2 z-50">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toastMsg">클립보드에 복사되었습니다.</span>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // Theme Toggle Functionality
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      lucide.createIcons();
+    }
+
+    // Set Initial Theme
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+
+    // Copy Document Functionality
+    function copyDocument() {
+      const contentEl = document.getElementById('document-content');
+      const text = contentEl.innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 본문이 클립보드에 복사되었습니다.');
+      }).catch(err => {
+        showToast('복사에 실패했습니다.');
+      });
+    }
+
+    // Show Toast
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+      setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
