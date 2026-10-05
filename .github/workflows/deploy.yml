@@ -1,46 +1,100 @@
-name: Deploy to GitHub Pages
+name: Auto Sync from Google Drive
 
 on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+  schedule:
+    # 매일 오전 6시, 오후 1시, 오후 9시(KST) 자동 실행
+    # (GitHub Actions는 UTC 기준 → KST = UTC+9)
+    - cron: '0 21 * * *'  # 오전 6시 KST
+    - cron: '0 4 * * *'   # 오후 1시 KST
+    - cron: '0 12 * * *'  # 오후 9시 KST
+  workflow_dispatch:       # 수동 실행 버튼도 유지
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+  contents: write
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  sync:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install gdown
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Build index
+      - name: Download new reports from Google Drive
+        run: |
+          python - << 'EOF'
+          import os, glob, json, hashlib, shutil, gdown, tempfile
+
+          folder_url = "https://drive.google.com/drive/folders/1LBzd_bb6UjL6fcAIW2B1cUmWFG6RBtQu"
+          output_dir = "public/reports"
+          cache_path = ".sync_cache.json"
+
+          os.makedirs(output_dir, exist_ok=True)
+
+          def get_hash(fp):
+              h = hashlib.md5()
+              with open(fp, "rb") as f: h.update(f.read())
+              return h.hexdigest()
+
+          cache = json.load(open(cache_path)) if os.path.exists(cache_path) else {}
+
+          tmp_dir = tempfile.mkdtemp()
+          print("Google Drive 폴더 다운로드 중...")
+          gdown.download_folder(url=folder_url, output=tmp_dir, quiet=True, use_cookies=False)
+
+          # docx 등 제거
+          for f in glob.glob(os.path.join(tmp_dir, "*.docx")): os.remove(f)
+
+          new_count = 0
+          for fname in os.listdir(tmp_dir):
+              if not fname.lower().endswith(".html"): continue
+              src = os.path.join(tmp_dir, fname)
+              dst = os.path.join(output_dir, fname)
+              h = get_hash(src)
+              if fname in cache and cache[fname] == h and os.path.exists(dst):
+                  continue
+              shutil.copy2(src, dst)
+              cache[fname] = h
+              new_count += 1
+              print(f"  [업데이트] {fname}")
+
+          json.dump(cache, open(cache_path, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+          shutil.rmtree(tmp_dir, ignore_errors=True)
+          print(f"완료: 신규/변경 {new_count}개 파일 반영")
+          EOF
+
+      - name: Build report index
         run: node scripts/build-index.js
 
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add public/reports/ public/reports.json .sync_cache.json
+          if git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: './public'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Commit and push if changed
+        if: steps.check_changes.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit -m "Auto Sync: $(date +'%Y-%m-%d %H:%M') 구글 드라이브 리포트 자동 업데이트"
+          git push origin main
