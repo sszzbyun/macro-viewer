@@ -112,6 +112,42 @@
       margin-left: 3px;
     }
 
+    /* 사이드바 하단 동기화 영역 */
+    .sidebar-footer {
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-color);
+    }
+    .sync-btn {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #e2e8f0;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .sync-btn:hover:not(:disabled) {
+      background: #1d4ed8;
+      border-color: #3b82f6;
+      color: #fff;
+    }
+    .sync-btn:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+    .sync-msg {
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      margin-top: 8px;
+      line-height: 1.45;
+      min-height: 1em;
+    }
+    .sync-msg.ok { color: #6ee7b7; }
+    .sync-msg.err { color: #fca5a5; }
+
     .report-list {
       flex: 1;
       overflow-y: auto;
@@ -288,6 +324,10 @@
       <div id="seriesChips" class="chip-row"></div>
     </div>
     <ul id="reportList" class="report-list"></ul>
+    <div class="sidebar-footer">
+      <button id="driveSyncBtn" class="sync-btn" type="button" onclick="requestDriveSync()">🔄 드라이브 업데이트</button>
+      <div id="syncMsg" class="sync-msg"></div>
+    </div>
   </aside>
 
   <!-- 메인 뷰어 영역 -->
@@ -456,6 +496,32 @@
       return String(str).replace(/[&<>'"]/g, 
         tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
       );
+    }
+
+    async function requestDriveSync() {
+      const btn = document.getElementById('driveSyncBtn');
+      const msg = document.getElementById('syncMsg');
+      btn.disabled = true;
+      msg.className = 'sync-msg';
+      msg.innerText = '동기화 요청 중...';
+      try {
+        const res = await fetch('api/dispatch', { method: 'POST' });
+        const data = await res.json().catch(() => ({}));
+        if (data.ok) {
+          msg.className = 'sync-msg ok';
+          msg.innerText = '요청 완료! 약 2~3분 후 새로고침하면 반영됩니다.';
+        } else if (data.cooldown) {
+          msg.className = 'sync-msg';
+          msg.innerText = `최근에 실행됨. 약 ${Math.ceil(data.waitSec / 60)}분 후 다시 눌러주세요.`;
+        } else {
+          msg.className = 'sync-msg err';
+          msg.innerText = '요청 실패: ' + (data.error || ('HTTP ' + res.status));
+        }
+      } catch (e) {
+        msg.className = 'sync-msg err';
+        msg.innerText = '요청 실패: 네트워크 오류';
+      }
+      btn.disabled = false;
     }
 
     init();

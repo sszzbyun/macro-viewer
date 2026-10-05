@@ -45,7 +45,20 @@ git push -u origin main
 
 ---
 
-## 📅 2. 매일 리포트 업데이트 방법
+## 🔄 사이드바 "드라이브 업데이트" 버튼 설정 (1회)
+
+버튼은 Vercel 함수(`/api/dispatch`)를 통해 Actions를 실행합니다. 토큰이 필요해서 최초 1회 설정이 필요합니다:
+
+1. GitHub → Settings → Developer settings → Personal access tokens → **Fine-grained tokens** → Generate new token
+   - Repository access: **Only select repositories** → `macro-viewer` 선택
+   - Permissions → **Actions**: **Read and write**
+2. Vercel → 프로젝트 → Settings → Environment Variables → 추가:
+   - Key: `GH_TOKEN`, Value: 위 토큰, Environment: **Production** 체크
+3. 재배포 1회 (다음 푸시 때 자동 적용)
+
+버튼을 누르면 5분 쿨다운 체크 후 Actions가 실행되고, 약 2~3분 뒤 새로고침하면 반영됩니다.
+
+---
 
 **평소에는 아무것도 안 해도 됩니다.** Actions 스케줄이 Drive를 자동으로 가져옵니다.
 
