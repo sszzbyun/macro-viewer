@@ -82,6 +82,35 @@
       color: #64748b;
       pointer-events: none;
     }
+    .chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 10px;
+    }
+    .chip {
+      font-size: 0.76rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      border: 1px solid #334155;
+      background: #1e293b;
+      color: #cbd5e1;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+    }
+    .chip:hover { border-color: var(--primary); color: #fff; }
+    .chip.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .chip-count {
+      font-size: 0.7rem;
+      opacity: 0.75;
+      margin-left: 3px;
+    }
 
     .report-list {
       flex: 1;
@@ -256,6 +285,7 @@
         <span class="search-icon">🔍</span>
         <input type="text" id="searchInput" placeholder="날짜 또는 키워드 검색..." oninput="handleSearch()">
       </div>
+      <div id="seriesChips" class="chip-row"></div>
     </div>
     <ul id="reportList" class="report-list"></ul>
   </aside>
@@ -281,6 +311,40 @@
   <script>
     let allReports = [];
     let currentActiveIdx = -1;
+    let activeSeries = '전체';
+
+    function getSeriesOf(r) {
+      if (r && r.series) return r.series;
+      const m = ((r && r.filename || '') + ' ' + (r && r.title || '')).match(/^\s*\[([^\]]+)\]/);
+      return m ? m[1].trim() : '기타';
+    }
+
+    function getSeriesList() {
+      const seen = [];
+      allReports.forEach(r => {
+        const s = getSeriesOf(r);
+        if (!seen.includes(s)) seen.push(s);
+      });
+      return ['전체', ...seen];
+    }
+
+    function renderChips() {
+      const box = document.getElementById('seriesChips');
+      box.innerHTML = '';
+      getSeriesList().forEach(s => {
+        const count = s === '전체' ? allReports.length : allReports.filter(r => getSeriesOf(r) === s).length;
+        const btn = document.createElement('button');
+        btn.className = `chip ${s === activeSeries ? 'active' : ''}`;
+        btn.type = 'button';
+        btn.innerHTML = `${escapeHtml(s)}<span class="chip-count">${count}</span>`;
+        btn.onclick = () => {
+          activeSeries = s;
+          renderChips();
+          renderList(getFilteredList());
+        };
+        box.appendChild(btn);
+      });
+    }
 
     async function init() {
       try {
@@ -289,6 +353,7 @@
         allReports = await res.json();
         
         document.getElementById('reportBadge').innerText = `${allReports.length}건`;
+        renderChips();
         renderList(allReports);
 
         if (allReports.length > 0) {
@@ -328,7 +393,7 @@
         };
         li.innerHTML = `
           <div class="report-title">${escapeHtml(item.title)}</div>
-          <div class="report-date">📅 ${escapeHtml(item.date)}</div>
+          <div class="report-date">${item.date ? '📅 ' + escapeHtml(item.date) : '📌 상시자료'}</div>
         `;
         container.appendChild(li);
       });
@@ -343,7 +408,7 @@
       const frame = document.getElementById('viewer-frame');
       frame.style.display = 'block';
       frame.src = report.url;
-      document.getElementById('currentTitle').innerText = `[${report.date}] ${report.title}`;
+      document.getElementById('currentTitle').innerText = report.date ? `[${report.date}] ${report.title}` : `[상시] ${report.title}`;
 
       const rawLink = document.getElementById('rawLink');
       rawLink.href = report.url;
@@ -354,12 +419,14 @@
 
     function getFilteredList() {
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
-      if (!query) return allReports;
-      return allReports.filter(r =>
-        r.title.toLowerCase().includes(query) ||
-        r.date.toLowerCase().includes(query) ||
-        r.filename.toLowerCase().includes(query)
-      );
+      return allReports.filter(r => {
+        if (activeSeries !== '전체' && getSeriesOf(r) !== activeSeries) return false;
+        if (!query) return true;
+        return r.title.toLowerCase().includes(query) ||
+          (r.date || '').toLowerCase().includes(query) ||
+          r.filename.toLowerCase().includes(query) ||
+          getSeriesOf(r).toLowerCase().includes(query);
+      });
     }
 
     function handleSearch() {

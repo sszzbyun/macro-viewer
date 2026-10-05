@@ -39,6 +39,7 @@ for (const filename of files) {
   title = decodeEntities(title).replace(/\s+/g, ' ').trim() || filename.replace(/\.html$/i, '');
 
   // 2. 날짜 추출 (YYYY.MM.DD, YYYY-MM-DD, YYYY_MM_DD 등 지원, 월 1-12 / 일 1-31 검증)
+  //    날짜가 없으면 빈 문자열 → 목록 하단 "상시자료"로 표시 (mtime fallback 폐지: 재빌드마다 날짜가 바뀌는 문제)
   const dateMatch = (filename + " " + title).match(/(20\d{2})[.\-_\s]*(\d{1,2})[.\-_\s]*(\d{1,2})/);
   let dateStr = "";
 
@@ -50,22 +51,29 @@ for (const filename of files) {
     }
   }
   if (!dateStr) {
-    // 날짜가 전혀 없을 경우 파일 생성/수정 시간 기준으로 fallback (비결정적이므로 경고)
-    const stats = fs.statSync(filePath);
-    dateStr = stats.mtime.toISOString().split('T')[0];
-    console.warn(`[Warn] 날짜 없음, mtime 사용: ${filename} -> ${dateStr}`);
+    console.warn(`[Warn] 날짜 없음 → 상시자료로 분류: ${filename}`);
   }
+
+  // 3. 시리즈 추출 ([미장이], [따블] 등 접두 → 필터 칩용, 없으면 "기타")
+  const seriesMatch = filename.match(/^\s*\[([^\]]+)\]/) || title.match(/^\s*\[([^\]]+)\]/);
+  const series = seriesMatch ? seriesMatch[1].trim() : "기타";
 
   reports.push({
     filename,
     title,
     date: dateStr,
+    series,
     url: `reports/${encodeURIComponent(filename)}`
   });
 }
 
-// 최신 일자순 정렬 (동일 일자면 파일명순 → 장전/장마감 순서 안정화)
-reports.sort((a, b) => b.date.localeCompare(a.date) || a.filename.localeCompare(b.filename, 'ko'));
+// 정렬: 날짜 있는 것 최신순 → 날짜 없는 것(상시)은 하단에 파일명순
+reports.sort((a, b) => {
+  if (a.date && b.date) return b.date.localeCompare(a.date) || a.filename.localeCompare(b.filename, 'ko');
+  if (a.date) return -1;
+  if (b.date) return 1;
+  return a.filename.localeCompare(b.filename, 'ko');
+});
 
 fs.writeFileSync(outputFile, JSON.stringify(reports, null, 2), 'utf-8');
 console.log(`[Success] Indexed ${reports.length} report(s) into ${outputFile}`);

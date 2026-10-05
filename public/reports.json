@@ -1,188 +1,219 @@
 [
   {
-    "filename": "재료매매_2대타점_기반_캘린더_5대종목_심층진단_웹대시보드.html",
-    "title": "재료 매매 2대 타점 & 캘린더 주도주 전략",
-    "date": "2026-10-05",
-    "url": "reports/%EC%9E%AC%EB%A3%8C%EB%A7%A4%EB%A7%A4_2%EB%8C%80%ED%83%80%EC%A0%90_%EA%B8%B0%EB%B0%98_%EC%BA%98%EB%A6%B0%EB%8D%94_5%EB%8C%80%EC%A2%85%EB%AA%A9_%EC%8B%AC%EC%B8%B5%EC%A7%84%EB%8B%A8_%EC%9B%B9%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
-  },
-  {
     "filename": "[미장이] 2026. 10. 03 미장 마감 & 국장 시초가 연계 브리핑.html",
     "title": "[미장이] 2026. 10. 03 미장 마감 & 국장 시초가 연계 브리핑",
     "date": "2026-10-03",
+    "series": "미장이",
     "url": "reports/%5B%EB%AF%B8%EC%9E%A5%EC%9D%B4%5D%202026.%2010.%2003%20%EB%AF%B8%EC%9E%A5%20%EB%A7%88%EA%B0%90%20%26%20%EA%B5%AD%EC%9E%A5%20%EC%8B%9C%EC%B4%88%EA%B0%80%20%EC%97%B0%EA%B3%84%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "[카나리] 2026. 10. 03 주간 시장 위험도 및 신호등 공식 경보 리포트.html",
     "title": "[카나리] 2026. 10. 03 주간 시장 위험도 및 신호등 공식 경보 리포트",
     "date": "2026-10-03",
+    "series": "카나리",
     "url": "reports/%5B%EC%B9%B4%EB%82%98%EB%A6%AC%5D%202026.%2010.%2003%20%EC%A3%BC%EA%B0%84%20%EC%8B%9C%EC%9E%A5%20%EC%9C%84%ED%97%98%EB%8F%84%20%EB%B0%8F%20%EC%8B%A0%ED%98%B8%EB%93%B1%20%EA%B3%B5%EC%8B%9D%20%EA%B2%BD%EB%B3%B4%20%EB%A6%AC%ED%8F%AC%ED%8A%B8.html"
   },
   {
     "filename": "[미장이] 2026. 10. 02 미장 마감 & 국장 시초가 연계 브리핑.html",
     "title": "[미장이] 2026. 10. 02 미장 마감 & 국장 시초가 연계 브리핑",
     "date": "2026-10-02",
+    "series": "미장이",
     "url": "reports/%5B%EB%AF%B8%EC%9E%A5%EC%9D%B4%5D%202026.%2010.%2002%20%EB%AF%B8%EC%9E%A5%20%EB%A7%88%EA%B0%90%20%26%20%EA%B5%AD%EC%9E%A5%20%EC%8B%9C%EC%B4%88%EA%B0%80%20%EC%97%B0%EA%B3%84%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "2026. 10. 02 장전 시각화 브리핑.html",
     "title": "2026. 10. 02 장전 시각화 브리핑",
     "date": "2026-10-02",
+    "series": "기타",
     "url": "reports/2026.%2010.%2002%20%EC%9E%A5%EC%A0%84%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "2026. 10. 02 장전 종합 전략 대시보드.html",
     "title": "2026. 10. 02 장전 종합 전략 대시보드",
     "date": "2026-10-02",
+    "series": "기타",
     "url": "reports/2026.%2010.%2002%20%EC%9E%A5%EC%A0%84%20%EC%A2%85%ED%95%A9%20%EC%A0%84%EB%9E%B5%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
   },
   {
     "filename": "2026.10.02_재료매매_2대타점_기반_캘린더_5대종목_심층진단_웹대시보드.html",
     "title": "재료 매매 2대 타점 & 캘린더 주도주 전략",
     "date": "2026-10-02",
+    "series": "기타",
     "url": "reports/2026.10.02_%EC%9E%AC%EB%A3%8C%EB%A7%A4%EB%A7%A4_2%EB%8C%80%ED%83%80%EC%A0%90_%EA%B8%B0%EB%B0%98_%EC%BA%98%EB%A6%B0%EB%8D%94_5%EB%8C%80%EC%A2%85%EB%AA%A9_%EC%8B%AC%EC%B8%B5%EC%A7%84%EB%8B%A8_%EC%9B%B9%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
-  },
-  {
-    "filename": "거래대금과 N형 패턴 매매 종합 분석 대시보드.html",
-    "title": "거래대금 & N형 패턴매매 종합 분석 대시보드",
-    "date": "2026-10-02",
-    "url": "reports/%EA%B1%B0%EB%9E%98%EB%8C%80%EA%B8%88%EA%B3%BC%20N%ED%98%95%20%ED%8C%A8%ED%84%B4%20%EB%A7%A4%EB%A7%A4%20%EC%A2%85%ED%95%A9%20%EB%B6%84%EC%84%9D%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
-  },
-  {
-    "filename": "재료매매 2대타점과 캘린더 주도주 전략.html",
-    "title": "재료매매 2대 타점 & 캘린더 주도주 전략 - 쥬쥬 4~7% 원칙",
-    "date": "2026-10-02",
-    "url": "reports/%EC%9E%AC%EB%A3%8C%EB%A7%A4%EB%A7%A4%202%EB%8C%80%ED%83%80%EC%A0%90%EA%B3%BC%20%EC%BA%98%EB%A6%B0%EB%8D%94%20%EC%A3%BC%EB%8F%84%EC%A3%BC%20%EC%A0%84%EB%9E%B5.html"
   },
   {
     "filename": "[따블] 2026. 10. 01 장마감 시각화 종합 브리핑 및 인포그래픽 대시보드.html",
     "title": "[따블] 2026. 10. 01 장마감 시각화 브리핑 및 종합 대시보드",
     "date": "2026-10-01",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2010.%2001%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EC%A2%85%ED%95%A9%20%EB%B8%8C%EB%A6%AC%ED%95%91%20%EB%B0%8F%20%EC%9D%B8%ED%8F%AC%EA%B7%B8%EB%9E%98%ED%94%BD%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
   },
   {
     "filename": "[따블] 2026. 10. 01 장마감 종합 브리핑 및 인포그래픽 대시보드.html",
     "title": "[따블] 2026. 10. 01 장마감 종합 브리핑 및 인포그래픽 대시보드",
     "date": "2026-10-01",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2010.%2001%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EC%A2%85%ED%95%A9%20%EB%B8%8C%EB%A6%AC%ED%95%91%20%EB%B0%8F%20%EC%9D%B8%ED%8F%AC%EA%B7%B8%EB%9E%98%ED%94%BD%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
   },
   {
     "filename": "[따블] 2026. 10. 01 장전 데일리 전략 및 원페이지 매매 시나리오.html",
     "title": "[따블] 2026. 10. 01 장전 데일리 전략 및 원페이지 매매 시나리오",
     "date": "2026-10-01",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2010.%2001%20%EC%9E%A5%EC%A0%84%20%EB%8D%B0%EC%9D%BC%EB%A6%AC%20%EC%A0%84%EB%9E%B5%20%EB%B0%8F%20%EC%9B%90%ED%8E%98%EC%9D%B4%EC%A7%80%20%EB%A7%A4%EB%A7%A4%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.html"
   },
   {
     "filename": "2026. 10. 01 장마감 보고서.html",
     "title": "[따블] 2026. 10. 01 장마감 시각화 브리핑 및 종합 대시보드",
     "date": "2026-10-01",
+    "series": "따블",
     "url": "reports/2026.%2010.%2001%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EB%B3%B4%EA%B3%A0%EC%84%9C.html"
   },
   {
     "filename": "2026. 10. 01 장전 시각화 브리핑.html",
     "title": "2026. 10. 01 장전 핵심 이슈 및 비즈니스 시각화 브리핑",
     "date": "2026-10-01",
+    "series": "기타",
     "url": "reports/2026.%2010.%2001%20%EC%9E%A5%EC%A0%84%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "[따블] 2026. 09. 30 장전 데일리 전략 및 원페이지 매매 시나리오.html",
     "title": "[따블] 2026. 09. 30 장전 데일리 전략 및 원페이지 매매 시나리오",
     "date": "2026-09-30",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2009.%2030%20%EC%9E%A5%EC%A0%84%20%EB%8D%B0%EC%9D%BC%EB%A6%AC%20%EC%A0%84%EB%9E%B5%20%EB%B0%8F%20%EC%9B%90%ED%8E%98%EC%9D%B4%EC%A7%80%20%EB%A7%A4%EB%A7%A4%20%EC%8B%9C%EB%82%98%EB%A6%AC%EC%98%A4.html"
   },
   {
     "filename": "[따블] 2026. 09. 30 장전 종합 브리핑 및 개장 준비 전략 보고서.html",
     "title": "[따블] 2026. 09. 30 장전 종합 브리핑 및 개장 준비 전략 보고서",
     "date": "2026-09-30",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2009.%2030%20%EC%9E%A5%EC%A0%84%20%EC%A2%85%ED%95%A9%20%EB%B8%8C%EB%A6%AC%ED%95%91%20%EB%B0%8F%20%EA%B0%9C%EC%9E%A5%20%EC%A4%80%EB%B9%84%20%EC%A0%84%EB%9E%B5%20%EB%B3%B4%EA%B3%A0%EC%84%9C.html"
   },
   {
     "filename": "[따블] 2026. 09. 30 주간 테마 분석 및 N형 패턴 모아가기 전략 보고서.html",
     "title": "[따블] 2026. 09. 30 주간 테마 분석 및 N형 패턴 모아가기 전략 보고서",
     "date": "2026-09-30",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2009.%2030%20%EC%A3%BC%EA%B0%84%20%ED%85%8C%EB%A7%88%20%EB%B6%84%EC%84%9D%20%EB%B0%8F%20N%ED%98%95%20%ED%8C%A8%ED%84%B4%20%EB%AA%A8%EC%95%84%EA%B0%80%EA%B8%B0%20%EC%A0%84%EB%9E%B5%20%EB%B3%B4%EA%B3%A0%EC%84%9C.html"
   },
   {
     "filename": "[매크로뷰] 2026. 09. 30 장마감 매크로 인과체인 브리핑.html",
     "title": "[매크로뷰] 2026. 09. 30 장마감 매크로 인과체인 브리핑",
     "date": "2026-09-30",
+    "series": "매크로뷰",
     "url": "reports/%5B%EB%A7%A4%ED%81%AC%EB%A1%9C%EB%B7%B0%5D%202026.%2009.%2030%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EB%A7%A4%ED%81%AC%EB%A1%9C%20%EC%9D%B8%EA%B3%BC%EC%B2%B4%EC%9D%B8%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "[미장이] 2026. 09. 30 미장 마감 & 국장 시초가 연계 브리핑.html",
     "title": "[미장이] 2026. 09. 30 미장 마감 & 국장 시초가 연계 브리핑",
     "date": "2026-09-30",
+    "series": "미장이",
     "url": "reports/%5B%EB%AF%B8%EC%9E%A5%EC%9D%B4%5D%202026.%2009.%2030%20%EB%AF%B8%EC%9E%A5%20%EB%A7%88%EA%B0%90%20%26%20%EA%B5%AD%EC%9E%A5%20%EC%8B%9C%EC%B4%88%EA%B0%80%20%EC%97%B0%EA%B3%84%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "[차트분석] 2026. 09. 30 코스피 코스닥 월봉 기술적 분석 리포트.html",
     "title": "[차트분석] 코스피 & 코스닥 월봉 기술적 심층 분석 리포트",
     "date": "2026-09-30",
+    "series": "차트분석",
     "url": "reports/%5B%EC%B0%A8%ED%8A%B8%EB%B6%84%EC%84%9D%5D%202026.%2009.%2030%20%EC%BD%94%EC%8A%A4%ED%94%BC%20%EC%BD%94%EC%8A%A4%EB%8B%A5%20%EC%9B%94%EB%B4%89%20%EA%B8%B0%EC%88%A0%EC%A0%81%20%EB%B6%84%EC%84%9D%20%EB%A6%AC%ED%8F%AC%ED%8A%B8.html"
   },
   {
     "filename": "2026. 09. 30 장마감 시각화 브리핑.html",
     "title": "2026. 09. 30 장마감 핵심 이슈 및 비즈니스 시각화 브리핑",
     "date": "2026-09-30",
+    "series": "기타",
     "url": "reports/2026.%2009.%2030%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "2026. 09. 30 장전 시각화 브리핑.html",
     "title": "2026. 09. 30 장전 핵심 이슈 및 비즈니스 시각화 브리핑",
     "date": "2026-09-30",
+    "series": "기타",
     "url": "reports/2026.%2009.%2030%20%EC%9E%A5%EC%A0%84%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "[따블] 2026. 09. 29 주간 테마 분석 및 N형 패턴 모아가기 전략 보고서.html",
     "title": "[따블] 2026. 09. 29 주간 테마 분석 및 N형 패턴 모아가기 전략 보고서",
     "date": "2026-09-29",
+    "series": "따블",
     "url": "reports/%5B%EB%94%B0%EB%B8%94%5D%202026.%2009.%2029%20%EC%A3%BC%EA%B0%84%20%ED%85%8C%EB%A7%88%20%EB%B6%84%EC%84%9D%20%EB%B0%8F%20N%ED%98%95%20%ED%8C%A8%ED%84%B4%20%EB%AA%A8%EC%95%84%EA%B0%80%EA%B8%B0%20%EC%A0%84%EB%9E%B5%20%EB%B3%B4%EA%B3%A0%EC%84%9C.html"
   },
   {
     "filename": "[매크로뷰] 2026. 09. 29 장마감 매크로 인과체인 브리핑.html",
     "title": "[매크로뷰] 2026. 09. 29 장마감 매크로 인과체인 브리핑",
     "date": "2026-09-29",
+    "series": "매크로뷰",
     "url": "reports/%5B%EB%A7%A4%ED%81%AC%EB%A1%9C%EB%B7%B0%5D%202026.%2009.%2029%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EB%A7%A4%ED%81%AC%EB%A1%9C%20%EC%9D%B8%EA%B3%BC%EC%B2%B4%EC%9D%B8%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "[미장이] 2026. 09. 29 미장 마감 & 국장 시초가 연계 브리핑.html",
     "title": "[미장이] 2026. 09. 29 미장 마감 & 국장 시초가 연계 브리핑",
     "date": "2026-09-29",
+    "series": "미장이",
     "url": "reports/%5B%EB%AF%B8%EC%9E%A5%EC%9D%B4%5D%202026.%2009.%2029%20%EB%AF%B8%EC%9E%A5%20%EB%A7%88%EA%B0%90%20%26%20%EA%B5%AD%EC%9E%A5%20%EC%8B%9C%EC%B4%88%EA%B0%80%20%EC%97%B0%EA%B3%84%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "2026-09-29_역발상_비효율_대장주_추적_리포트_단일웹페이지.html",
     "title": "역발상 비효율 대장주 추적 리포트 (2026.09.29)",
     "date": "2026-09-29",
+    "series": "기타",
     "url": "reports/2026-09-29_%EC%97%AD%EB%B0%9C%EC%83%81_%EB%B9%84%ED%9A%A8%EC%9C%A8_%EB%8C%80%EC%9E%A5%EC%A3%BC_%EC%B6%94%EC%A0%81_%EB%A6%AC%ED%8F%AC%ED%8A%B8_%EB%8B%A8%EC%9D%BC%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80.html"
   },
   {
     "filename": "2026. 09. 29 장마감 시각화 브리핑.html",
     "title": "2026. 09. 29 장마감 핵심 이슈 및 비즈니스 시각화 브리핑",
     "date": "2026-09-29",
+    "series": "기타",
     "url": "reports/2026.%2009.%2029%20%EC%9E%A5%EB%A7%88%EA%B0%90%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "2026. 09. 29 장전 시각화 브리핑.html",
     "title": "2026.09.29 미장 마감 & 국장 장전 뉴스 시각화 브리핑",
     "date": "2026-09-29",
+    "series": "기타",
     "url": "reports/2026.%2009.%2029%20%EC%9E%A5%EC%A0%84%20%EC%8B%9C%EA%B0%81%ED%99%94%20%EB%B8%8C%EB%A6%AC%ED%95%91.html"
   },
   {
     "filename": "2026. 09. 29 장전 시장뉴스 종합브리핑 단일웹페이지.html",
     "title": "2026.09.29 미장 마감 & 국장 장전 뉴스 시각화 브리핑",
     "date": "2026-09-29",
+    "series": "기타",
     "url": "reports/2026.%2009.%2029%20%EC%9E%A5%EC%A0%84%20%EC%8B%9C%EC%9E%A5%EB%89%B4%EC%8A%A4%20%EC%A2%85%ED%95%A9%EB%B8%8C%EB%A6%AC%ED%95%91%20%EB%8B%A8%EC%9D%BC%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80.html"
+  },
+  {
+    "filename": "거래대금과 N형 패턴 매매 종합 분석 대시보드.html",
+    "title": "거래대금 & N형 패턴매매 종합 분석 대시보드",
+    "date": "",
+    "series": "기타",
+    "url": "reports/%EA%B1%B0%EB%9E%98%EB%8C%80%EA%B8%88%EA%B3%BC%20N%ED%98%95%20%ED%8C%A8%ED%84%B4%20%EB%A7%A4%EB%A7%A4%20%EC%A2%85%ED%95%A9%20%EB%B6%84%EC%84%9D%20%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
   },
   {
     "filename": "에이전트_생태계_조직구조도.html",
     "title": "에이전트 생태계 총괄 조직 구조도",
-    "date": "2026-09-29",
+    "date": "",
+    "series": "기타",
     "url": "reports/%EC%97%90%EC%9D%B4%EC%A0%84%ED%8A%B8_%EC%83%9D%ED%83%9C%EA%B3%84_%EC%A1%B0%EC%A7%81%EA%B5%AC%EC%A1%B0%EB%8F%84.html"
   },
   {
     "filename": "역발상_비효율_대장주_및_가온전선_차트분석_리포트_단일웹페이지.html",
     "title": "역발상 비효율 대장주 추적 & 가온전선 차트 분석 리포트",
-    "date": "2026-09-28",
+    "date": "",
+    "series": "기타",
     "url": "reports/%EC%97%AD%EB%B0%9C%EC%83%81_%EB%B9%84%ED%9A%A8%EC%9C%A8_%EB%8C%80%EC%9E%A5%EC%A3%BC_%EB%B0%8F_%EA%B0%80%EC%98%A8%EC%A0%84%EC%84%A0_%EC%B0%A8%ED%8A%B8%EB%B6%84%EC%84%9D_%EB%A6%AC%ED%8F%AC%ED%8A%B8_%EB%8B%A8%EC%9D%BC%EC%9B%B9%ED%8E%98%EC%9D%B4%EC%A7%80.html"
+  },
+  {
+    "filename": "재료매매 2대타점과 캘린더 주도주 전략.html",
+    "title": "재료매매 2대 타점 & 캘린더 주도주 전략 - 쥬쥬 4~7% 원칙",
+    "date": "",
+    "series": "기타",
+    "url": "reports/%EC%9E%AC%EB%A3%8C%EB%A7%A4%EB%A7%A4%202%EB%8C%80%ED%83%80%EC%A0%90%EA%B3%BC%20%EC%BA%98%EB%A6%B0%EB%8D%94%20%EC%A3%BC%EB%8F%84%EC%A3%BC%20%EC%A0%84%EB%9E%B5.html"
+  },
+  {
+    "filename": "재료매매_2대타점_기반_캘린더_5대종목_심층진단_웹대시보드.html",
+    "title": "재료 매매 2대 타점 & 캘린더 주도주 전략",
+    "date": "",
+    "series": "기타",
+    "url": "reports/%EC%9E%AC%EB%A3%8C%EB%A7%A4%EB%A7%A4_2%EB%8C%80%ED%83%80%EC%A0%90_%EA%B8%B0%EB%B0%98_%EC%BA%98%EB%A6%B0%EB%8D%94_5%EB%8C%80%EC%A2%85%EB%AA%A9_%EC%8B%AC%EC%B8%B5%EC%A7%84%EB%8B%A8_%EC%9B%B9%EB%8C%80%EC%8B%9C%EB%B3%B4%EB%93%9C.html"
   }
 ]
