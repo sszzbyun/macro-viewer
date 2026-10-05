@@ -112,6 +112,96 @@
       margin-left: 3px;
     }
 
+    /* 미니 달력 */
+    .cal-wrap {
+      margin-top: 12px;
+      padding: 10px 10px 8px;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 8px;
+    }
+    .cal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .cal-title {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .cal-nav {
+      background: transparent;
+      border: 1px solid #334155;
+      border-radius: 6px;
+      color: #cbd5e1;
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      cursor: pointer;
+    }
+    .cal-nav:hover { border-color: var(--primary); color: #fff; }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      text-align: center;
+    }
+    .cal-dow {
+      font-size: 0.68rem;
+      color: #64748b;
+      padding: 3px 0;
+    }
+    .cal-day {
+      font-size: 0.74rem;
+      padding: 5px 0;
+      border-radius: 6px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: #475569;
+      cursor: default;
+      position: relative;
+    }
+    .cal-day.has {
+      color: #e2e8f0;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .cal-day.has:hover { background: #334155; }
+    .cal-day.has::after {
+      content: attr(data-count);
+      position: absolute;
+      top: 1px;
+      right: 3px;
+      font-size: 0.58rem;
+      color: #93c5fd;
+      font-weight: 700;
+    }
+    .cal-day.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+    .cal-day.selected.has::after { color: #dbeafe; }
+    .cal-nodate {
+      width: 100%;
+      margin-top: 8px;
+      font-size: 0.76rem;
+      padding: 6px 8px;
+      border-radius: 6px;
+      border: 1px solid #334155;
+      background: transparent;
+      color: #cbd5e1;
+      cursor: pointer;
+      text-align: left;
+    }
+    .cal-nodate:hover { border-color: var(--primary); color: #fff; }
+    .cal-nodate.selected {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: #fff;
+    }
+
     .report-list {
       flex: 1;
       overflow-y: auto;
@@ -286,6 +376,15 @@
         <input type="text" id="searchInput" placeholder="날짜 또는 키워드 검색..." oninput="handleSearch()">
       </div>
       <div id="seriesChips" class="chip-row"></div>
+      <div class="cal-wrap">
+        <div class="cal-header">
+          <button id="calPrev" class="cal-nav" type="button" title="이전 달">◀</button>
+          <span id="calTitle" class="cal-title"></span>
+          <button id="calNext" class="cal-nav" type="button" title="다음 달">▶</button>
+        </div>
+        <div id="calGrid" class="cal-grid"></div>
+        <button id="nodateRow" class="cal-nodate" type="button"></button>
+      </div>
     </div>
     <ul id="reportList" class="report-list"></ul>
   </aside>
@@ -312,6 +411,8 @@
     let allReports = [];
     let currentActiveIdx = -1;
     let activeSeries = '전체';
+    let activeDate = ''; // ''=전체, '__nodate__'=상시자료, 'YYYY-MM-DD'=특정일
+    let calYear = 0, calMonth = 0; // 표시 중인 달 (0-based month)
 
     function getSeriesOf(r) {
       if (r && r.series) return r.series;
@@ -346,14 +447,91 @@
       });
     }
 
+    function countByDate() {
+      const m = {};
+      allReports.forEach(r => {
+        if (r.date) m[r.date] = (m[r.date] || 0) + 1;
+      });
+      return m;
+    }
+
+    function renderCalendar() {
+      const counts = countByDate();
+      const nodateCount = allReports.filter(r => !r.date).length;
+      document.getElementById('calTitle').innerText = `${calYear}.${String(calMonth + 1).padStart(2, '0')}`;
+
+      const grid = document.getElementById('calGrid');
+      grid.innerHTML = '';
+      ['일', '월', '화', '수', '목', '금', '토'].forEach(d => {
+        const el = document.createElement('div');
+        el.className = 'cal-dow';
+        el.innerText = d;
+        grid.appendChild(el);
+      });
+
+      const firstDow = new Date(calYear, calMonth, 1).getDay();
+      const lastDay = new Date(calYear, calMonth + 1, 0).getDate();
+      for (let i = 0; i < firstDow; i++) {
+        grid.appendChild(document.createElement('div'));
+      }
+      for (let d = 1; d <= lastDay; d++) {
+        const key = `${calYear}-${String(calMonth + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const c = counts[key] || 0;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'cal-day' + (c ? ' has' : '') + (activeDate === key ? ' selected' : '');
+        btn.innerText = d;
+        if (c) {
+          btn.setAttribute('data-count', c);
+          btn.title = `${key} (${c}건)`;
+          btn.onclick = () => {
+            activeDate = (activeDate === key) ? '' : key;
+            renderCalendar();
+            renderList(getFilteredList());
+          };
+        } else {
+          btn.disabled = true;
+        }
+        grid.appendChild(btn);
+      }
+
+      const nd = document.getElementById('nodateRow');
+      nd.className = 'cal-nodate' + (activeDate === '__nodate__' ? ' selected' : '');
+      nd.innerText = `📌 상시자료 (${nodateCount})`;
+      nd.onclick = () => {
+        activeDate = (activeDate === '__nodate__') ? '' : '__nodate__';
+        renderCalendar();
+        renderList(getFilteredList());
+      };
+    }
+
     async function init() {
       try {
         const res = await fetch('reports.json?v=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error("reports.json 파일을 찾을 수 없습니다.");
         allReports = await res.json();
+
+        // 달력 초기 월 = 가장 최신 리포트의 달
+        const dated = allReports.filter(r => r.date);
+        if (dated.length) {
+          const [y, m] = dated[0].date.split('-').map(Number);
+          calYear = y; calMonth = m - 1;
+        } else {
+          const now = new Date();
+          calYear = now.getFullYear(); calMonth = now.getMonth();
+        }
         
         document.getElementById('reportBadge').innerText = `${allReports.length}건`;
+        document.getElementById('calPrev').onclick = () => {
+          calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
+          renderCalendar();
+        };
+        document.getElementById('calNext').onclick = () => {
+          calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
+          renderCalendar();
+        };
         renderChips();
+        renderCalendar();
         renderList(allReports);
 
         if (allReports.length > 0) {
@@ -421,6 +599,11 @@
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
       return allReports.filter(r => {
         if (activeSeries !== '전체' && getSeriesOf(r) !== activeSeries) return false;
+        if (activeDate === '__nodate__') {
+          if (r.date) return false;
+        } else if (activeDate) {
+          if (r.date !== activeDate) return false;
+        }
         if (!query) return true;
         return r.title.toLowerCase().includes(query) ||
           (r.date || '').toLowerCase().includes(query) ||
