@@ -8,7 +8,7 @@
 ## 🔄 동작 방식
 
 1. 구글 드라이브 폴더에 새 HTML 리포트가 올라옴
-2. GitHub Actions (`deploy.yml`, 1일 3회: KST 09시 / 12시 / 21시)가 `sync_ci.py`로 변경분만 다운로드
+2. GitHub Actions (`deploy.yml`, 매일 06~24시 KST 매시간)가 `sync_ci.py`로 변경분만 다운로드
 3. `scripts/build-index.js`가 `public/reports.json` 색인 재생성
 4. 변경 있으면 자동 커밋 → Vercel 재배포 (약 20~30초)
 5. 로컬에서 직접 동기화하려면 **`update.bat` 더블클릭** (= `python sync.py` 실행)
@@ -45,7 +45,7 @@ git push -u origin main
 
 ---
 
-**평소에는 아무것도 안 해도 됩니다.** Actions 스케줄(매일 09시 / 12시 / 21시 KST)이 Drive를 자동으로 가져옵니다.
+**평소에는 아무것도 안 해도 됩니다.** Actions 스케줄(매일 06~24시 KST 매시간)이 Drive를 자동으로 가져옵니다.
 
 - 수동 즉시 반영이 필요하면: 구글 드라이브에 파일 업로드 후 Actions 탭 → `Auto Sync from Google Drive` → `Run workflow`
 - 로컬 PC에서 직접 반영하려면: **`update.bat` 더블클릭** (Drive 다운로드 → 인덱싱 → Git 푸시까지 자동)
@@ -69,7 +69,7 @@ macro-viewer/
 ├── sync_ci.py                 # Actions용 Drive 동기화 (경량)
 ├── .sync_cache.json           # 변경 감지용 해시 캐시 (추적됨, 삭제 금지)
 ├── vercel.json                # Vercel 빌드 설정
-├── .github/workflows/deploy.yml  # 1일 3회 자동 동기화 워크플로
+├── .github/workflows/deploy.yml  # 매시간 자동 동기화 워크플로
 ├── scripts/
 │   └── build-index.js         # public/reports 내 HTML 분석 → reports.json 생성
 └── public/
