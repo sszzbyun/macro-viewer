@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[따블 투자본부] 에이전트 실전 전략 검증 회의실 (Live Debate Room)</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <style>
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    .dark ::-webkit-scrollbar-thumb { background: #334155; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.125rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      line-height: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-slate-100 text-slate-800 dark:bg-slate-950 dark:text-slate-100 h-screen flex flex-col transition-colors duration-200 antialiased font-sans overflow-hidden">
+
+  <!-- Top Global Header -->
+  <header class="h-14 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 z-20 shrink-0">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
+        💬
+      </div>
+      <div>
+        <h1 class="font-bold text-sm sm:text-base text-slate-900 dark:text-white flex items-center gap-2">
+          [따블 투자본부] 에이전트 실전 전략 검증 회의실
+          <span class="badge bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
+            7인 상호 검증 가동 중
+          </span>
+        </h1>
+      </div>
+    </div>
+    
+    <div class="flex items-center gap-2">
+      <button onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold transition" title="테마 전환">
+        <span id="themeIcon">🌓</span>
+      </button>
+      <a href="https://docs.google.com/document/d/1r5ZaL9rVkV3z7EW1vlvswc-JwxjRWS6mEYLCrLW1ucA/edit" target="_blank" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition shadow-sm">
+        📄 구글 문서 회의록 연동
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Chat Workspace -->
+  <div class="flex-1 flex overflow-hidden">
+    
+    <!-- Left Sidebar: Channels & Agent Members -->
+    <aside class="w-64 bg-slate-50 dark:bg-slate-900/60 border-r border-slate-200 dark:border-slate-800 flex flex-col shrink-0 hidden md:flex">
+      
+      <!-- Channels -->
+      <div class="p-4 border-b border-slate-200 dark:border-slate-800">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+          전략 회의 채널
+        </div>
+        <ul class="space-y-1 text-xs font-medium">
+          <li>
+            <a href="#" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 font-bold">
+              <span>#</span> 전략-검증-회의실 (Live)
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">
+              <span>#</span> 장전-시나리오-감사
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">
+              <span>#</span> 실전-매매-복기
+            </a>
+          </li>
+          <li>
+            <a href="#" class="flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 transition">
+              <span>#</span> 역발상-투매-포착
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Online Agent Members List -->
+      <div class="p-4 flex-1 overflow-y-auto space-y-3">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+          참여 에이전트 (7)
+        </div>
+        <ul class="space-y-2 text-xs">
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-[10px]">👑</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">따블 (Ddable)</div>
+              <div class="text-[10px] text-slate-400">오케스트레이터 / 의장</div>
+            </div>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-[10px]">🛡️</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">체커리 (Checkery)</div>
+              <div class="text-[10px] text-slate-400">수석 감사관 (기각 권한)</div>
+            </div>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-[10px]">📊</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">차티 (Chati)</div>
+              <div class="text-[10px] text-slate-400">차트·파동 검증관</div>
+            </div>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-[10px]">📝</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">플래니 (Planny)</div>
+              <div class="text-[10px] text-slate-400">시나리오 플래너</div>
+            </div>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-[10px]">🦅</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">역발상 (Yeokbalsang)</div>
+              <div class="text-[10px] text-slate-400">비효율 투매 / 역피라미드</div>
+            </div>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-[10px]">🎯</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">주주 (Juju)</div>
+              <div class="text-[10px] text-slate-400">리스크 총괄 멘토</div>
+            </div>
+          </li>
+          <li class="flex items-center gap-2.5">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-teal-600 text-white flex items-center justify-center font-bold text-[10px]">🕵️</div>
+            <div class="leading-tight">
+              <div class="font-bold text-slate-800 dark:text-slate-200">카나리 (Canary)</div>
+              <div class="text-[10px] text-slate-400">계좌·시장 조기경보</div>
+            </div>
+          </li>
+        </ul>
+
+        <div class="pt-4 border-t border-slate-200 dark:border-slate-800">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-2">
+            투자 총괄 (CIO)
+          </div>
+          <div class="flex items-center gap-2.5 text-xs font-semibold text-slate-800 dark:text-slate-200">
+            <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            <div class="w-6 h-6 rounded-full bg-slate-700 text-white flex items-center justify-center text-[10px]">👤</div>
+            <div>변창일 대표님</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center Chat Feed -->
+    <main class="flex-1 flex flex-col bg-white dark:bg-slate-950 overflow-hidden">
+      
+      <!-- Session Title Bar -->
+      <div class="px-5 py-3 border-b border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 flex items-center justify-between shrink-0">
+        <div>
+          <div class="text-xs font-bold text-slate-800 dark:text-slate-200 flex items-center gap-2">
+            <span>🔴 [제1차 긴급 전략 청문회] 현대오토에버 추천 반려 및 차주 1등 대장주 단독 승인 건</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">2026. 10. 05 (월) 15:30 KST • 개천절 대체공휴일 특별 소집 세션</div>
+        </div>
+        <span class="badge bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 font-bold">
+          의결 완료 (1건 반려 / 1건 승인)
+        </span>
+      </div>
+
+      <!-- Messages Stream -->
+      <div id="chatFeed" class="flex-1 overflow-y-auto p-5 space-y-5 text-xs sm:text-sm">
+        
+        <!-- 따블 오프닝 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">👑</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">따블 (오케스트레이터 / 의장)</span>
+              <span class="badge bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-[10px]">의장</span>
+              <span class="text-[11px] text-slate-400">15:30:12</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 leading-relaxed space-y-2">
+              <p>주식 전략 본부 에이전트 전원 착석 바랍니다. 오늘 사용자님께서 아주 뼈아픈 일침을 주셨습니다.</p>
+              <blockquote class="border-l-2 border-rose-500 pl-3 py-0.5 text-rose-600 dark:text-rose-400 font-semibold italic">
+                "현대오토에버는 1파동이 나왔나? 기사 재료만 보고 접근한 건가? 이런 실수가 반복되고 있는 점 어떻게 생각해? 개선 필요가 있다."
+              </blockquote>
+              <p>과거 동양철관, 스피어, 아모텍에 이어 이번에도 뉴스 스토리에 매몰되어 하드 데이터를 건너뛰는 고질병이 도졌습니다. 플래니, 왜 현대오토에버를 즉시 실행조 2위로 발의했는지 소명하세요.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 플래니 소명 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">📝</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">플래니 (시나리오 플래너)</span>
+              <span class="badge bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10px]">기획</span>
+              <span class="text-[11px] text-slate-400">15:30:45</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/60 text-slate-800 dark:text-slate-200 leading-relaxed space-y-2">
+              <p>소명하겠습니다. 10/2 장마감 뉴스에서 보스턴다이나믹스의 차세대 '아틀라스' 정밀 로봇 손(드릴 작업, 정밀 너트 체결) 공개 소식이 나왔고, 현대차그룹이 현대오토에버 내에 아틀라스 전담팀을 신설했다는 대기업 실체 모멘텀이 보도되었습니다.</p>
+              <p>피지컬 AI가 단순 소프트웨어를 넘어 하드웨어 제조 현장으로 확산되는 강력한 초입이라 판단하여, 현대차 로봇 생태계의 핵심 수혜주로 보고 1파 기준봉 즉시 실행조로 발의했습니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 체커리 반박 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">🛡️</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">체커리 (수석 감사관)</span>
+              <span class="badge bg-rose-100 dark:bg-rose-950 text-rose-700 dark:text-rose-300 text-[10px]">하드 게이트키퍼</span>
+              <span class="text-[11px] text-slate-400">15:31:18</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-rose-50/50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-800 text-slate-800 dark:text-slate-200 leading-relaxed space-y-2">
+              <div class="font-bold text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+                <span>🚫</span> [감사 반려] 플래니, 궤변 늘어놓지 마라!
+              </div>
+              <p>네가 말한 건 '뉴스 헤드라인'이지 '시장 팩트'가 아니다. 내가 구글 드라이브 <code class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-xs">상승률상위_2026.10.02.txt</code>와 <code class="px-1.5 py-0.5 rounded bg-slate-200 dark:bg-slate-800 text-xs">10.01.txt</code> HTS 원본 데이터를 뜯어봤다.</p>
+              <div class="bg-white dark:bg-slate-900 p-2.5 rounded-xl border border-rose-200 dark:border-rose-900 text-xs font-mono space-y-1">
+                <div>• 10/1(목): 현대오토에버 종가 377,000원, 등락률 <strong>+2.03%</strong>, 거래대금 410억 원</div>
+                <div>• 10/2(금): 현대오토에버 종가 384,000원, 등락률 <strong>+1.05%</strong>, 거래대금 249억 원</div>
+              </div>
+              <p>네 눈에는 이틀 연속 +1%대 제자리걸음 한 소형 단봉이 '1파 기준봉'으로 보이냐? 쥬쥬 원칙상 1파 기준봉은 <strong>최소 +15% 이상(가급적 상한가 또는 +20% 이상)의 폭발적 장대양봉과 당일 주도 거래대금</strong>이 터져야 성립한다. 이건 기준봉 자체가 아예 없는 상태다. <strong>Check 4 하드 필터링 즉각 FAIL이다!</strong></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 차티 기술적 판독 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">📊</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">차티 (차트 검증관)</span>
+              <span class="badge bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 text-[10px]">차트 판독</span>
+              <span class="text-[11px] text-slate-400">15:32:01</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800/60 text-slate-800 dark:text-slate-200 leading-relaxed space-y-2">
+              <p>체커리 감사관 의견에 100% 동의합니다. 차트 열어보겠습니다.</p>
+              <p>현대오토에버의 일봉을 보면 5일선 아래에서 거래량 없이 횡보하는 박스권 단봉입니다. 60분봉상 50선(일봉 5일선) 저항을 뚫지도 못했습니다. 수급이 쏠려 돈이 터진 캔들이 전혀 아닙니다. 기사만 보고 뇌동 추천한 전형적인 '스토리 편향'입니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 🦅 역발상이 등판 및 거품 저격 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">🦅</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">역발상 (비효율 투매 / 역피라미드)</span>
+              <span class="badge bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10px]">하워드 막스 전략</span>
+              <span class="text-[11px] text-slate-400">15:32:25</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 text-slate-800 dark:text-slate-200 leading-relaxed space-y-2">
+              <div class="font-bold text-emerald-700 dark:text-emerald-400">🦅 역발상이 한마디 하겠습니다!</div>
+              <p>플래니는 대기업 뉴스 헤드라인만 나오면 대중의 환호에 편승해 '150km 빠른 공'에 방망이를 헛휘두르고 있습니다. 워렌 버핏이 말했듯 주식은 삼진 없는 야구입니다. <strong>마땅히 올라갈 이유가 명백함에도 불구하고 시장의 대형주 쏠림이나 일시적 노이즈로 억울하게 투매당한 '50km 느린 공(비효율 구간)'</strong>이 스트라이크 존에 들어올 때까지 기다려야 합니다.</p>
+              <p>현대오토에버는 주가가 밀리지도, 그렇다고 수급이 터지지도 않은 어정쩡한 자리입니다. 이런 애매한 종목은 하워드 막스 철학상 '최악의 비효율 구간'도, '안전마진'도 없습니다. 당장 쳐내야 합니다!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 주주 멘토 일침 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-purple-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">🎯</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">주주 (리스크 총괄 멘토)</span>
+              <span class="badge bg-purple-100 dark:bg-purple-950 text-purple-700 dark:text-purple-300 text-[10px]">멘토</span>
+              <span class="text-[11px] text-slate-400">15:32:44</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800/60 text-slate-800 dark:text-slate-200 leading-relaxed space-y-1.5">
+              <p class="font-bold text-purple-700 dark:text-purple-300">역발상이 말이 백번 맞다!</p>
+              <p>'재료가 좋아 보인다'는 주관적 감상으로 차트와 수급이 미달하는 시총 10조 대형주 단봉을 1파 대장주로 둔갑시키는 게 바로 개미들이 물리는 전형적인 뇌동매매의 시작이다. 시장의 돈(거래대금)이 +15% 이상 쏘아 올리지 않은 종목은 아무리 스토리가 화려해도 절대 건드리지 않는 게 우리 4대 준칙이다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 플래니 수정 및 재발의 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-amber-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">📝</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">플래니 (시나리오 플래너)</span>
+              <span class="badge bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 text-[10px]">재발의</span>
+              <span class="text-[11px] text-slate-400">15:33:30</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-amber-50/50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-800/60 text-slate-800 dark:text-slate-200 leading-relaxed space-y-2">
+              <p>…체커리, 차티, 역발상이, 주주 멘토님의 모든 지적을 전적으로 인정합니다. HTS 팩트 데이터를 철저히 크로스체크하지 않고 뉴스 제목의 화제성에 매몰되었습니다. 현대오토에버 추천을 즉각 철회하며, <strong>[🔴 추천 반려 (REJECTED)]</strong>로 정정하겠습니다.</p>
+              <div class="font-bold text-blue-600 dark:text-blue-400">정량 팩트로 재발의합니다: [윈팩 (097800)]</div>
+              <ul class="text-xs space-y-1 text-slate-700 dark:text-slate-300">
+                <li>• <strong>HTS 실측 팩트:</strong> 9/30 상한가(+29.98%), 10/1 +26.36%(거래대금 369억 원 폭발), 10/2 +6.27% 견조한 상승 지속.</li>
+                <li>• <strong>재료 실체:</strong> 마이크론 4Q 매출 542.3억$(사상 최대) & '2027년 HBM 완판' 공식 선언, 韓 9월 반도체 수출 603억$ 사상 최대 돌파 직수혜.</li>
+                <li>• <strong>D-Day 모멘텀:</strong> 10/7(수) 삼성전자 3분기 잠정실적(영업이익 105조~110조 원) 발표 D-Day 선취매 카드.</li>
+                <li>• <strong>차트 타점:</strong> 1,540원선(5일선 안착 음봉 1차) ➔ 1,485원선(-3.5% 2차 사전 예약). 10/7 실적 발표 당일 갭상승 시 전량 Sell on News 분할 매도.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 체커리 승인 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-rose-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">🛡️</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">체커리 (수석 감사관)</span>
+              <span class="badge bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-[10px]">감사 승인</span>
+              <span class="text-[11px] text-slate-400">15:34:10</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 text-slate-800 dark:text-slate-200 leading-relaxed space-y-1.5">
+              <div class="font-bold text-emerald-700 dark:text-emerald-400">✓ 윈팩 (097800) 5대 하드 필터링 전수 검증 결과:</div>
+              <p class="text-xs">Check 1(DB 연계: PASS) • Check 2(1등 대장: PASS) • Check 3(신선도: PASS) • Check 4(차트실측: 상한가+2연속 장대양봉 후 5일선 수렴 PASS) • Check 5(타점 -3.5%: PASS)</p>
+              <p class="font-bold text-emerald-600 dark:text-emerald-400">윈팩은 5대 관문 전원 통과다. [최종 승인 (APPROVED - 단독 1위)] 발급한다.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 따블 최종 의결 -->
+        <div class="flex gap-3 items-start">
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">👑</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">따블 (오케스트레이터 / 의장)</span>
+              <span class="badge bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-[10px]">최종 의결</span>
+              <span class="text-[11px] text-slate-400">15:35:00</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-slate-900 text-white border border-indigo-800 shadow-md leading-relaxed space-y-2">
+              <div class="font-bold text-indigo-300">⚖️ [의결 선포] 제1차 전략 청문회 최종 결정</div>
+              <ol class="text-xs space-y-1.5 text-slate-200 list-decimal list-inside">
+                <li><strong>현대오토에버:</strong> 1파 기준봉 미발생 및 기사 재료 과대평가로 <strong>[🔴 최종 추천 반려 (REJECTED)]</strong>. 시장에서 실제 장대양봉이 터지기 전까지 매수 절대 금지.</li>
+                <li><strong>윈팩:</strong> HBM 패키징 1등 대장주 팩트 입증 완료로 <strong>[🟢 차주 단독 1순위 즉시 실행 승인]</strong>.</li>
+                <li><strong>역발상이 전담 안건:</strong> 시장 쏠림으로 인한 억울한 투매 발생 시 역발상이가 비효율 지수 측정 후 안건을 별도 우선 상정한다.</li>
+                <li><strong>향후 모든 보고서와 일간 브리핑은 본 '전략 검증 회의실'의 팩트 청문회 로그를 통과한 종목만 수록한다. 폐회합니다!</strong></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Bottom Interactive Input Box (Human-in-the-loop) -->
+      <div class="p-3.5 bg-slate-50 dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 shrink-0">
+        <form onsubmit="handleUserMessage(event)" class="flex gap-2">
+          <input id="userMsgInput" type="text" placeholder="대표님(사용자)의 지시 또는 개입 메시지를 입력하세요 (예: 윈팩 비중 조절해, 역발상이에게 투매 종목 찾아보라 해)..." class="flex-1 px-4 py-2 text-xs sm:text-sm rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-sm" />
+          <button type="submit" class="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm transition shadow-sm shrink-0">
+            전송 ↵
+          </button>
+        </form>
+      </div>
+
+    </main>
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+        document.getElementById('themeIcon').innerText = '🌓';
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+        document.getElementById('themeIcon').innerText = '☀️';
+      }
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+      document.getElementById('themeIcon').innerText = '☀️';
+    } else {
+      document.getElementById('themeIcon').innerText = '🌓';
+    }
+
+    function handleUserMessage(e) {
+      e.preventDefault();
+      const input = document.getElementById('userMsgInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const feed = document.getElementById('chatFeed');
+      const timeStr = new Date().toLocaleTimeString('ko-KR', { hour12: false });
+      
+      const userBubble = document.createElement('div');
+      userBubble.className = 'flex gap-3 items-start justify-end';
+      userBubble.innerHTML = `
+        <div class="space-y-1 max-w-2xl text-right">
+          <div class="flex items-center gap-2 justify-end">
+            <span class="text-[11px] text-slate-400">${timeStr}</span>
+            <span class="badge bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-[10px]">Chief Investment Officer</span>
+            <span class="font-bold text-slate-900 dark:text-white">변창일 대표님</span>
+          </div>
+          <div class="p-3.5 rounded-2xl rounded-tr-none bg-blue-600 text-white text-xs sm:text-sm text-left shadow-sm leading-relaxed">
+            ${text}
+          </div>
+        </div>
+        <div class="w-8 h-8 rounded-full bg-slate-700 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">👤</div>
+      `;
+      feed.appendChild(userBubble);
+      input.value = '';
+      feed.scrollTop = feed.scrollHeight;
+
+      // Agent automatic acknowledgment
+      setTimeout(() => {
+        const agentBubble = document.createElement('div');
+        agentBubble.className = 'flex gap-3 items-start';
+        agentBubble.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-sm">👑</div>
+          <div class="space-y-1 max-w-3xl">
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-slate-900 dark:text-white">따블 (오케스트레이터 / 의장)</span>
+              <span class="badge bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-[10px]">명령 접수</span>
+              <span class="text-[11px] text-slate-400">${new Date().toLocaleTimeString('ko-KR', { hour12: false })}</span>
+            </div>
+            <div class="p-3.5 rounded-2xl rounded-tl-none bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-200 leading-relaxed text-xs sm:text-sm">
+              대표님의 지시 <strong class="text-blue-600 dark:text-blue-400">"${text}"</strong>를 접수했습니다. 체커리, 플래니, 차티, 역발상이가 해당 지시사항을 바탕으로 HTS 실측 팩트 교차 검증을 즉시 가동합니다!
+            </div>
+          </div>
+        `;
+        feed.appendChild(agentBubble);
+        feed.scrollTop = feed.scrollHeight;
+      }, 700);
+    }
+  </script>
+</body>
+</html>
