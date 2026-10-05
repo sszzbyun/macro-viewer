@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[따블] 2026. 10. 05 차주 주간 증시 전략 리포트</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <style>
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    .dark ::-webkit-scrollbar-thumb {
+      background: #475569;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200/80 dark:border-slate-800/80 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3 min-w-0">
+        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">
+          DDABLE STRATEGY
+        </span>
+        <h1 class="font-bold text-base sm:text-lg tracking-tight truncate text-slate-900 dark:text-white">
+          [따블] 2026. 10. 05 차주 주간 증시 전략 리포트
+        </h1>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <button id="copyBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-xs cursor-pointer">
+          <i data-lucide="copy" class="w-3.5 h-3.5 text-slate-500"></i>
+          <span>본문 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition shadow-xs cursor-pointer text-sm" aria-label="테마 전환">
+          <i id="themeIcon" data-lucide="moon" class="w-4 h-4 text-slate-600 dark:text-slate-300"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Navigation / TOC (Desktop) -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <p class="text-xs font-semibold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-3 flex items-center gap-1.5">
+            <i data-lucide="list" class="w-3.5 h-3.5"></i>
+            <span>목차 (Contents)</span>
+          </p>
+          <nav class="space-y-1 text-sm font-medium" id="toc-nav">
+            <a href="#macro-overview" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">📌 1. 매크로 & 4대 지수 주봉</a>
+            <a href="#calendar-timeline" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">🗓️ 2. 증시 캘린더 타임라인</a>
+            <a href="#theme-summary" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">📊 3. 주간 테마 결산 TOP 3</a>
+            <a href="#leading-stocks" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">🎯 4. 1등 대장주 3선 실행카드</a>
+            <a href="#exclusion-warning" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">🚫 5. 매매 배제 종목 경고</a>
+            <a href="#canary-signals" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">🚦 6. 카나리 시장 신호등</a>
+            <a href="#action-principles" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">📋 7. 따블 실전 행동 수칙</a>
+          </nav>
+        </div>
+
+        <div class="p-4 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-900/40 text-xs space-y-2">
+          <div class="font-bold text-blue-900 dark:text-blue-300 flex items-center gap-1.5">
+            <i data-lucide="shield-check" class="w-4 h-4 text-blue-600"></i>
+            <span>리스크 거버넌스</span>
+          </div>
+          <p class="text-blue-800 dark:text-blue-400 leading-relaxed">
+            카나리 판정: <b>🟢 GREEN (95점)</b><br>
+            가용 슬롯: <b>3개 정상 가동</b><br>
+            대기 예수금: <b>50% 철저 방어</b><br>
+            <span class="text-red-600 dark:text-red-400 font-semibold">• 현대오토에버 제외 & 나라스페이스테크 편입</span>
+          </p>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 min-w-0 space-y-10">
+
+      <!-- Executive Banner -->
+      <section class="p-6 sm:p-8 rounded-2xl bg-gradient-to-br from-blue-900 via-indigo-900 to-slate-900 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 space-y-4">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 text-xs font-semibold">
+            <span>2026. 10. 05 ~ 10. 09 주간 전략</span>
+            <span>•</span>
+            <span>화·수·목 3거래일 단축 주간</span>
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
+            코스피 7,000선 안착 & 환율 1,350원 안정 속<br>초격차 반도체·광통신·우주항공 3선 집중
+          </h2>
+          <p class="text-slate-300 text-sm sm:text-base leading-relaxed max-w-3xl">
+            10월 5일(월) <a href="https://www.google.com/calendar/event?eid=MjAyNjEwMDVfYTN2M2lldGQ5b2JxcG5ydjVoZzRlbWhtdmMga28uc291dGhfa29yZWEjaG9saWRheUB2" target="_blank" class="underline hover:text-white">개천절 대체공휴일</a>과 10월 9일(금) <a href="https://www.google.com/calendar/event?eid=MjAyNjEwMDlfbXYxOXBiZWdhcGY1N25hYm5scDgyYmVvMDQga28uc291dGhfa29yZWEjaG9saWRheUB2" target="_blank" class="underline hover:text-white">한글날</a> 휴장으로 국장은 <b>화·수·목 3거래일만 개장</b>합니다. "무거운 대형 종목에 타협하지 않는다"는 원칙에 따라 <b>현대오토에버를 추천에서 공식 제외</b>하고, 실전 계좌에서 이미 +7.10% 전승이 검증된 우주항공 1등 대장주 <b>'나라스페이스테크'</b>를 신규 편입하여 1등 대장주 독점 라인업을 완성했습니다.
+          </p>
+
+          <!-- Metric Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
+            <div class="p-3 rounded-xl bg-white/10 backdrop-blur-xs border border-white/10">
+              <span class="text-xs text-slate-300 block">코스피 종가</span>
+              <span class="text-lg font-bold text-red-400">7,003.74</span>
+              <span class="text-xs text-slate-300 block">▲ 7,000선 안착</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white/10 backdrop-blur-xs border border-white/10">
+              <span class="text-xs text-slate-300 block">코스닥 종가</span>
+              <span class="text-lg font-bold text-emerald-400">893.29</span>
+              <span class="text-xs text-slate-300 block">주간 +5.78% 급등</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white/10 backdrop-blur-xs border border-white/10">
+              <span class="text-xs text-slate-300 block">원/달러 환율</span>
+              <span class="text-lg font-bold text-blue-400">1,350.6원</span>
+              <span class="text-xs text-slate-300 block">▼ -7.8원 급락</span>
+            </div>
+            <div class="p-3 rounded-xl bg-white/10 backdrop-blur-xs border border-white/10">
+              <span class="text-xs text-slate-300 block">美 10년물 금리</span>
+              <span class="text-lg font-bold text-amber-400">5.22%</span>
+              <span class="text-xs text-slate-300 block">▼ -12bp 하향 안정</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 1 -->
+      <section id="macro-overview" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-lg">1</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">글로벌 매크로 & 국내외 4대 지수 주봉 판독</h3>
+          </div>
+          <span class="text-xs text-slate-500">차트매크로 & 매크로뷰 연계</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300">
+                <th class="p-3 rounded-l-lg">지수명</th>
+                <th class="p-3">종가 / 주간 등락</th>
+                <th class="p-3">주봉 이평선 위치</th>
+                <th class="p-3">캔들 패턴 & 거래량</th>
+                <th class="p-3 rounded-r-lg">주봉 기술적 국면 평가</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-slate-900 dark:text-white">코스피 (001)</td>
+                <td class="p-3 font-semibold text-red-600 dark:text-red-400">7,003.74 (+0.46%)</td>
+                <td class="p-3">60주선(6,100선) 지지 후 5·10주선 수렴 돌파, 20주선(7,450선) 하향 저항 대기</td>
+                <td class="p-3">7,000선 안착형 하방 경직 단봉 양봉, 매도 압력 소진형 거래량(2.39억 주)</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">바닥 다지기 후 1차 반등</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-slate-900 dark:text-white">코스닥 (101)</td>
+                <td class="p-3 font-semibold text-emerald-600 dark:text-emerald-400">893.29 (주간 +5.78%)</td>
+                <td class="p-3">5·10·20주선 밀집 구간을 단숨에 상방 돌파, 60주선(920선) 저항대 진입</td>
+                <td class="p-3">거래량 급증(5.57억 주) 동반 주간 장대양봉, 전저점 대비 +41.5% V자 회복</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">1파 강력 돌파 후 숨고르기</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-slate-900 dark:text-white">S&P 500</td>
+                <td class="p-3 font-semibold text-slate-900 dark:text-slate-100">7,734선 (+0.89%)</td>
+                <td class="p-3">5·10·20·60주선 완전 정배열 유지, 사상 최고치에 -0.8% 초근접</td>
+                <td class="p-3">9월 고용 쇼크발 금리 안도감 형성 양봉, 5주선 지지 상승</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-purple-100 text-purple-800 dark:bg-purple-900/50 dark:text-purple-300">강력한 강세 지속 (Bull Trend)</span></td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-slate-900 dark:text-white">나스닥 종합</td>
+                <td class="p-3 font-semibold text-slate-900 dark:text-slate-100">27,110선 (+0.91%)</td>
+                <td class="p-3">주봉 20주선 지지 확인 후 전고점 재접근, 중기 상승 채널 상단</td>
+                <td class="p-3">美 10년물 금리 하향 안정에 따른 AI 빅테크 및 반도체 거래량 회복</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300">고금리 디스카운트 해소</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 text-sm">
+              <span>🎯 코스피 핵심 레벨</span>
+            </h4>
+            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1 leading-relaxed">
+              <li>• <b>하방 지지선</b>: 1차 6,920선(금주 저가 6,927.88) | 2차 6,600선(5·10주선 수렴선)</li>
+              <li>• <b>상단 저항선</b>: 1차 7,050선(단기 매물대) | 2차 7,400~7,500선(하향 20주선 매물벽)</li>
+            </ul>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-800 space-y-2">
+            <h4 class="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 text-sm">
+              <span>🎯 코스닥 핵심 레벨</span>
+            </h4>
+            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1 leading-relaxed">
+              <li>• <b>하방 지지선</b>: 1차 885선(금주 저가 885.65) | 2차 850선(20주선 안착선)</li>
+              <li>• <b>상단 저항선</b>: 1차 904선(금주 고가 903.88) | 2차 920선(60주선 중기 매물벽)</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section id="calendar-timeline" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 font-bold text-lg">2</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">차주 증시 캘린더 & 재료 인과관계 타임라인 (월~금)</h3>
+          </div>
+          <span class="text-xs text-slate-500">캘린더리 연계</span>
+        </div>
+
+        <div class="space-y-4">
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex flex-col sm:flex-row sm:items-start gap-3">
+            <div class="sm:w-32 shrink-0">
+              <span class="inline-block px-2.5 py-1 rounded-md text-xs font-bold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300">
+                10/05 (월)
+              </span>
+              <span class="block text-xs text-red-600 dark:text-red-400 font-semibold mt-1">국내 증시 휴장</span>
+            </div>
+            <div class="space-y-1 text-sm">
+              <p class="font-bold text-slate-900 dark:text-white">
+                <a href="https://www.google.com/calendar/event?eid=MjAyNjEwMDVfYTN2M2lldGQ5b2JxcG5ydjVoZzRlbWhtdmMga28uc291dGhfa29yZWEjaG9saWRheUB2" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">개천절 대체공휴일</a> 및 美 9월 ISM 서비스업 PMI 발표
+              </p>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                • <b>미국 증시 정상 개장</b>: 글로벌 반도체 및 테크주 동향 점검.<br>
+                • <b>국내 대응</b>: 대덕전자, 성호전자, 나라스페이스테크의 5일선 지지선 및 사전 분할 매수가 확정.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-blue-200 dark:border-blue-900/60 bg-blue-50/30 dark:bg-blue-950/20 flex flex-col sm:flex-row sm:items-start gap-3">
+            <div class="sm:w-32 shrink-0">
+              <span class="inline-block px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white">
+                10/06 (화)
+              </span>
+              <span class="block text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">주간 첫 개장일</span>
+            </div>
+            <div class="space-y-1 text-sm">
+              <p class="font-bold text-slate-900 dark:text-white">
+                국내 증시 개장 & 삼성전자 3Q 잠정실적 D-1 기대감 고조
+              </p>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                • <b>주요 모멘텀</b>: 스페이스X 도킹 모멘텀의 나라스페이스테크 및 광통신/CPO(성호전자), HBM 기판(대덕전자) 수급 집중.<br>
+                • <b>핵심 수칙</b>: 연휴 후 미 증시 호재 반영에 따른 시초가 갭상승 추격 매수를 엄단하고 첫 5일선 음봉 눌림목 대기.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-red-200 dark:border-red-900/60 bg-red-50/30 dark:bg-red-950/20 flex flex-col sm:flex-row sm:items-start gap-3">
+            <div class="sm:w-32 shrink-0">
+              <span class="inline-block px-2.5 py-1 rounded-md text-xs font-bold bg-red-600 text-white">
+                10/07 (수)
+              </span>
+              <span class="block text-xs text-red-600 dark:text-red-400 font-semibold mt-1">핵심 D-Day</span>
+            </div>
+            <div class="space-y-1 text-sm">
+              <p class="font-bold text-slate-900 dark:text-white">
+                삼성전자 2026년 3분기 잠정 실적 발표 (영업이익 105조 전망) & 美 FOMC 의사록
+              </p>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                • <b>실적 및 수급 검증</b>: 분기 105조 실적 달성 여부 및 자사주 300만 주 추가 매수 공식화 확인.<br>
+                • <b>개인 일정 연계</b>: <a href="https://www.google.com/calendar/event?eid=MTU0OW5kZ3Q5aTRndmJ0bGhsNTc4MDlzbDdfMjAyNjEwMDcgNmEyZDYyNjNkYzM2M2NiMjk4NmUxNDhkMDZkZTNjYjg4ZWY3N2M4M2U2MDc3ZDc4NjMzMmU3NWEwZWE0OWVlMUBn" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline font-semibold">신한카드 결제일</a> 자금 스케줄 체크.<br>
+                • <b>Sell on News 대응</b>: 실적 발표 후 단기 슈팅 발생 시 +4~7% 구간에서 기계적 1차 분할 익절.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-amber-200 dark:border-amber-900/60 bg-amber-50/30 dark:bg-amber-950/20 flex flex-col sm:flex-row sm:items-start gap-3">
+            <div class="sm:w-32 shrink-0">
+              <span class="inline-block px-2.5 py-1 rounded-md text-xs font-bold bg-amber-600 text-white">
+                10/08 (목)
+              </span>
+              <span class="block text-xs text-amber-600 dark:text-amber-400 font-semibold mt-1">옵션만기일</span>
+            </div>
+            <div class="space-y-1 text-sm">
+              <p class="font-bold text-slate-900 dark:text-white">
+                국내 증시 옵션만기일 & 美 9월 소비자물가지수(CPI) 발표
+              </p>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                • <b>수급 변동성 관리</b>: 금요일 휴장을 앞두고 기관·외인 포지션 청산으로 오후장 변동성 확대 가능성.<br>
+                • <b>현금 50% 회수</b>: 신규 매수를 전면 통제하고, 수익 실현된 종목을 정리하여 예수금 50% 방어선 복원.
+              </p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/30 flex flex-col sm:flex-row sm:items-start gap-3">
+            <div class="sm:w-32 shrink-0">
+              <span class="inline-block px-2.5 py-1 rounded-md text-xs font-bold bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300">
+                10/09 (금)
+              </span>
+              <span class="block text-xs text-red-600 dark:text-red-400 font-semibold mt-1">국내 증시 휴장</span>
+            </div>
+            <div class="space-y-1 text-sm">
+              <p class="font-bold text-slate-900 dark:text-white">
+                <a href="https://www.google.com/calendar/event?eid=MjAyNjEwMDlfbXYxOXBiZWdhcGY1N25hYm5scDgyYmVvMDQga28uc291dGhfa29yZWEjaG9saWRheUB2" target="_blank" class="text-blue-600 dark:text-blue-400 hover:underline">한글날 공휴일</a> & 美 9월 PPI 발표
+              </p>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                • 국내 증시 휴장. 주간 3거래일 실전 매매일지 복기(저널리 연계) 및 통계 업데이트.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section id="theme-summary" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold text-lg">3</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">주간 테마 동향 결산 & 수명주기 진단</h3>
+          </div>
+          <span class="text-xs text-slate-500">위클리 & 테마 DB 연계</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-800/70 text-slate-700 dark:text-slate-300">
+                <th class="p-3 rounded-l-lg">순위</th>
+                <th class="p-3">테마명</th>
+                <th class="p-3">주간 누적 거래대금</th>
+                <th class="p-3">1등 대장주</th>
+                <th class="p-3">2등 후발주</th>
+                <th class="p-3">수명주기 국면</th>
+                <th class="p-3 rounded-r-lg">재료 연속성</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-blue-600">1위</td>
+                <td class="p-3 font-bold text-slate-900 dark:text-white">반도체기판/MLCC & 반도체</td>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">3조 3,103억 원</td>
+                <td class="p-3 font-bold text-red-600 dark:text-red-400">대덕전자, 삼성전기</td>
+                <td class="p-3 text-slate-500">디아이, 윈팩</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">1~2파 확산기</span></td>
+                <td class="p-3 font-bold text-emerald-600">S등급 (최상)</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-blue-600">2위</td>
+                <td class="p-3 font-bold text-slate-900 dark:text-white">광통신 / 통신장비</td>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">6,206억 원</td>
+                <td class="p-3 font-bold text-red-600 dark:text-red-400">성호전자, 티엠씨</td>
+                <td class="p-3 text-slate-500">빛샘전자, 덕우전자</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">1파 초입/확산</span></td>
+                <td class="p-3 font-bold text-blue-600">A등급 (상)</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                <td class="p-3 font-bold text-blue-600">3위</td>
+                <td class="p-3 font-bold text-slate-900 dark:text-white">우주항공</td>
+                <td class="p-3 font-semibold text-slate-900 dark:text-white">4,143억 원</td>
+                <td class="p-3 font-bold text-red-600 dark:text-red-400">나라스페이스테크</td>
+                <td class="p-3 text-slate-500">LK삼양, 와이제이링크</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-xs font-semibold bg-indigo-100 text-indigo-800 dark:bg-indigo-900/50 dark:text-indigo-300">1파 초입/재점화</span></td>
+                <td class="p-3 font-bold text-indigo-600">S등급 (상)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section id="leading-stocks" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 font-bold text-lg">4</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">차주 공략 후보: 1등 대장주 3선 실행 카드</h3>
+          </div>
+          <span class="text-xs font-semibold text-blue-600 dark:text-blue-400">현대오토에버 제외 & 나라스페이스테크 편입 완료</span>
+        </div>
+
+        <!-- 종목 1: 대덕전자 -->
+        <div class="p-5 rounded-xl border-2 border-blue-500/30 dark:border-blue-500/20 bg-blue-50/20 dark:bg-slate-800/40 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-blue-600 text-white">종목 1</span>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white">대덕전자 (소속: 반도체 / AI 패키징 기판)</h4>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+              1등 대장주(O) • 1파 5일선 N형 눌림목
+            </span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 text-xs">
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">재료등급: S등급</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">신선도: 상</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">재료성격: 대기업연계/실적턴</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">권장비중: 고비중 (1,000만원)</span>
+          </div>
+
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            • <b>선정 사유</b>: 10/1 거래대금 <b>2,646억 원</b> 폭발. 마이크론 HBM4E 완판 및 AI 가속기용 초다층 PCB/FC-BGA 핵심 공급사. 10/7(수) 삼성전자 3Q 105조 실적 발표 D-Day 직격 수혜.<br>
+            • <b>공략 국면</b>: 10/1 기준봉(+12.6%) 형성 후 거래량이 절반 이하로 급감하며 5일선에 첫 안착하는 N형 음봉 눌림목.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">🎯 사전 분할 매수 타점 (-3.5% 간격)</span>
+              <p class="text-slate-600 dark:text-slate-400">
+                • 1차 매수가: <b>29,500원 ~ 29,800원</b> (5일선 지지선 음봉)<br>
+                • 2차 매수가: <b>28,500원 ~ 28,750원</b> (-3.5% 평단 보정)
+              </p>
+            </div>
+            <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">⚖️ 2트랙 엑시트 & 손절 수칙</span>
+              <p class="text-slate-600 dark:text-slate-400">
+                • 1차 익절: +4% ~ +6% 도달 시 50~70% 기계적 확정 익절<br>
+                • 잔여분: 본절가 스탑로스 설정 후 상한가/전고점 홀딩<br>
+                • 손절선: 일봉 5일선 종가상 이탈(-4.5% 초과) 시 전량 청산
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 종목 2: 성호전자 -->
+        <div class="p-5 rounded-xl border-2 border-emerald-500/30 dark:border-emerald-500/20 bg-emerald-50/20 dark:bg-slate-800/40 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-emerald-600 text-white">종목 2</span>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white">성호전자 (소속: 광통신 / AI 데이터센터 부품)</h4>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+              1등 대장주(O) • 1파 5일선 N형 눌림목
+            </span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 text-xs">
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">재료등급: A등급</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">신선도: 상</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">재료성격: 글로벌인프라/빅테크</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">권장비중: 중비중 (500만~700만원)</span>
+          </div>
+
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            • <b>선정 사유</b>: 10/2 거래대금 <b>2,944억 원(광통신 섹터 1위)</b> 분출. 번스타인의 글로벌 광통신 투자 확대 호평 속 CPO(광집적회로) 데이터센터 전력 효율화의 실질 수혜주.<br>
+            • <b>공략 국면</b>: 1파 장대 거래량 분출 이후 첫 거래량 급감 5일선 음봉 눌림목.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">🎯 사전 분할 매수 타점 (-3.5% 간격)</span>
+              <p class="text-slate-600 dark:text-slate-400">
+                • 1차 매수가: <b>2,800원 ~ 2,840원</b> (직전 고점 지지 음봉)<br>
+                • 2차 매수가: <b>2,700원 ~ 2,740원</b> (-3.5% 평단 보정)
+              </p>
+            </div>
+            <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">⚖️ 2트랙 엑시트 & 손절 수칙</span>
+              <p class="text-slate-600 dark:text-slate-400">
+                • 1차 익절: +4% ~ +7% 구간에서 절반 이상 분할 매도<br>
+                • 잔여분: 본절가 스탑로스 후 3,000원 돌파 시 전량 청산<br>
+                • 손절선: 기준봉 시초가(2,600원) 훼손 시 전량 손절
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 종목 3: 나라스페이스테크 -->
+        <div class="p-5 rounded-xl border-2 border-indigo-500/30 dark:border-indigo-500/20 bg-indigo-50/20 dark:bg-slate-800/40 space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 rounded-md text-xs font-bold bg-indigo-600 text-white">종목 3 (신규 편입)</span>
+              <h4 class="text-lg font-bold text-slate-900 dark:text-white">나라스페이스테크 (소속: 우주항공 1등 대장주)</h4>
+            </div>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900/50 dark:text-emerald-300">
+              1등 대장주(O) • 1파 5일선 N형 눌림목
+            </span>
+          </div>
+
+          <div class="flex flex-wrap gap-1.5 text-xs">
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">재료등급: S등급</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">신선도: 상</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">재료성격: 글로벌이벤트/모멘텀</span>
+            <span class="px-2 py-0.5 rounded bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-mono">권장비중: 고비중 (1,000만원)</span>
+          </div>
+
+          <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+            • <b>선정 사유</b>: 무거운 대형 SI주인 현대오토에버를 배제하고, 10/2 거래대금 <b>1,580억 원(우주항공 압도적 1위)</b>과 등락률 +22.95% 탄력을 증명한 순수 테마 1등 대장주. 스페이스X 유인 우주선 ISS 도킹 성공 및 10월 국제우주항공기술대전 개막, 스타십 6차 발사 일정 연계. 사용자 실전 계좌에서 이미 10/2 +7.10% 대승으로 검증 완료.<br>
+            • <b>공략 국면</b>: 10/2 장대양봉 분출 후 거래량이 마르는 첫 5일선 N형 음봉 눌림목.
+          </p>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">🎯 사전 분할 매수 타점 (-3.5% 간격)</span>
+              <p class="text-slate-600 dark:text-slate-400">
+                • 1차 매수가: <b>13,800원 ~ 14,100원</b> (5일선 지지선 음봉 진입)<br>
+                • 2차 매수가: <b>13,300원 ~ 13,600원</b> (-3.5% 평단 보정)
+              </p>
+            </div>
+            <div class="p-3 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <span class="font-bold text-slate-700 dark:text-slate-300 block mb-1">⚖️ 2트랙 엑시트 & 손절 수칙</span>
+              <p class="text-slate-600 dark:text-slate-400">
+                • 1차 익절: +5% ~ +7% 도달 시 60% 이상 기계적 확정 익절<br>
+                • 잔여분: 매수가 본절 스탑로스 설정 후 상한가/전고점 추세 홀딩<br>
+                • 손절선: 12,800원(기준봉 중심선 및 5일선 훼손) 이탈 시 전량 정리
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section id="exclusion-warning" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-red-100 dark:bg-red-950/50 text-red-600 dark:text-red-400 font-bold text-lg">5</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">매매 배제 종목 경고 (체커리 5대 하드 필터링)</h3>
+          </div>
+          <span class="text-xs text-red-500 font-bold">🚫 원천 차단</span>
+        </div>
+
+        <div class="space-y-3 text-xs leading-relaxed">
+          <div class="p-3 rounded-xl bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 text-amber-900 dark:text-amber-300">
+            <b>1. 현대오토에버</b> <span class="font-mono text-amber-600">[🚫 추천 제외 - 무거운 대형 SI주 배제]</span><br>
+            "재료가 살아있다는 확신이 들수록 절대 무거운 종목에 타협하지 않는다"는 제1원칙에 따라, 시가총액 대비 호가 탄력이 둔한 대형 SI주를 제외하고 테마 내 최상위 탄력 대장주(나라스페이스테크)로 대체 완료.
+          </div>
+          <div class="p-3 rounded-xl bg-red-50/60 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-red-900 dark:text-red-300">
+            <b>2. 코스모로보틱스</b> <span class="font-mono text-red-600">[🚫 매매 배제 - 사법 리스크 탈락]</span><br>
+            상장 5개월 만에 검찰 압수수색 및 한국거래소 사실관계 확인 착수로 내부통제 결함 및 거래정지 리스크. 추천 및 매매 대상 전면 영구 배제.
+          </div>
+          <div class="p-3 rounded-xl bg-red-50/60 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-red-900 dark:text-red-300">
+            <b>3. 알래스카 LNG 단순 후발 강관주 (KBI동양철관 등)</b> <span class="font-mono text-red-600">[🚫 매매 배제 - 재료 소멸 탈락]</span><br>
+            트럼프 발언 대비 정부의 "미확정 상태, 러트닉 상무장관에 공식 항의" 발표로 재료 소멸 및 2등 후발주 급락 위험 노출.
+          </div>
+          <div class="p-3 rounded-xl bg-red-50/60 dark:bg-red-950/20 border border-red-200 dark:border-red-900/40 text-red-900 dark:text-red-300">
+            <b>4. 거래대금 500억 원 미달 소형 잡주 (아모텍 등 2등주)</b> <span class="font-mono text-red-600">[🚫 매매 배제 - 거래대금 미달 탈락]</span><br>
+            10월 거버넌스 1원칙(거래대금 500억 이상 필수 충족) 미달 종목은 호가 공백과 손실 위험이 있으므로 오직 섹터 1등 대장주로만 압축.
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section id="canary-signals" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 font-bold text-lg">6</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">카나리(Canary) 시장 신호등 & 계좌 거부권 검증</h3>
+          </div>
+          <span class="text-xs text-slate-500">카나리 연계</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-900/50 space-y-2">
+            <span class="text-xs text-emerald-700 dark:text-emerald-400 font-bold uppercase block">종합 신호등 판정</span>
+            <div class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">🟢 GREEN (95점)</div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">
+              정석 매매 6건 전승(승률 100%) 및 코스피 7,000선 안착으로 시장 위험도 극히 낮음.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-900/50 space-y-2">
+            <span class="text-xs text-blue-700 dark:text-blue-400 font-bold uppercase block">포트폴리오 가용 슬롯</span>
+            <div class="text-2xl font-extrabold text-blue-600 dark:text-blue-400">3개 정상 가동</div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">
+              트랙 A (단기 5일선 속도전) 2개(65%) : 트랙 B (중기 20일선 추세전) 1개(35%) 듀얼 배정.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-purple-50/50 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-900/50 space-y-2">
+            <span class="text-xs text-purple-700 dark:text-purple-400 font-bold uppercase block">대기 예수금 거버넌스</span>
+            <div class="text-2xl font-extrabold text-purple-600 dark:text-purple-400">예수금 50% 엄수</div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">
+              장세와 무관하게 100% 몰빵 매수를 절대 불허하며, 돌발 변수 방어를 위한 예수금 50% 상시 보존.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 7 -->
+      <section id="action-principles" class="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+        <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div class="flex items-center gap-2.5">
+            <span class="p-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 font-bold text-lg">7</span>
+            <h3 class="text-xl font-bold text-slate-900 dark:text-white">비서실장 따블의 오케스트레이션 행동 수칙</h3>
+          </div>
+          <span class="text-xs text-slate-500">따블 총괄</span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">1</span>
+              <span>화요일 시초가 갭 추격 금지</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              월요일 휴장 동안 미 증시 훈풍으로 시초가 갭이 높게 뜰 수 있습니다. 갭상승에서는 절대 추격 매수하지 말고, 거래량이 감소하는 첫 5일선 음봉 눌림목에만 -3.5% 간격 분할 매수 주문을 접수합니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">2</span>
+              <span>수요일 삼성전자 실적 엑시트</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              삼성전자 3Q 실적 발표 당일 갭상승 슈팅이 나오면, 주주 4~7% 원칙에 따라 보유 물량의 50~70%를 1차 확정 익절하고 잔여 물량은 본절가 스탑로스를 설정하여 '뉴스에 팔아라' 매물에 대비합니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              <span class="w-6 h-6 rounded-full bg-blue-600 text-white flex items-center justify-center text-xs">3</span>
+              <span>목요일 만기일 예수금 50% 회수</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              목요일은 옵션만기일이자 한글날 연휴 직전 거래일입니다. 오후장 수급 청산 변동성을 피하기 위해 신규 매수를 통제하고 수익 종목을 정리하여 계좌 예수금을 반드시 50% 이상으로 유지합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Info -->
+      <footer class="pt-6 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p>기획 및 총괄: 범용 메인 오케스트레이터 따블 (ddable) | 전략 본부: 차트매크로 · 캘린더리 · 위클리 · 카나리 · 트레이디 · 체커리 · 저널리</p>
+        <p>단일 파일 반응형 웹 대시보드 (doc-to-web)</p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 rounded-lg shadow-lg text-sm transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+    문서 본문이 복사되었습니다.
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    lucide.createIcons();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      lucide.createIcons();
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 본문이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2000);
+    }
+  </script>
+</body>
+</html>
