@@ -2,8 +2,8 @@ name: Auto Sync from Google Drive
 
 on:
   schedule:
-    - cron: '0 21 * * *'   # 오전 6시 KST
-    - cron: '0 4 * * *'    # 오후 1시 KST
+    - cron: '0 0 * * *'    # 오전 9시 KST
+    - cron: '0 3 * * *'    # 낮 12시 KST
     - cron: '0 12 * * *'   # 오후 9시 KST
   workflow_dispatch:        # 수동 실행 버튼
 
