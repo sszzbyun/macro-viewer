@@ -271,7 +271,11 @@
         <a id="rawLink" class="action-btn" href="#" target="_blank" style="display: none;">새 탭으로 열기 ↗</a>
       </div>
     </div>
-    <iframe id="viewer-frame" src="about:blank"></iframe>
+    <iframe id="viewer-frame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-popups" referrerpolicy="no-referrer"></iframe>
+    <div id="empty-state" class="empty-state" style="display: none;">
+      <div style="font-size: 2.5rem;">📄</div>
+      <div id="empty-state-msg"></div>
+    </div>
   </main>
 
   <script>
@@ -280,7 +284,7 @@
 
     async function init() {
       try {
-        const res = await fetch('reports.json');
+        const res = await fetch('reports.json?v=' + Date.now(), { cache: 'no-store' });
         if (!res.ok) throw new Error("reports.json 파일을 찾을 수 없습니다.");
         allReports = await res.json();
         
@@ -307,10 +311,15 @@
         return;
       }
 
+      const indexByRef = new Map(allReports.map((r, idx) => [r, idx]));
       list.forEach((item) => {
-        const originalIndex = allReports.indexOf(item);
+        const originalIndex = indexByRef.get(item);
+        if (originalIndex === undefined) return;
         const li = document.createElement('li');
         li.className = `report-item ${originalIndex === currentActiveIdx ? 'active' : ''}`;
+        li.setAttribute('tabindex', '0');
+        li.setAttribute('role', 'button');
+        li.onkeydown = (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); li.click(); } };
         li.onclick = () => {
           selectReport(originalIndex);
           if (window.innerWidth <= 768) {
@@ -330,7 +339,10 @@
       currentActiveIdx = index;
       const report = allReports[index];
 
-      document.getElementById('viewer-frame').src = report.url;
+      document.getElementById('empty-state').style.display = 'none';
+      const frame = document.getElementById('viewer-frame');
+      frame.style.display = 'block';
+      frame.src = report.url;
       document.getElementById('currentTitle').innerText = `[${report.date}] ${report.title}`;
 
       const rawLink = document.getElementById('rawLink');
@@ -344,7 +356,9 @@
       const query = document.getElementById('searchInput').value.trim().toLowerCase();
       if (!query) return allReports;
       return allReports.filter(r =>
-        r.title.toLowerCase().includes(query) || r.date.toLowerCase().includes(query)
+        r.title.toLowerCase().includes(query) ||
+        r.date.toLowerCase().includes(query) ||
+        r.filename.toLowerCase().includes(query)
       );
     }
 
@@ -363,16 +377,16 @@
 
     function showEmptyState(msg) {
       document.getElementById('currentTitle').innerText = "안내";
-      document.getElementById('main-container').innerHTML = `
-        <div class="empty-state">
-          <div style="font-size: 2.5rem;">📄</div>
-          <div>${msg}</div>
-        </div>
-      `;
+      document.getElementById('rawLink').style.display = 'none';
+      document.getElementById('viewer-frame').style.display = 'none';
+      const box = document.getElementById('empty-state');
+      document.getElementById('empty-state-msg').innerHTML = msg;
+      box.style.display = 'flex';
     }
 
     function escapeHtml(str) {
-      return str.replace(/[&<>'"]/g, 
+      if (str == null) return '';
+      return String(str).replace(/[&<>'"]/g, 
         tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
       );
     }

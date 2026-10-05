@@ -1,6 +1,4 @@
 import os
-import sys
-import glob
 import json
 import shutil
 import hashlib
@@ -33,13 +31,19 @@ def save_cache(cache_path, cache):
         json.dump(cache, f, ensure_ascii=False, indent=2)
 
 def sync_from_google_drive(folder_url, output_dir, cache_path):
-    """구글 드라이브에서 전체 다운로드 후, 실제 변경된 파일만 보관"""
-    import gdown
+    """구글 드라이브에서 전체 다운로드 후, 실제 변경된 파일만 보관 (하위폴더 재귀 지원)"""
+    try:
+        import gdown
+    except ImportError:
+        print("  [오류] gdown이 설치되어 있지 않습니다. `pip install -r requirements.txt` 실행 필요.")
+        return 0
     import tempfile
+
+    os.makedirs(output_dir, exist_ok=True)
 
     # 임시 폴더에 일단 다운로드
     tmp_dir = tempfile.mkdtemp(prefix="gdrive_sync_")
-    print(f"  → 구글 드라이브 파일 목록 확인 중 (임시 폴더 활용)...")
+    print("  → 구글 드라이브 파일 목록 확인 중 (임시 폴더 활용)...")
 
     try:
         gdown.download_folder(url=folder_url, output=tmp_dir, quiet=True, use_cookies=False)
@@ -48,21 +52,30 @@ def sync_from_google_drive(folder_url, output_dir, cache_path):
         shutil.rmtree(tmp_dir, ignore_errors=True)
         return 0
 
-    # docx 등 비-HTML 삭제
-    for bad in glob.glob(os.path.join(tmp_dir, "*.docx")):
-        os.remove(bad)
+    # 다운로드된 모든 HTML 재귀 수집 (하위폴더 포함, basename 기준 평탄화)
+    downloaded = {}  # basename -> src 경로
+    for root, _dirs, filenames in os.walk(tmp_dir):
+        for fname in filenames:
+            if not fname.lower().endswith(".html"):
+                continue
+            src = os.path.join(root, fname)
+            if fname in downloaded:
+                print(f"  [경고] 동명 파일 충돌, 첫 번째만 유지: {fname} ({src} 무시)")
+                continue
+            downloaded[fname] = src
 
     cache = load_cache(cache_path)
     new_count = 0
     skip_count = 0
 
-    for fname in os.listdir(tmp_dir):
-        if not fname.lower().endswith(".html"):
-            continue
-
-        src = os.path.join(tmp_dir, fname)
+    for fname in sorted(downloaded.keys()):
+        src = downloaded[fname]
         dst = os.path.join(output_dir, fname)
-        src_hash = get_file_hash(src)
+        try:
+            src_hash = get_file_hash(src)
+        except OSError as e:
+            print(f"  [경고] 해시 실패, 건너뜀: {fname} ({e})")
+            continue
 
         # 캐시와 비교하여 변경 없으면 건너뜀
         if fname in cache and cache[fname] == src_hash and os.path.exists(dst):
@@ -74,6 +87,15 @@ def sync_from_google_drive(folder_url, output_dir, cache_path):
         cache[fname] = src_hash
         new_count += 1
         print(f"  → [업데이트] {fname}")
+
+    # Drive에 없는 로컬 잔류 파일 정리 + 캐시 pruning
+    downloaded_names = set(downloaded.keys())
+    for stale in [k for k in list(cache.keys()) if k not in downloaded_names]:
+        del cache[stale]
+    for local in os.listdir(output_dir):
+        if local.lower().endswith(".html") and local not in downloaded_names:
+            os.remove(os.path.join(output_dir, local))
+            print(f"  → [삭제] Drive에 없어 로컬에서 제거: {local}")
 
     save_cache(cache_path, cache)
     shutil.rmtree(tmp_dir, ignore_errors=True)
@@ -104,12 +126,12 @@ def main():
     print("\n[1/3] 구글 드라이브에서 변경된 리포트 확인 중...")
     new_count = sync_from_google_drive(folder_url, output_dir, cache_path)
 
-    # 2. 인덱싱
+    # 2. 인덱싱 (shell=False: 경로 공백 문제 방지)
     print("\n[2/3] 리포트 목록 인덱싱 중...")
     try:
         subprocess.run(
             [node_bin, os.path.join("scripts", "build-index.js")],
-            check=True, shell=True
+            check=True, shell=False
         )
     except Exception as e:
         print(f"[오류] 빌드 스크립트 실패: {e}")
@@ -118,7 +140,7 @@ def main():
     # 3. Git 커밋 & 푸시
     print("\n[3/3] 변경 사항 확인 및 Vercel로 전송 중...")
     try:
-        subprocess.run([git_bin, "add", "public/reports/", "public/reports.json"], check=True)
+        subprocess.run([git_bin, "add", "public/reports/", "public/reports.json", ".sync_cache.json"], check=True)
 
         diff_res = subprocess.run([git_bin, "diff", "--cached", "--quiet"])
         if diff_res.returncode == 0:

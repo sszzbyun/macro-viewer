@@ -27,7 +27,7 @@ jobs:
           python-version: '3.11'
 
       - name: Install Python dependencies
-        run: pip install gdown
+        run: pip install -r requirements.txt
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

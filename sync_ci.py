@@ -3,7 +3,6 @@ CI 환경(GitHub Actions)에서 실행되는 구글 드라이브 동기화 스�
 로컬 sync.py와 별도로 경량화된 버전
 """
 import os
-import glob
 import json
 import hashlib
 import shutil
@@ -33,7 +32,11 @@ def main():
 
     print(f"[1] 구글 드라이브에서 파일 다운로드 중: {folder_url}")
 
-    import gdown
+    try:
+        import gdown
+    except ImportError:
+        print("[오류] gdown 미설치. requirements.txt 확인 필요.")
+        raise SystemExit(1)
 
     tmp_dir = tempfile.mkdtemp(prefix="gdrive_")
     try:
@@ -48,22 +51,29 @@ def main():
         shutil.rmtree(tmp_dir, ignore_errors=True)
         return
 
-    # .docx 등 HTML이 아닌 파일 제거
-    for bad in glob.glob(os.path.join(tmp_dir, "**", "*.docx"), recursive=True):
-        os.remove(bad)
-        print(f"  [제거] {os.path.basename(bad)}")
+    # 다운로드된 모든 HTML 재귀 수집 (하위폴더 포함, basename 기준 평탄화)
+    downloaded = {}
+    for root, _dirs, filenames in os.walk(tmp_dir):
+        for fname in filenames:
+            if not fname.lower().endswith(".html"):
+                continue
+            if fname in downloaded:
+                print(f"  [경고] 동명 파일 충돌, 첫 번째만 유지: {fname}")
+                continue
+            downloaded[fname] = os.path.join(root, fname)
 
-    print(f"\n[2] 변경 파일 비교 중...")
+    print("\n[2] 변경 파일 비교 중...")
     new_count = 0
     skip_count = 0
 
-    for fname in sorted(os.listdir(tmp_dir)):
-        if not fname.lower().endswith(".html"):
-            continue
-
-        src = os.path.join(tmp_dir, fname)
+    for fname in sorted(downloaded.keys()):
+        src = downloaded[fname]
         dst = os.path.join(output_dir, fname)
-        file_hash = get_hash(src)
+        try:
+            file_hash = get_hash(src)
+        except OSError as e:
+            print(f"  [경고] 해시 실패, 건너뜀: {fname} ({e})")
+            continue
 
         if fname in cache and cache[fname] == file_hash and os.path.exists(dst):
             skip_count += 1
@@ -73,6 +83,15 @@ def main():
         cache[fname] = file_hash
         new_count += 1
         print(f"  [업데이트] {fname}")
+
+    # Drive에 없는 로컬 잔류 파일 정리 + 캐시 pruning
+    downloaded_names = set(downloaded.keys())
+    for stale in [k for k in list(cache.keys()) if k not in downloaded_names]:
+        del cache[stale]
+    for local in os.listdir(output_dir):
+        if local.lower().endswith(".html") and local not in downloaded_names:
+            os.remove(os.path.join(output_dir, local))
+            print(f"  [삭제] Drive에 없어 로컬에서 제거: {local}")
 
     shutil.rmtree(tmp_dir, ignore_errors=True)
 
