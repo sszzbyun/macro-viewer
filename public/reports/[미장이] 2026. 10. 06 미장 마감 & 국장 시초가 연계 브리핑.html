@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[미장이] 2026. 10. 06 미장 마감 & 국장 시초가 연계 브리핑</title>
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/80 dark:bg-slate-900/80 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-xl">🇺🇸</span>
+        <div class="font-bold text-base sm:text-lg tracking-tight truncate max-w-xs sm:max-w-md">[미장이] 2026. 10. 06 미장 마감 & 국장 시초가 연계 브리핑</div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyDocument()" class="px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center gap-1.5 shadow-sm">
+          <span>📋</span>
+          <span>내용 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition shadow-sm" aria-label="테마 전환">
+          🌓
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Layout Container -->
+  <div class="max-w-6xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar Navigation / TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24 p-4 rounded-xl bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 shadow-sm space-y-3">
+        <div class="font-bold text-xs uppercase tracking-wider text-slate-400 dark:text-slate-500">목차 바로가기</div>
+        <nav class="space-y-1.5 text-sm" id="toc-nav">
+          <a href="#summary" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">📌 핵심 요약 & 시황</a>
+          <a href="#indices" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">1. 📊 뉴욕 3대 지수 & 인덱스</a>
+          <a href="#sectors" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">2. 🚀 빅테크(M7) & 특징주</a>
+          <a href="#macro" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">3. 🌐 매크로 4대 지표 점검</a>
+          <a href="#korean-market" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">4. 🇰🇷 09:00 국장 파급효과</a>
+          <a href="#checkpoints" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700/50 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium transition">5. 📌 개장 전 핵심 체크포인트</a>
+        </nav>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 max-w-3xl space-y-8">
+      
+      <!-- Title & Hero Banner -->
+      <section id="summary" class="p-6 rounded-2xl bg-gradient-to-br from-indigo-50/80 via-white to-slate-50 dark:from-indigo-950/30 dark:via-slate-800 dark:to-slate-800/80 border border-indigo-100 dark:border-indigo-900/40 shadow-sm space-y-4">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            나스닥 +1.19% 급등 (S&P 최고치 0.2%差)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300">
+            WTI $90선 (-3.1% 추가 급락)
+          </span>
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-800 dark:bg-purple-900/40 dark:text-purple-300">
+            2026 노벨 생리의학상 '광유전학' 선정
+          </span>
+        </div>
+        <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">
+          [미장이] 2026. 10. 06 미장 마감 & 국장 시초가 연계 브리핑
+        </h1>
+        <p class="text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-300">
+          미국 뉴욕 증시는 9월 고용 둔화에 따른 금리 안정세와 국제유가 추가 하락에 힘입어 S&P 500이 7,722.72(+0.73%)로 사상 최고치 0.2% 차이까지 바짝 다가서고, 나스닥이 1.19% 급등하는 등 강력한 기술주 주도 랠리를 펼쳤습니다. 필라델피아 반도체 지수가 급등세를 지속하고 유가가 90달러선으로 내려앉은 가운데, 개천절 연휴를 마치고 오늘 개장하는 국내 증시는 7,000선 상단 안착 및 화·수·목 3영업일 압축 랠리 시험대에 돌입합니다.
+        </p>
+        <div class="text-xs p-3.5 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-400 border border-slate-200/80 dark:border-slate-700/80 leading-relaxed">
+          ※ <strong>주간 일정 안내</strong>: 이번 주는 개천절 대체공휴일(10/5 월) 및 한글날(10/9 금) 휴장에 따른 <strong>화·수·목 3영업일 압축 거래 주간</strong>입니다. 10월 8일(목) 삼성전자 3분기 잠정실적(영업익 105조 돌파 여부) 발표 D-Day가 예정되어 있어 주초 주도 섹터 중심의 선별적 대응이 핵심입니다.
+        </div>
+      </section>
+
+      <!-- Section 1: Indices Table -->
+      <section id="indices" class="space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📊</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">1. 뉴욕 증시 3대 지수 & 주요 인덱스</h2>
+        </div>
+        <p class="text-xs text-slate-500 dark:text-slate-400">※ 2026년 10월 5일 현지 마감 기준</p>
+        
+        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700/80 shadow-sm">
+          <table class="w-full text-sm text-left border-collapse bg-white dark:bg-slate-800">
+            <thead class="bg-slate-100/80 dark:bg-slate-700/60 text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
+              <tr>
+                <th class="py-3 px-4">지수명</th>
+                <th class="py-3 px-4">마감 수치</th>
+                <th class="py-3 px-4">전일비 (등락률)</th>
+                <th class="py-3 px-4">장중 핵심 흐름 & 특징</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-700/50">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-white">다우존스</td>
+                <td class="py-3.5 px-4 font-mono">51,176.96</td>
+                <td class="py-3.5 px-4 font-semibold text-red-600 dark:text-red-400">+250.40p (+0.49%)</td>
+                <td class="py-3.5 px-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">유가 3% 추가 하락 및 금리 안정에 따른 대형 가치주 완만한 상승세 지속</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-white">S&P 500</td>
+                <td class="py-3.5 px-4 font-mono">7,722.72</td>
+                <td class="py-3.5 px-4 font-semibold text-red-600 dark:text-red-400">+56.27p (+0.73%)</td>
+                <td class="py-3.5 px-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">전 업종 고른 상승세 속 사상 최고치(전고점)에 0.2% 차로 근접</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-white">나스닥 종합</td>
+                <td class="py-3.5 px-4 font-mono">27,190.86</td>
+                <td class="py-3.5 px-4 font-semibold text-red-600 dark:text-red-400">+319.27p (+1.19%)</td>
+                <td class="py-3.5 px-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">고용 안도감 및 AI 하드웨어·반도체 수요 확신으로 1.2% 급등 견인</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition bg-emerald-50/30 dark:bg-emerald-950/10">
+                <td class="py-3.5 px-4 font-bold text-emerald-600 dark:text-emerald-400">필라델피아 반도체</td>
+                <td class="py-3.5 px-4 font-mono font-bold">12,820선</td>
+                <td class="py-3.5 px-4 font-bold text-red-600 dark:text-red-400">+3.0%대 급등 랠리</td>
+                <td class="py-3.5 px-4 text-xs sm:text-sm text-slate-700 dark:text-slate-200">글로벌 반도체 훈풍 및 HBM 공급망 실적 낙관론에 초강세</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-700/30 transition">
+                <td class="py-3.5 px-4 font-bold text-slate-900 dark:text-white">러셀 2000</td>
+                <td class="py-3.5 px-4 font-mono">2,840선</td>
+                <td class="py-3.5 px-4 font-semibold text-red-600 dark:text-red-400">+0.94% 상승</td>
+                <td class="py-3.5 px-4 text-xs sm:text-sm text-slate-600 dark:text-slate-300">차입비용 완화 기대에 따른 중소형 성장주 동반 상승</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 2: Big Tech & Key Sectors -->
+      <section id="sectors" class="space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🚀</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">2. 빅테크(M7) 및 주도 섹터 특징주</h2>
+        </div>
+
+        <div class="grid grid-cols-1 gap-3.5">
+          <div class="p-4 rounded-xl border border-emerald-200 dark:border-emerald-800/40 bg-emerald-50/40 dark:bg-emerald-950/20">
+            <div class="font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-2 mb-1">
+              <span>💾</span>
+              <span>글로벌 반도체 슈퍼사이클 랠리</span>
+            </div>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              마이크론 호실적 지속과 일본 닛케이 7만선 돌파, 대만 가권 사상 최고치 경신 등 글로벌 반도체 훈풍이 지속되며 필라델피아 반도체 지수가 +3%대 급등했습니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-purple-200 dark:border-purple-800/40 bg-purple-50/40 dark:bg-purple-950/20">
+            <div class="font-bold text-purple-900 dark:text-purple-300 flex items-center gap-2 mb-1">
+              <span>🧬</span>
+              <span>2026 노벨 생리의학상 '광유전학' 발표</span>
+            </div>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              빛으로 뇌세포를 정밀 제어하는 '광유전학(Optogenetics)'을 개척한 칼 다이서로스 등 3인이 공동 수상함에 따라 치매, 파킨슨병 등 퇴행성 뇌질환 바이오텍 전반으로 수급이 유입되었습니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800">
+            <div class="font-bold text-slate-900 dark:text-white flex items-center gap-2 mb-1">
+              <span>📈</span>
+              <span>빅테크(M7) 전방위 상승</span>
+            </div>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              알파벳, 메타, 엔비디아, 마이크로소프트 등 대형 기술주들이 금리 안정과 기업용 AI 에이전트 확장 기대감 속에 1~2%대 고른 상승세를 보이며 지수를 견인했습니다.
+            </p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-blue-200 dark:border-blue-800/40 bg-blue-50/40 dark:bg-blue-950/20">
+            <div class="font-bold text-blue-900 dark:text-blue-300 flex items-center gap-2 mb-1">
+              <span>🛢️</span>
+              <span>국제유가 3% 추가 급락 (WTI 90달러선)</span>
+            </div>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+              원유 공급 우려 완화 및 차익 매물로 WTI가 3.1% 하락한 90달러선, 브렌트유가 102달러선으로 밀려나며 에너지발 인플레이션 압력이 크게 진정되었습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Macro 4 Indicators -->
+      <section id="macro" class="space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🌐</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">3. 매크로 4대 지표 점검</h2>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 space-y-1.5">
+            <div class="text-xs font-semibold uppercase text-slate-500">금리 (Interest Rate)</div>
+            <div class="text-2xl font-black text-slate-900 dark:text-white font-mono">5.28% ~ 5.31%</div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">24년래 최고치 경신 후 고용 쇼크 여파로 추가 급등세 제한, 숨고르기 양상</p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-blue-200 dark:border-blue-900/40 bg-blue-50/40 dark:bg-blue-950/20 space-y-1.5">
+            <div class="text-xs font-semibold uppercase text-blue-600 dark:text-blue-400">원자재 (Crude Oil)</div>
+            <div class="text-2xl font-black text-slate-900 dark:text-white font-mono">WTI $90선 <span class="text-xs font-normal text-blue-500">(-3.1% 급락)</span></div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">유가 3% 넘게 급락하며 인플레이션 재상승 공포 완화</p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 space-y-1.5">
+            <div class="text-xs font-semibold uppercase text-slate-500">환율 (Dollar Index)</div>
+            <div class="text-2xl font-black text-slate-900 dark:text-white font-mono">102.23선 <span class="text-xs font-normal text-slate-500">(+0.30)</span></div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">달러 인덱스 반등 속에서도 원/달러 역외 환율은 1,350원대 초반 안정 유지</p>
+          </div>
+
+          <div class="p-4 rounded-xl border border-purple-200 dark:border-purple-900/40 bg-purple-50/40 dark:bg-purple-950/20 space-y-1.5">
+            <div class="text-xs font-semibold uppercase text-purple-600 dark:text-purple-400">변동성 (VIX Index)</div>
+            <div class="text-2xl font-black text-slate-900 dark:text-white font-mono">16.15선 <span class="text-xs font-normal text-purple-500">(안정권 유지)</span></div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">시장의 안도 랠리 속에서 16선 부근 안정적 흐름 지속</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4: Domestic Ripple Effects -->
+      <section id="korean-market" class="space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">🇰🇷</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">4. 09:00 국내 증시(국장) 파급효과</h2>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 space-y-4">
+          <div class="bg-indigo-50/50 dark:bg-indigo-950/30 p-3.5 rounded-lg border border-indigo-100 dark:border-indigo-900/40 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+            <strong>연휴 후 첫 개장 & 3영업일 압축 주간</strong>: 어제(10/5) 개천절 대체공휴일 휴장을 마치고 오늘 개장하며, 오는 금요일(10/9 한글날)도 휴장하므로 이번 주는 3거래일 동안 강한 수급 쏠림이 전개될 전망입니다.
+          </div>
+
+          <div>
+            <h3 class="font-bold text-emerald-600 dark:text-emerald-400 text-sm flex items-center gap-1.5 mb-2">
+              <span>🌟</span>
+              <span>수혜 / 강세 예상 섹터</span>
+            </h3>
+            <ul class="list-disc list-inside space-y-1.5 text-sm text-slate-700 dark:text-slate-300">
+              <li><strong>대형 반도체 & HBM 소부장 (윈팩, 디아이, 한미반도체 등)</strong>: 글로벌 반도체 훈풍(미국·일본·대만 동반 사상 최고치/급등)과 10월 8일(목) 삼성전자 3Q 잠정실적 발표(영업익 105조~110조 원 전망) D-Day 기대감으로 코스피 7,000선 상단 지지력 강화.</li>
+              <li><strong>뇌신경/퇴행성 질환 바이오텍 & 의료AI</strong>: 10/5 발표된 노벨 생리의학상(광유전학) 모멘텀과 글로벌 학회 시즌 개막에 따른 파킨슨·치매 치료제 및 의료AI 관련주 수급 집중.</li>
+              <li><strong>피지컬 AI (로봇)</strong>: 보스턴다이나믹스 신규 아틀라스 손 공개 및 현대오토에버 아틀라스 전담팀 신설 등 로봇 상용화 모멘텀 지속.</li>
+              <li><strong>항공 / 운송 & 화학</strong>: WTI 90달러선 추가 급락(-3.1%)에 따른 유류비 절감 및 실적 개선 기대감.</li>
+            </ul>
+          </div>
+
+          <div class="border-t border-slate-100 dark:border-slate-700/60 pt-3">
+            <h3 class="font-bold text-slate-800 dark:text-slate-200 text-sm flex items-center gap-1.5 mb-1.5">
+              <span>⚠️</span>
+              <span>경계 요인 및 시초가 대응 수칙</span>
+            </h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              연휴 동안 축적된 글로벌 폭등 호재가 일시에 반영되며 시초가 갭상승이 크게 나타날 수 있으므로, <strong>시초가 갭 추격 매수는 엄격히 지양</strong>하고 장중 매물 소화 후 눌림목을 확인해야 합니다. 10월 8일(목) 삼성전자 실적 발표 당일 '재료 소멸(Sell on Fact)' 차익 실현 가능성에 유의하여 주 후반 현금 비중을 점검할 필요가 있습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: Checkpoints -->
+      <section id="checkpoints" class="space-y-4">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📌</span>
+          <h2 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">5. 오늘의 개장 전 핵심 체크포인트</h2>
+        </div>
+
+        <div class="space-y-3">
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">1</span>
+            <div class="space-y-0.5">
+              <div class="font-bold text-slate-900 dark:text-white text-sm">코스피 7,000선 상단 굳히기 시험</div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">직전 거래일 7,003선에 안착한 코스피가 나스닥 1.2% 급등과 글로벌 반도체 훈풍을 바탕으로 시초가 갭상승 출발 후 상단 지지력을 공고히 하는지 확인.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">2</span>
+            <div class="space-y-0.5">
+              <div class="font-bold text-slate-900 dark:text-white text-sm">외국인·기관 쌍끌이 순매수 유입 여부</div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">09:00 개장 직후 외국인의 코스피200 선물 매수 강도와 전기전자 대형주로의 메이저 자금 유입 지속 여부 점검.</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-800 flex items-start gap-3">
+            <span class="flex-shrink-0 w-6 h-6 rounded-full bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300 flex items-center justify-center font-bold text-xs">3</span>
+            <div class="space-y-0.5">
+              <div class="font-bold text-slate-900 dark:text-white text-sm">노벨상 모멘텀과 바이오 옥석 가리기</div>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">노벨 생리의학상(광유전학) 발표에 따른 뇌신경 바이오텍 및 10월 학회 모멘텀 보유주의 선별적 수급 반응 확인.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer Info -->
+      <footer class="pt-6 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-400 dark:text-slate-500 text-center">
+        © 2026 미장이 (US Market Morning Analyst) · 본 리포트는 객관적 시장 데이터 및 매크로 지표 분석을 기반으로 제공됩니다.
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 rounded-lg shadow-lg text-sm transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+    클립보드에 복사되었습니다.
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 본문이 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2000);
+    }
+  </script>
+</body>
+</html>
