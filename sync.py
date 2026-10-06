@@ -88,14 +88,12 @@ def sync_from_google_drive(folder_url, output_dir, cache_path):
         new_count += 1
         print(f"  → [업데이트] {fname}")
 
-    # Drive에 없는 로컬 잔류 파일 정리 + 캐시 pruning
+    # Drive에 없는 로컬 파일은 자동 삭제하지 않고 후보로만 보고
+    # (gdown 부분 다운로드 실패 시误删 방지: 삭제는 관리자가 Drive에서 직접 정리)
     downloaded_names = set(downloaded.keys())
-    for stale in [k for k in list(cache.keys()) if k not in downloaded_names]:
-        del cache[stale]
-    for local in os.listdir(output_dir):
+    for local in sorted(os.listdir(output_dir)):
         if local.lower().endswith(".html") and local not in downloaded_names:
-            os.remove(os.path.join(output_dir, local))
-            print(f"  → [삭제] Drive에 없어 로컬에서 제거: {local}")
+            print(f"  [확인필요] Drive에 없음 (로컬 유지): {local}")
 
     save_cache(cache_path, cache)
     shutil.rmtree(tmp_dir, ignore_errors=True)
