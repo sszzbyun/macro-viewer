@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>당일 주도주 및 주도 섹터 판별 리포트 | 주도리</title>
+  
+  <script type="text/javascript" src="https://gc.kis.v2.scr.kaspersky-labs.com/FD126C42-EBFA-4E12-B309-BB3FDD723AC1/main.js?attr=0T94BH5ZWZYsOhpysBK6zHFD7WRIrEnxhIHW2TLcVFvwdN0XyM6Buv5JjjWi5z4TpRXdbsAzCGewA7DgbKH36VIpuhGOWrZTZ4ZmWxsu2QhsheuCoMLR1WAS7mEqdlGUJKRCIedHhVHigfDYzpNnMAa5dU5HoahyuOlfAeSDFXiaCj0MpRCsUKdzXdXzZc015fXiDvPvPg3hLuPDxGTlhVMgPyrtle41AZhekkF4k2aw_kGYWurYDr5HtbDZ3OUJQmMBfQFZ6Pklasl1m4EjE2dw6rNiNPpnBuc-HYrPdijtEFkPRkYLZHpR6dZYzkgdKYbMKl107oW4K_Zg1cxxCsTgPEDB13Do4RV3Rn9xgNp_HKAVnxw7jb8hJZt259R6ZltAvJwtzFY7-ZwT1O64PA" charset="UTF-8"></script><script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            },
+            danger: {
+              50: '#fef2f2',
+              500: '#ef4444',
+              600: '#dc2626',
+            },
+            success: {
+              50: '#f0fdf4',
+              500: '#22c55e',
+              600: '#16a34a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center justify-center p-2 rounded-xl bg-blue-600 text-white font-bold text-sm shadow-md shadow-blue-500/20">
+          <i data-lucide="trending-up" class="w-5 h-5"></i>
+        </span>
+        <div>
+          <div class="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span>주도주 판별 리포트</span>
+            <span class="text-xs font-semibold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
+              09:35 실시간
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 dark:text-slate-400 hidden sm:block">키움증권 [0186] 거래대금상위 30위 수급 감별</p>
+        </div>
+      </div>
+      
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition shadow-sm">
+          <i data-lucide="copy" class="w-3.5 h-3.5"></i>
+          <span>내용 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition shadow-sm text-slate-600 dark:text-slate-300" aria-label="테마 전환">
+          <i data-lucide="moon" id="themeIcon" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="border-b border-slate-200 dark:border-slate-800 bg-gradient-to-b from-white to-slate-50/50 dark:from-slate-900 dark:to-slate-900/50 py-8 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800 text-xs font-semibold mb-2">
+            <i data-lucide="activity" class="w-3.5 h-3.5"></i>
+            <span>JUDORI SURVEILLANCE REPORT</span>
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+            2026년 10월 6일 당일 주도주 및 주도 섹터 판별
+          </h1>
+          <p class="text-sm text-slate-600 dark:text-slate-400 mt-1">
+            분석 시점: 2026-10-06 09:35 | 출처: 키움증권 0186 거래대금상위 30위 실측 데이터
+          </p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 shadow-sm text-center min-w-[120px]">
+            <span class="block text-xs font-medium text-slate-500 dark:text-slate-400">1순위 주도 테마</span>
+            <span class="text-sm font-bold text-blue-600 dark:text-blue-400">AI 반도체 기판</span>
+          </div>
+          <div class="bg-white dark:bg-slate-800 rounded-xl p-3 border border-slate-200 dark:border-slate-700 shadow-sm text-center min-w-[120px]">
+            <span class="block text-xs font-medium text-slate-500 dark:text-slate-400">원픽 1대장주</span>
+            <span class="text-sm font-bold text-red-600 dark:text-red-400">이수페타시스</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Sidebar / Sticky TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <div class="bg-white dark:bg-slate-800/90 rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-1.5">
+            <i data-lucide="list" class="w-3.5 h-3.5"></i>
+            <span>목차 바로가기</span>
+          </div>
+          <nav class="space-y-1 text-sm font-medium text-slate-600 dark:text-slate-400">
+            <a href="#section-1" class="block px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition">
+              1. 주도 섹터 총평
+            </a>
+            <a href="#section-2" class="block px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition">
+              2. 주도 섹터별 분석 & 집단성
+            </a>
+            <a href="#section-3" class="block px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition">
+              3. 1대장주 집중 분석
+            </a>
+            <a href="#section-4" class="block px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition">
+              4. 거래대금 상위 30위 종합표
+            </a>
+            <a href="#section-5" class="block px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition">
+              5. 비주도·배제 대상 필터링
+            </a>
+            <a href="#section-6" class="block px-3 py-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/60 hover:text-blue-600 dark:hover:text-blue-400 transition">
+              6. 에이전트 연계 제언
+            </a>
+          </nav>
+        </div>
+
+        <div class="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-800/60 rounded-2xl p-4 border border-blue-100 dark:border-slate-700 text-xs">
+          <div class="font-bold text-slate-800 dark:text-slate-200 mb-1 flex items-center gap-1">
+            <i data-lucide="shield-check" class="w-3.5 h-3.5 text-blue-600"></i>
+            <span>주도리 핵심 3원칙</span>
+          </div>
+          <ul class="space-y-1.5 text-slate-600 dark:text-slate-400 mt-2 list-disc list-inside">
+            <li>동일 테마 3종목 이상 집단성</li>
+            <li>+5% 이상 실질 상승 수급</li>
+            <li>S/A등급 1등 대장주만 압축</li>
+          </ul>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main id="document-content" class="flex-1 min-w-0 space-y-10">
+
+      <!-- Section 1 -->
+      <section id="section-1" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">1</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">당일 주도 섹터(테마) 판별 총평</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Market Driving Sector</div>
+            <div class="text-lg font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
+              <span>AI 반도체 기판 (FC-BGA / MLB) 및 전자기판·소재</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-blue-100 text-blue-800 dark:bg-blue-950 dark:text-blue-300 border border-blue-200 dark:border-blue-800">재료등급: S등급</span>
+              <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">신선도: 상</span>
+              <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border border-purple-200 dark:border-purple-800">재료성격: 대기업·빅테크 연계</span>
+              <span class="px-2 py-0.5 text-xs font-semibold rounded-md bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300 border border-rose-200 dark:border-rose-800">섹터강도: 압도적 주도</span>
+            </div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm flex flex-col justify-between">
+            <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">Key Takeaway</div>
+            <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              장 초반 09:30 이후 대형 메모리(SK하이닉스 -1.36%, 삼성전자 +0.54%)가 쉬어가는 구간에서, <strong class="text-slate-900 dark:text-white">엔비디아 및 AI 가속기용 초고다층 기판(MLB, FC-BGA) 및 반도체 부품·장비</strong>로 기관·외인 주도 수급이 집중되고 있습니다.
+            </p>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-2 flex items-center gap-1.5">
+              <i data-lucide="check-circle" class="w-4 h-4 text-emerald-500"></i>
+              <span>상위 30위 내 6개 기판/소부장 종목 동반 1,000억 원 돌파</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section id="section-2" class="scroll-mt-24 space-y-6">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">2</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">주도 섹터별 상세 분석 및 집단성 검증</h2>
+        </div>
+
+        <!-- 1순위 카드 -->
+        <div class="bg-white dark:bg-slate-800 rounded-2xl border-2 border-blue-500/30 dark:border-blue-500/40 p-6 shadow-sm space-y-4">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-600 text-white">1순위 주도</span>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white">AI 반도체 기판(FC-BGA/MLB) 및 전자기판·소재</h3>
+            </div>
+            <div class="flex flex-wrap gap-1 text-xs">
+              <span class="px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 font-medium">집단성 충족 (6종목)</span>
+              <span class="px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-300 font-bold">🔥 최우선 집중</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-slate-900 dark:text-white text-base">이수페타시스</span>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">+9.65%</span>
+              </div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">8위 | 거래대금 1,810억</div>
+              <div class="text-xs font-bold text-blue-600 dark:text-blue-400 mt-2">1등 대장주(O) / 포지션 집중 권장</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-slate-900 dark:text-white text-base">삼성전기</span>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">+5.95%</span>
+              </div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">3위 | 거래대금 8,656억</div>
+              <div class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-2">대형 수급 대장주(O) / 메가 수급</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-slate-900 dark:text-white text-base">두산</span>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">+8.35%</span>
+              </div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">9위 | 거래대금 1,555억</div>
+              <div class="text-xs font-semibold text-amber-600 dark:text-amber-400 mt-2">전자BG 소재 준대장주(△)</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-slate-900 dark:text-white text-base">주성엔지니어링</span>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">+8.65%</span>
+              </div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">7위 | 거래대금 2,010억</div>
+              <div class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-2">반도체 전공정 ALD 주도주</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-slate-900 dark:text-white text-base">LG이노텍</span>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">+7.14%</span>
+              </div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">12위 | 거래대금 1,302억</div>
+              <div class="text-xs text-slate-600 dark:text-slate-400 mt-2">FC-BGA 및 IT 전장 후속주</div>
+            </div>
+
+            <div class="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
+              <div class="flex justify-between items-start">
+                <span class="font-bold text-slate-900 dark:text-white text-base">심텍</span>
+                <span class="text-xs font-bold px-1.5 py-0.5 rounded bg-red-100 text-red-700 dark:bg-red-950 dark:text-red-400">+5.92%</span>
+              </div>
+              <div class="text-xs text-slate-500 dark:text-slate-400 mt-1">15위 | 거래대금 1,130억</div>
+              <div class="text-xs text-slate-600 dark:text-slate-400 mt-2">메모리 패키지 기판 순환매</div>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-xl bg-blue-50/60 dark:bg-blue-950/30 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed border border-blue-100 dark:border-blue-900/50">
+            <strong>💡 섹터 핵심 분석:</strong> 삼성전기(8,656억)의 대규모 거래대금이 지수를 견인하는 가운데, 가격 탄력도 면에서 <span class="text-blue-600 dark:text-blue-400 font-bold">이수페타시스(+9.65%)</span>가 시세 분출 1등 대장주의 위상을 보이고 있습니다. 엔비디아 가속기용 초고다층 MLB 기판 수급 타이트 모멘텀이 실질적 수혜로 연결되는 구간입니다.
+          </div>
+        </div>
+
+        <!-- 2순위 & 3순위 2열 카드 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- 2순위 -->
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 text-xs font-bold rounded bg-emerald-600 text-white">2순위 주도</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">HLB 그룹 및 제약·바이오</h3>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold">⚡ 트레이딩 유효</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span class="font-bold text-slate-900 dark:text-white">HLB제약</span>
+                  <span class="text-slate-500 ml-1">(23위 | 679억)</span>
+                </div>
+                <span class="font-bold px-1.5 py-0.5 rounded bg-red-600 text-white text-[11px]">+29.97% [상한가]</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span class="font-bold text-slate-900 dark:text-white">HLB</span>
+                  <span class="text-slate-500 ml-1">(6위 | 2,380억)</span>
+                </div>
+                <span class="font-bold text-red-600 dark:text-red-400">+23.86%</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span class="font-bold text-slate-900 dark:text-white">삼천당제약</span>
+                  <span class="text-slate-500 ml-1">(20위 | 751억)</span>
+                </div>
+                <span class="font-bold text-red-600 dark:text-red-400">+14.98%</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              HLB제약이 09:30경 상한가에 직행하며 섹터 랠리를 촉발, HLB가 2,380억 원의 대형 수급을 받으며 강력한 모멘텀을 형성했습니다. 다만 바이오 특성상 변동성이 크므로 상한가 이후 눌림목 확인이 필수입니다.
+            </p>
+          </div>
+
+          <!-- 3순위 -->
+          <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm space-y-4">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2">
+                <span class="px-2 py-0.5 text-xs font-bold rounded bg-amber-600 text-white">3순위 테마</span>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white">보안 및 양자암호</h3>
+              </div>
+              <span class="text-xs px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold">⚠️ 단기 수급</span>
+            </div>
+
+            <div class="space-y-2 text-xs">
+              <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span class="font-bold text-slate-900 dark:text-white">엑스게이트</span>
+                  <span class="text-slate-500 ml-1">(16위 | 955억)</span>
+                </div>
+                <span class="font-bold text-red-600 dark:text-red-400">+11.50%</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span class="font-bold text-slate-900 dark:text-white">안랩</span>
+                  <span class="text-slate-500 ml-1">(17위 | 886억)</span>
+                </div>
+                <span class="font-bold text-red-600 dark:text-red-400">+11.56%</span>
+              </div>
+              <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border border-slate-200 dark:border-slate-800">
+                <div>
+                  <span class="font-bold text-slate-900 dark:text-white">빛과전자</span>
+                  <span class="text-slate-500 ml-1">(21위 | 740억)</span>
+                </div>
+                <span class="font-bold text-red-600 dark:text-red-400">+13.18%</span>
+              </div>
+            </div>
+
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              엑스게이트와 안랩이 거래대금 16~17위에 나란히 포진하며 합산 1,840억 원의 대금을 형성했습니다. 신규 부각 테마이므로 비중을 조절하고 칼손절 원칙을 병행해야 합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section id="section-3" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">3</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">대장주(1대장) 집중 분석</h2>
+        </div>
+
+        <div class="bg-gradient-to-r from-blue-900 to-indigo-900 text-white rounded-2xl p-6 sm:p-8 shadow-xl">
+          <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+            <div>
+              <span class="px-2.5 py-1 text-xs font-bold rounded-full bg-blue-500/30 text-blue-200 border border-blue-400/30">
+                당일 최우선 공략 1대장주
+              </span>
+              <h3 class="text-2xl sm:text-3xl font-extrabold mt-2 flex items-center gap-3">
+                <span>이수페타시스</span>
+                <span class="text-sm font-normal text-blue-200">(007660)</span>
+              </h3>
+            </div>
+            <div class="text-right">
+              <div class="text-2xl sm:text-3xl font-black text-red-400">+9.65%</div>
+              <div class="text-xs text-blue-200">현재가 132,900원 | 거래대금 1,810억</div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 my-6">
+            <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 text-center">
+              <div class="text-[11px] text-blue-200">대장주 판정</div>
+              <div class="text-sm font-bold mt-0.5 text-emerald-300">1등 대장주 (O)</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 text-center">
+              <div class="text-[11px] text-blue-200">재료 등급</div>
+              <div class="text-sm font-bold mt-0.5 text-yellow-300">S등급 (빅테크)</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 text-center">
+              <div class="text-[11px] text-blue-200">권장 타점</div>
+              <div class="text-sm font-bold mt-0.5">1파 5일선 N형 눌림</div>
+            </div>
+            <div class="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/10 text-center">
+              <div class="text-[11px] text-blue-200">비중 전략</div>
+              <div class="text-sm font-bold mt-0.5 text-blue-300">포지션 집중 (주력)</div>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-xs sm:text-sm text-blue-100 leading-relaxed border-t border-white/15 pt-4">
+            <p>
+              • <strong>선정 사유:</strong> 거래대금 1,810억 원이 집행되며 반도체 기판 그룹 내에서 가장 가파른 우상향 각도를 유지 중입니다. 삼성전기(+5.95%)가 수급 바닥을 든든히 지탱하는 구조에서 실질 시세 탄력성은 이수페타시스가 완전히 장악했습니다.
+            </p>
+            <p>
+              • <strong>2대장 대체 종목:</strong> <span class="font-bold text-white">두산 (+8.35%, 1,555억)</span> — 엔비디아 공급망 직결 전자BG 동박 소재주로 이수페타시스 고점 부담 시 유력한 2등주 대체재 (비중 제한 권고).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section id="section-4" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">4</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">거래대금 상위 30위 종합 현황표</h2>
+        </div>
+
+        <div class="bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-xs sm:text-sm">
+              <thead class="bg-slate-100 dark:bg-slate-900/70 border-b border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 font-semibold">
+                <tr>
+                  <th class="py-3 px-3 text-center">순위</th>
+                  <th class="py-3 px-4">종목명</th>
+                  <th class="py-3 px-3 text-right">현재가</th>
+                  <th class="py-3 px-3 text-right">등락률</th>
+                  <th class="py-3 px-4 text-right">거래대금</th>
+                  <th class="py-3 px-4">섹터 / 판정</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                <tr class="bg-slate-50/50 dark:bg-slate-900/20">
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">1</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">SK하이닉스</td>
+                  <td class="py-2.5 px-3 text-right">1,816,000</td>
+                  <td class="py-2.5 px-3 text-right font-semibold text-blue-600 dark:text-blue-400">-1.36%</td>
+                  <td class="py-2.5 px-4 text-right font-medium">1조 5,268억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">대형 반도체 (음봉 매수배제)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">2</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">삼성전자</td>
+                  <td class="py-2.5 px-3 text-right">277,500</td>
+                  <td class="py-2.5 px-3 text-right font-semibold text-red-600 dark:text-red-400">+0.54%</td>
+                  <td class="py-2.5 px-4 text-right font-medium">1조 3,136억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300">지수 방어</span></td>
+                </tr>
+                <tr class="bg-blue-50/40 dark:bg-blue-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-600 dark:text-blue-400">3</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">삼성전기</td>
+                  <td class="py-2.5 px-3 text-right font-medium">1,675,000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+5.95%</td>
+                  <td class="py-2.5 px-4 text-right font-bold text-blue-600 dark:text-blue-400">8,656억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 font-bold">기판/대형 대장</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">4</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">LG전자</td>
+                  <td class="py-2.5 px-3 text-right">229,500</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+6.25%</td>
+                  <td class="py-2.5 px-4 text-right font-medium">3,153억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300">개별 대형 (집단성 부족)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">5</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">SK스퀘어</td>
+                  <td class="py-2.5 px-3 text-right">1,188,000</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+2.41%</td>
+                  <td class="py-2.5 px-4 text-right">2,816억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">지주/반도체</span></td>
+                </tr>
+                <tr class="bg-emerald-50/40 dark:bg-emerald-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-emerald-600 dark:text-emerald-400">6</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">HLB</td>
+                  <td class="py-2.5 px-3 text-right font-medium">50,100</td>
+                  <td class="py-2.5 px-3 text-right font-extrabold text-red-600 dark:text-red-400">+23.86%</td>
+                  <td class="py-2.5 px-4 text-right font-bold text-emerald-600 dark:text-emerald-400">2,380억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 font-bold">HLB 자금대장</span></td>
+                </tr>
+                <tr class="bg-blue-50/40 dark:bg-blue-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-600 dark:text-blue-400">7</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">주성엔지니어링</td>
+                  <td class="py-2.5 px-3 text-right font-medium">257,500</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+8.65%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">2,010억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">반도체 ALD 장비</span></td>
+                </tr>
+                <tr class="bg-blue-100/50 dark:bg-blue-900/30 border-l-4 border-blue-600">
+                  <td class="py-2.5 px-3 text-center font-black text-blue-600 dark:text-blue-400">8</td>
+                  <td class="py-2.5 px-4 font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <span>이수페타시스</span>
+                    <span class="px-1.5 py-0.2 bg-red-600 text-white rounded text-[10px] font-bold">TOP</span>
+                  </td>
+                  <td class="py-2.5 px-3 text-right font-bold">132,900</td>
+                  <td class="py-2.5 px-3 text-right font-black text-red-600 dark:text-red-400">+9.65%</td>
+                  <td class="py-2.5 px-4 text-right font-black text-blue-600 dark:text-blue-400">1,810억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-blue-600 text-white font-black">1등 대장주</span></td>
+                </tr>
+                <tr class="bg-blue-50/40 dark:bg-blue-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-600 dark:text-blue-400">9</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">두산</td>
+                  <td class="py-2.5 px-3 text-right font-medium">1,453,000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+8.35%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">1,555억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">엔비디아 소재 준대장</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">10</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">한미반도체</td>
+                  <td class="py-2.5 px-3 text-right">278,000</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+2.21%</td>
+                  <td class="py-2.5 px-4 text-right">1,461억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">HBM (탄력 둔화)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">11</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">삼성SDI</td>
+                  <td class="py-2.5 px-3 text-right">550,000</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+3.97%</td>
+                  <td class="py-2.5 px-4 text-right">1,426억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">2차전지</span></td>
+                </tr>
+                <tr class="bg-blue-50/40 dark:bg-blue-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-600 dark:text-blue-400">12</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">LG이노텍</td>
+                  <td class="py-2.5 px-3 text-right font-medium">615,000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+7.14%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">1,302억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">FC-BGA/기판 후속</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">13</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">대한광통신</td>
+                  <td class="py-2.5 px-3 text-right">18,580</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+4.38%</td>
+                  <td class="py-2.5 px-4 text-right">1,233억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">광통신 케이블</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">14</td>
+                  <td class="py-2.5 px-4 text-slate-600 dark:text-slate-400">삼성전자우</td>
+                  <td class="py-2.5 px-3 text-right">200,500</td>
+                  <td class="py-2.5 px-3 text-right text-blue-600 dark:text-blue-400">-0.25%</td>
+                  <td class="py-2.5 px-4 text-right">1,222억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">우선주</span></td>
+                </tr>
+                <tr class="bg-blue-50/40 dark:bg-blue-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-blue-600 dark:text-blue-400">15</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">심텍</td>
+                  <td class="py-2.5 px-3 text-right font-medium">177,100</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+5.92%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">1,130억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300">패키지 기판</span></td>
+                </tr>
+                <tr class="bg-amber-50/40 dark:bg-amber-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-amber-600 dark:text-amber-400">16</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">엑스게이트</td>
+                  <td class="py-2.5 px-3 text-right font-medium">20,950</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+11.50%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">955억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 font-bold">양자암호 1대장</span></td>
+                </tr>
+                <tr class="bg-amber-50/40 dark:bg-amber-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-amber-600 dark:text-amber-400">17</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">안랩</td>
+                  <td class="py-2.5 px-3 text-right font-medium">85,900</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+11.56%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">886억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300 font-bold">보안 1대장</span></td>
+                </tr>
+                <tr class="bg-red-50/30 dark:bg-red-950/20">
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">18</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">한화시스템</td>
+                  <td class="py-2.5 px-3 text-right">81,900</td>
+                  <td class="py-2.5 px-3 text-right text-blue-600 dark:text-blue-400">-1.21%</td>
+                  <td class="py-2.5 px-4 text-right">874억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400 font-bold">방산 음봉 (배제)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">19</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">현대차</td>
+                  <td class="py-2.5 px-3 text-right">351,500</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+1.44%</td>
+                  <td class="py-2.5 px-4 text-right">763억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">자동차</span></td>
+                </tr>
+                <tr class="bg-emerald-50/40 dark:bg-emerald-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-emerald-600 dark:text-emerald-400">20</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">삼천당제약</td>
+                  <td class="py-2.5 px-3 text-right font-medium">238,000</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+14.98%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">751억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300">바이오 준대장</span></td>
+                </tr>
+                <tr class="bg-amber-50/40 dark:bg-amber-950/20">
+                  <td class="py-2.5 px-3 text-center font-bold text-amber-600 dark:text-amber-400">21</td>
+                  <td class="py-2.5 px-4 font-bold text-slate-900 dark:text-white">빛과전자</td>
+                  <td class="py-2.5 px-3 text-right font-medium">4,980</td>
+                  <td class="py-2.5 px-3 text-right font-bold text-red-600 dark:text-red-400">+13.18%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">740억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-amber-100 dark:bg-amber-900 text-amber-700 dark:text-amber-300">광통신/양자</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">22</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">두산에너빌리티</td>
+                  <td class="py-2.5 px-3 text-right">81,300</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+0.25%</td>
+                  <td class="py-2.5 px-4 text-right">732억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">원전 (탄력 미달)</span></td>
+                </tr>
+                <tr class="bg-emerald-100/60 dark:bg-emerald-900/40 border-l-4 border-emerald-600">
+                  <td class="py-2.5 px-3 text-center font-black text-emerald-600 dark:text-emerald-400">23</td>
+                  <td class="py-2.5 px-4 font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <span>HLB제약</span>
+                    <span class="px-1.5 py-0.2 bg-red-600 text-white rounded text-[10px] font-bold">상한가</span>
+                  </td>
+                  <td class="py-2.5 px-3 text-right font-bold">13,010</td>
+                  <td class="py-2.5 px-3 text-right font-black text-red-600 dark:text-red-400">+29.97%</td>
+                  <td class="py-2.5 px-4 text-right font-bold">679억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-emerald-600 text-white font-black">속도 1대장</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">24</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">제주반도체</td>
+                  <td class="py-2.5 px-3 text-right">93,400</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+1.08%</td>
+                  <td class="py-2.5 px-4 text-right">655억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">온디바이스 AI</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">25</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">리노공업</td>
+                  <td class="py-2.5 px-3 text-right">85,900</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+1.90%</td>
+                  <td class="py-2.5 px-4 text-right">619억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">소켓/테스트</span></td>
+                </tr>
+                <tr class="bg-red-50/30 dark:bg-red-950/20">
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">26</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">한화에어로스페이스</td>
+                  <td class="py-2.5 px-3 text-right">1,047,000</td>
+                  <td class="py-2.5 px-3 text-right text-blue-600 dark:text-blue-400">-2.33%</td>
+                  <td class="py-2.5 px-4 text-right">590억</td>
+                  <td class="py-2.5 px-4"><span class="px-2 py-0.5 rounded text-[11px] bg-red-100 dark:bg-red-950 text-red-700 dark:text-red-400 font-bold">방산 음봉 (배제)</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">27</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">HPSP</td>
+                  <td class="py-2.5 px-3 text-right">68,200</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+4.12%</td>
+                  <td class="py-2.5 px-4 text-right">565억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">반도체 열처리</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">28</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">티엠씨</td>
+                  <td class="py-2.5 px-3 text-right">18,480</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+0.22%</td>
+                  <td class="py-2.5 px-4 text-right">559억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">반도체 특수가스</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">29</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">로보티즈</td>
+                  <td class="py-2.5 px-3 text-right">317,000</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+1.93%</td>
+                  <td class="py-2.5 px-4 text-right">550억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">로봇</span></td>
+                </tr>
+                <tr>
+                  <td class="py-2.5 px-3 text-center font-medium text-slate-500">30</td>
+                  <td class="py-2.5 px-4 font-semibold text-slate-900 dark:text-white">산일전기</td>
+                  <td class="py-2.5 px-3 text-right">235,000</td>
+                  <td class="py-2.5 px-3 text-right text-red-600 dark:text-red-400">+3.52%</td>
+                  <td class="py-2.5 px-4 text-right">530억</td>
+                  <td class="py-2.5 px-4"><span class="text-xs text-slate-500">변압기/전력</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section id="section-5" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-7 h-7 rounded-lg bg-rose-100 dark:bg-rose-900/50 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-sm">5</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">비주도 / 개별 급등주 필터링 (🚫 매매 배제 대상)</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-rose-200 dark:border-rose-900/50 shadow-sm space-y-2">
+            <div class="flex items-center gap-2 text-rose-600 dark:text-rose-400 font-bold text-sm">
+              <i data-lucide="alert-triangle" class="w-4 h-4"></i>
+              <span>대량 거래대금 음봉</span>
+            </div>
+            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <li>• <strong>SK하이닉스 (-1.36%)</strong>: 1.5조 원 터졌으나 외인/기관 매도세 출회 중.</li>
+              <li>• <strong>한화시스템 (-1.21%)</strong>, <strong>한화에어로스페이스 (-2.33%)</strong>: 방산 차익 매물 이탈.</li>
+            </ul>
+            <div class="text-[11px] font-bold text-rose-600 dark:text-rose-400 pt-1">🚫 추격 매수 절대 금지</div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-amber-200 dark:border-amber-900/50 shadow-sm space-y-2">
+            <div class="flex items-center gap-2 text-amber-600 dark:text-amber-400 font-bold text-sm">
+              <i data-lucide="clock" class="w-4 h-4"></i>
+              <span>상승 탄력 둔화 (+5% 미달)</span>
+            </div>
+            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <li>• <strong>두산에너빌리티 (+0.25%)</strong></li>
+              <li>• <strong>티엠씨 (+0.22%)</strong></li>
+              <li>• <strong>로보티즈 (+1.93%)</strong></li>
+            </ul>
+            <div class="text-[11px] font-medium text-amber-600 dark:text-amber-400 pt-1">거래대금 유입 대비 당일 주도 탄력 결여</div>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-2">
+            <div class="flex items-center gap-2 text-slate-700 dark:text-slate-300 font-bold text-sm">
+              <i data-lucide="user-x" class="w-4 h-4"></i>
+              <span>나홀로 개별 급등주</span>
+            </div>
+            <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
+              <li>• <strong>LG전자 (+6.25%, 3,153억)</strong>: 전장/가전 개별 대형 수급주이나 그룹 내 3종목 이상 동반 상승 집단성 결여.</li>
+            </ul>
+            <div class="text-[11px] font-medium text-slate-500 pt-1">단독 추격 자제 및 후속 동조 확인 필요</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section id="section-6" class="scroll-mt-24 space-y-4">
+        <div class="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <span class="w-7 h-7 rounded-lg bg-blue-100 dark:bg-blue-900/50 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">6</span>
+          <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">협업 에이전트 연계 제언</h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+            <div class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-base">
+              <i data-lucide="line-chart" class="w-5 h-5"></i>
+              <span>차티(@chati) 차트 타점 연계</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              당일 1대장주 <strong>이수페타시스</strong> 및 자금 1대장 <strong>HLB</strong>의 3분할 차트(60분봉 50선/200선, 일봉 5일선, 5분봉 지지선) 판독을 진행하여, <strong>1파 5일선 N형 음봉 눌림목 진입 분할 타점</strong> 산출을 권장합니다.
+            </p>
+          </div>
+
+          <div class="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+            <div class="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 font-bold text-base">
+              <i data-lucide="target" class="w-5 h-5"></i>
+              <span>주주(@juju) 트레이딩 원칙 연계</span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              장중 고점 추격을 엄격히 금지하고, 1등 대장주가 시초가 대비 눌림을 주는 비효율적 음봉 구간에서 <strong>사전 지정가 -3.5% 간격 분할 매수</strong> 및 <strong>4~7% 수익 구간 분할 익절</strong> 원칙을 집행하시기 바랍니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs font-semibold transition-all duration-300 opacity-0 pointer-events-none transform translate-y-2 flex items-center gap-2">
+    <i data-lucide="check" class="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+    <span id="toastMsg">클립보드에 복사되었습니다.</span>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const themeIcon = document.getElementById('themeIcon');
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+      lucide.createIcons();
+    }
+
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('리포트 본문 내용이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-2');
+      setTimeout(() => {
+        toast.classList.add('opacity-0', 'pointer-events-none', 'translate-y-2');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>
