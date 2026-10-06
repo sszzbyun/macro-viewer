@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>[따블] 2026.10.06 로봇·피지컬 AI 전략회의 및 대장주 분석 대시보드</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              900: '#14532d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  <style>
+    .badge { display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; }
+    .card { transition: all 0.2s ease-in-out; }
+    .card:hover { transform: translateY(-2px); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/85 dark:bg-slate-900/85 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="p-2 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 font-black text-xl">🤖</span>
+        <div>
+          <div class="font-bold text-base sm:text-lg tracking-tight truncate max-w-xs sm:max-w-md">[따블] 로봇·피지컬 AI 전략 대시보드</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">2026. 10. 06 긴급 재소집 전략회의 완결본</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="copyBtn" onclick="copyDocument()" class="px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition flex items-center gap-1.5 shadow-sm">
+          <span>📋</span>
+          <span class="hidden sm:inline">전문 복사</span>
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 transition" aria-label="테마 전환">
+          🌓
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Desktop Sticky Sidebar Navigation -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <div class="sticky top-24 space-y-4">
+        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm">
+          <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">빠른 목차</div>
+          <nav class="space-y-1.5 text-sm font-medium" id="toc-nav">
+            <a href="#summary" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">1. 안건 본질 & 소집 배경</a>
+            <a href="#trajectory" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">2. 9월 4단계 시세 궤적</a>
+            <a href="#macro" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">3. 대기업 피지컬 AI 전쟁</a>
+            <a href="#matrix" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">4. 3대 핵심 축 & 대장주 판정</a>
+            <a href="#chart" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">5. 차트 및 파동 분석</a>
+            <a href="#mentoring" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">6. 주주 멘토 실전 수칙</a>
+            <a href="#audit" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">7. 5대 하드 필터링 감사</a>
+            <a href="#orders" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">8. 포트폴리오 슬롯 지시서</a>
+          </nav>
+        </div>
+
+        <div class="p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800/40 text-xs text-indigo-900 dark:text-indigo-200 space-y-2">
+          <div class="font-bold flex items-center gap-1.5">
+            <span>🛡️</span> 카나리 조기경보
+          </div>
+          <div>위험도: <span class="font-semibold text-emerald-600 dark:text-emerald-400">Green (정상 95점)</span></div>
+          <div>코스피 7,000선 안착 시험대 / 화·수·목 3영업일 압축 주간</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="document-content" class="flex-1 min-w-0 space-y-8">
+
+      <!-- Hero Banner -->
+      <section class="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white shadow-xl relative overflow-hidden">
+        <div class="relative z-10 space-y-3">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-xs font-semibold tracking-wide backdrop-blur-md">
+            <span>STRATEGIC EXECUTIVE REPORT</span> • 2026. 10. 06
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight leading-tight">
+            로봇·피지컬 AI 테마 궤적 전수 복기 및 대장주 실전 대응 전략
+          </h1>
+          <p class="text-sm sm:text-base text-slate-300 font-medium">
+            9월 삼현의 관절 액추에이터 상한가부터 10월 대기업 3사(현대차·삼성·LG) 전쟁까지, 피상적 검토를 배제한 실전 포트폴리오 운용 지침
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 1 -->
+      <section id="summary" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">🎯</span>
+          <h2 class="text-lg font-bold">1. 안건 본질 및 회의 소집 배경</h2>
+        </div>
+        <p class="text-sm leading-relaxed text-slate-600 dark:text-slate-300">
+          단순한 단기 특허 뉴스 하나에 매몰되지 않고, <strong>9월 중순 삼현의 관절 액추에이터 상한가(+29.80%, 1,523억 원)</strong>로부터 시작된 시장 자금의 맥락을 꿰뚫어 보는 것이 핵심입니다. 대표님께서 직접 9월 삼현 매매로 2회 연속 완벽한 익절(+11.34%, +6.12%)을 기록하셨던 실측 데이터가 증명하듯, 현재 로봇 섹터는 <strong>현대차(보스턴다이나믹스 아틀라스) vs 삼성전자(웨어러블) vs LG전자</strong>의 국가대표 피지컬 AI 패권 경쟁으로 확장되고 있습니다.
+        </p>
+        <div class="grid sm:grid-cols-3 gap-3 pt-2 text-xs">
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200/60 dark:border-slate-600/40">
+            <div class="text-slate-400 font-medium">9월 실전 검증</div>
+            <div class="font-bold text-base text-indigo-600 dark:text-indigo-400 mt-1">삼현 2전 2승</div>
+            <div class="text-slate-500 dark:text-slate-400 mt-0.5">+143.3만 원 누적 익절</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200/60 dark:border-slate-600/40">
+            <div class="text-slate-400 font-medium">9월말 유동성 폭발</div>
+            <div class="font-bold text-base text-emerald-600 dark:text-emerald-400 mt-1">빅웨이브 1.1조 원</div>
+            <div class="text-slate-500 dark:text-slate-400 mt-0.5">상장 2일간 메가 수급 유입</div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200/60 dark:border-slate-600/40">
+            <div class="text-slate-400 font-medium">10월 대기업 촉매</div>
+            <div class="font-bold text-base text-blue-600 dark:text-blue-400 mt-1">아틀라스 & 삼성특허</div>
+            <div class="text-slate-500 dark:text-slate-400 mt-0.5">하반기 주도 섹터 공식 편입</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2 -->
+      <section id="trajectory" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">📈</span>
+          <h2 class="text-lg font-bold">2. 9월 로봇 테마 4단계 시세 궤적 전수 복기</h2>
+        </div>
+        <div class="relative border-l-2 border-indigo-200 dark:border-indigo-900/60 ml-3 pl-5 space-y-6 text-sm">
+          <div class="relative">
+            <div class="absolute -left-[1.65rem] top-1 w-3 h-3 rounded-full bg-indigo-600 ring-4 ring-white dark:ring-slate-800"></div>
+            <div class="font-bold text-slate-900 dark:text-white">1단계: 9/15 '피지컬 AI 로봇관절(액추에이터)' 태동</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">65조 원 로봇관절 액추에이터 시장 선점 경쟁</div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
+              <strong>삼현(437730)</strong>이 +29.80% 상한가(거래대금 1,523억 원)를 기록하며 1등 대장주로 안착. 하이젠알앤엠(+24.69%), 코닉오토메이션(+24.75%) 등 관절 부품주 동반 급등. 대표님 9/14~15 1차 매매 완수(+6.12%).
+            </p>
+          </div>
+          <div class="relative">
+            <div class="absolute -left-[1.65rem] top-1 w-3 h-3 rounded-full bg-indigo-500 ring-4 ring-white dark:ring-slate-800"></div>
+            <div class="font-bold text-slate-900 dark:text-white">2단계: 9/17 ~ 9/21 '삼현의 1파 시세 폭발 및 차익 실현'</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">역사적 고점 57,900원 & 거래대금 2,051억 원 폭발</div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
+              삼현 2차 랠리 분출. 대표님 9/17~21 2차 매매로 <strong>+11.34%(+101.5만 원)</strong> 확정 수익 달성. 이후 거래량이 급감하며 20일선 수렴 조정기 돌입.
+            </p>
+          </div>
+          <div class="relative">
+            <div class="absolute -left-[1.65rem] top-1 w-3 h-3 rounded-full bg-indigo-400 ring-4 ring-white dark:ring-slate-800"></div>
+            <div class="font-bold text-slate-900 dark:text-white">3단계: 9/22 ~ 9/28 'AI 소프트웨어 확산 & 하드웨어 숨고르기'</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">메타 AI 비서 '뮤즈' 1위 흥행</div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
+              노타, 토마토시스템 등 온디바이스/에이전트 AI로 단기 수급 분산. 로봇 관절 하드웨어주는 20일선에서 지루한 기간 조정을 거치며 에너지를 응축함.
+            </p>
+          </div>
+          <div class="relative">
+            <div class="absolute -left-[1.65rem] top-1 w-3 h-3 rounded-full bg-indigo-600 ring-4 ring-white dark:ring-slate-800"></div>
+            <div class="font-bold text-slate-900 dark:text-white">4단계: 9/29 ~ 9/30 '빅웨이브로보틱스 상장발 메가 유동성'</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">2일간 누적 거래대금 1.1조 원 폭발</div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 mt-2">
+              신규 상장 이틀째 상한가(+29.93%)로 로봇 섹터의 판을 키우며 10월 대기업 전쟁의 마중물 역할 수행.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3 -->
+      <section id="macro" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">🌐</span>
+          <h2 class="text-lg font-bold">3. 대기업 3사(현대차·삼성·LG) 피지컬 AI 전쟁 인과체인</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-blue-50/60 dark:bg-blue-950/30 border border-blue-200/60 dark:border-blue-800/40 space-y-2">
+            <div class="font-bold text-blue-700 dark:text-blue-300 text-sm flex items-center gap-1.5">
+              <span>🚗</span> 현대차그룹 진영
+            </div>
+            <div class="font-semibold text-slate-800 dark:text-slate-200">• 보스턴다이나믹스 '아틀라스'</div>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+              드릴·너트 체결 가능한 신규 로봇 손 공개. 현대오토에버 아틀라스 전담팀 신설 및 현대모비스 램프 매각 후 로봇 자원 집중.
+            </p>
+            <div class="pt-2 border-t border-blue-200 dark:border-blue-800/40 font-bold text-blue-800 dark:text-blue-200">
+              핵심 수혜: 삼현 (스마트 액추에이터)
+            </div>
+          </div>
+          <div class="p-4 rounded-2xl bg-cyan-50/60 dark:bg-cyan-950/30 border border-cyan-200/60 dark:border-cyan-800/40 space-y-2">
+            <div class="font-bold text-cyan-700 dark:text-cyan-300 text-sm flex items-center gap-1.5">
+              <span>📱</span> 삼성전자 진영
+            </div>
+            <div class="font-semibold text-slate-800 dark:text-slate-200">• AI 웨어러블 & 보행 로봇</div>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+              10/1 AI 웨어러블 로봇 글로벌 특허 전격 공개. 실버케어 및 보행보조 B2C 시장 선점 가속화.
+            </p>
+            <div class="pt-2 border-t border-cyan-200 dark:border-cyan-800/40 font-bold text-cyan-800 dark:text-cyan-200">
+              핵심 수혜: 코스모로보틱스 (10/1 2,368억)
+            </div>
+          </div>
+          <div class="p-4 rounded-2xl bg-rose-50/60 dark:bg-rose-950/30 border border-rose-200/60 dark:border-rose-800/40 space-y-2">
+            <div class="font-bold text-rose-700 dark:text-rose-300 text-sm flex items-center gap-1.5">
+              <span>🏭</span> LG전자 & 플랫폼 진영
+            </div>
+            <div class="font-semibold text-slate-800 dark:text-slate-200">• 스마트팩토리 & 로봇 SI</div>
+            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+              LG전자 목표가 29만 원 상향(가전→로봇 기업 재평가). 엔비디아 파트너십 및 물류 무인 자동화.
+            </p>
+            <div class="pt-2 border-t border-rose-200 dark:border-rose-800/40 font-bold text-rose-800 dark:text-rose-200">
+              핵심 수혜: 빅웨이브로보틱스 (로봇 SI)
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 4 -->
+      <section id="matrix" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">📊</span>
+          <h2 class="text-lg font-bold">4. 로봇 3대 핵심 축 & 4대 준칙 종목 진단 매트릭스</h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs text-left border-collapse">
+            <thead>
+              <tr class="bg-slate-100 dark:bg-slate-700/50 text-slate-700 dark:text-slate-200 font-semibold border-b border-slate-200 dark:border-slate-700">
+                <th class="p-3">핵심 축</th>
+                <th class="p-3">종목명 (코드)</th>
+                <th class="p-3">핵심 재료 및 연계</th>
+                <th class="p-3 text-center">재료 등급</th>
+                <th class="p-3 text-center">신선도</th>
+                <th class="p-3 text-center">대장주 판정</th>
+                <th class="p-3">전략적 포지션</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200 dark:divide-slate-700/60">
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-750">
+                <td class="p-3 font-bold text-indigo-600 dark:text-indigo-400">관절 액추에이터</td>
+                <td class="p-3 font-bold">삼현 (437730)</td>
+                <td class="p-3">3-in-1 스마트 액추에이터, 현대차 아틀라스 관절</td>
+                <td class="p-3 text-center"><span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300">S등급</span></td>
+                <td class="p-3 text-center font-medium">중 (2파)</td>
+                <td class="p-3 text-center"><span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300">1등대장(O)</span></td>
+                <td class="p-3 font-semibold text-slate-800 dark:text-slate-200">실체 1등주 (20일선 스윙)</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-750">
+                <td class="p-3 font-bold text-cyan-600 dark:text-cyan-400">웨어러블 로봇</td>
+                <td class="p-3 font-bold">코스모로보틱스 (475990)</td>
+                <td class="p-3">삼성전자 AI 웨어러블 특허, 10/1 거래대금 2,368억</td>
+                <td class="p-3 text-center"><span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300">S등급</span></td>
+                <td class="p-3 text-center font-medium">상 (1파)</td>
+                <td class="p-3 text-center"><span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300">1등대장(O)</span></td>
+                <td class="p-3 font-semibold text-slate-800 dark:text-slate-200">탄력 1등주 (5일선 N형)</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-750">
+                <td class="p-3 font-bold text-emerald-600 dark:text-emerald-400">로봇 자동화 SI</td>
+                <td class="p-3 font-bold">빅웨이브로보틱스 (489500)</td>
+                <td class="p-3">상장 2일간 1.1조 수급 폭발, AI 자동화 플랫폼</td>
+                <td class="p-3 text-center"><span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300">S등급</span></td>
+                <td class="p-3 text-center font-medium">상 (신규)</td>
+                <td class="p-3 text-center"><span class="badge bg-blue-100 text-blue-700 dark:bg-blue-900/60 dark:text-blue-300">수급대장(O)</span></td>
+                <td class="p-3 font-semibold text-slate-800 dark:text-slate-200">수급 1등주 (장중 회전)</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-400">
+                <td class="p-3">뇌수술/로봇비전</td>
+                <td class="p-3">고영 (098460)</td>
+                <td class="p-3">뇌수술 로봇 카이메로 및 3D 로봇 검사 독점</td>
+                <td class="p-3 text-center"><span class="badge bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300">A등급</span></td>
+                <td class="p-3 text-center">중</td>
+                <td class="p-3 text-center">준대장(△)</td>
+                <td class="p-3">저비중 제한</td>
+              </tr>
+              <tr class="hover:bg-slate-50 dark:hover:bg-slate-750 text-rose-500 dark:text-rose-400">
+                <td class="p-3">후발 잡주군</td>
+                <td class="p-3">리브스메드 / 제우스</td>
+                <td class="p-3">거래대금 200억 원대 미달, 테마 단순 편승</td>
+                <td class="p-3 text-center"><span class="badge bg-rose-100 text-rose-700 dark:bg-rose-900/60 dark:text-rose-300">C등급</span></td>
+                <td class="p-3 text-center">하</td>
+                <td class="p-3 text-center font-bold">비대장(X)</td>
+                <td class="p-3 font-bold">🚫 매매 원천 배제</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Section 5 -->
+      <section id="chart" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">🔍</span>
+          <h2 class="text-lg font-bold">5. 차티(chati)의 기술적 위치 및 파동 맵</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-4 text-xs">
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-700/30 border border-slate-200 dark:border-slate-600/50 space-y-2">
+            <div class="font-bold text-indigo-600 dark:text-indigo-400 text-sm">삼현 (437730) : 2파 20일선 황금선 수렴</div>
+            <ul class="space-y-1.5 text-slate-600 dark:text-slate-300 leading-relaxed">
+              <li>• <strong>일봉 구조</strong>: 9/21 57,900원 고점 찍은 후 거래량이 80% 이상 급감하며 20일 이동평균선(50,000원~52,000원선)으로 완만히 안착.</li>
+              <li>• <strong>60분봉 구조</strong>: 장기 지지선인 200선에 완벽히 수렴하며 하방 경직성을 견고히 확보.</li>
+              <li>• <strong>타점 평가</strong>: 전형적인 <strong>'2~3주 이평선 수렴 후 돌려나가는 제2타점 초입'</strong>.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-700/30 border border-slate-200 dark:border-slate-600/50 space-y-2">
+            <div class="font-bold text-cyan-600 dark:text-cyan-400 text-sm">코스모로보틱스 (475990) : 1파 5일선 N형 눌림목</div>
+            <ul class="space-y-1.5 text-slate-600 dark:text-slate-300 leading-relaxed">
+              <li>• <strong>일봉 구조</strong>: 10/1 거래대금 2,368억 원 대량 기준봉 출현 후, 첫 5일선 지지 단봉 형성.</li>
+              <li>• <strong>60분봉 구조</strong>: 50선(일봉 5일선 연동선) 터치 후 거래량 급감 매물 소화.</li>
+              <li>• <strong>타점 평가</strong>: 기준봉 2~3일차 전형적인 <strong>'1파 5일선 N형 음봉 눌림목'</strong>.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 6 -->
+      <section id="mentoring" class="p-6 rounded-3xl bg-amber-50/70 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/40 shadow-sm space-y-3">
+        <div class="flex items-center gap-2.5 text-amber-800 dark:text-amber-200">
+          <span class="text-xl">💡</span>
+          <h2 class="text-lg font-bold">6. 주주(juju) 멘토의 4~7% 수익 누적 코칭</h2>
+        </div>
+        <div class="p-4 rounded-2xl bg-white/80 dark:bg-slate-900/60 border border-amber-200/60 dark:border-amber-800/40 text-xs sm:text-sm text-slate-700 dark:text-slate-300 space-y-2 leading-relaxed">
+          <p class="font-semibold text-amber-900 dark:text-amber-200">
+            "대표님께서 9월에 삼현을 4만 원대 조용히 사서 상한가 갈 때 42,720원에 +6.12% 챙기고, 49,000원에 다시 잡아 54,860원에 던져 +11.34% 챙기셨던 그 본질을 잊지 마십시오!"
+          </p>
+          <ul class="list-disc list-inside space-y-1 text-xs">
+            <li><strong>시속 150km 강속구 추격 금지</strong>: 이미 폭등한 양봉에 시장가로 따라붙지 않는다.</li>
+            <li><strong>시속 50km 느린 공 사냥</strong>: 거래량이 말라붙고 남들이 잊어갈 때 5일선/20일선에서 사전 지정가 <strong>-3.5% 간격 분할 매수</strong>로 그물을 친다.</li>
+            <li><strong>기계적 4~7% 분할 익절</strong>: 1차 반등(+4~6%) 시 50~70%는 반드시 확정 익절하고, 나머지만 평단 본절 스탑로스 설정 후 추세를 즐긴다. 상시 예수금 50%를 방어한다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Section 7 -->
+      <section id="audit" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">🛡️</span>
+          <h2 class="text-lg font-bold">7. 체커리(checkery) 5대 하드 필터링 사전 전수 감사</h2>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-600/50 space-y-1.5">
+            <div class="flex items-center justify-between font-bold">
+              <span>코스모로보틱스 (475990)</span>
+              <span class="text-emerald-600 dark:text-emerald-400">APPROVED (PASS)</span>
+            </div>
+            <div class="text-slate-500 dark:text-slate-400 leading-normal">
+              10/1 테마DB 1위, 삼성 웨어러블 특허, 5일선 음봉 눌림목, 단기재료 슬롯 1 고비중 자격 충족.
+            </div>
+          </div>
+          <div class="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-700/40 border border-slate-200 dark:border-slate-600/50 space-y-1.5">
+            <div class="flex items-center justify-between font-bold">
+              <span>삼현 (437730)</span>
+              <span class="text-emerald-600 dark:text-emerald-400">APPROVED (PASS)</span>
+            </div>
+            <div class="text-slate-500 dark:text-slate-400 leading-normal">
+              9/15 테마DB 상한가 1등 대장, 현대차 아틀라스 관절 수혜, 20일선 수렴 지지, 단기재료 슬롯 2 고비중 자격 충족.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 8 -->
+      <section id="orders" class="p-6 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700/60 shadow-sm space-y-4">
+        <div class="flex items-center gap-2.5 border-b border-slate-100 dark:border-slate-700/60 pb-3">
+          <span class="text-xl">⚔️</span>
+          <h2 class="text-lg font-bold">8. 트레이디(traidy) 포트폴리오 슬롯 배정 지시서</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-4 text-xs">
+          <!-- Card 1 -->
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-750 border border-slate-200 dark:border-slate-700 space-y-2 card">
+            <div class="flex items-center justify-between">
+              <span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300">단기재료 슬롯 1</span>
+              <span class="text-slate-400 font-medium">1파 5일선 N형</span>
+            </div>
+            <div class="font-bold text-sm text-slate-900 dark:text-white">코스모로보틱스 (475990)</div>
+            <div class="space-y-1 text-slate-600 dark:text-slate-300">
+              <div>• 1차 매수(40%): 60분 50선 지지선</div>
+              <div>• 2차 매수(60%): 1차 대비 <strong>-3.5%</strong> 하단</div>
+              <div>• 목표가: <strong>+4% ~ +6%</strong> (60% 기계적 익절)</div>
+              <div>• 방화벽: 매수가 이탈 시 본절 스탑</div>
+            </div>
+          </div>
+          <!-- Card 2 -->
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-750 border border-slate-200 dark:border-slate-700 space-y-2 card">
+            <div class="flex items-center justify-between">
+              <span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-900/60 dark:text-emerald-300">단기재료 슬롯 2</span>
+              <span class="text-slate-400 font-medium">2파 20일선 스윙</span>
+            </div>
+            <div class="font-bold text-sm text-slate-900 dark:text-white">삼현 (437730)</div>
+            <div class="space-y-1 text-slate-600 dark:text-slate-300">
+              <div>• 1차 매수(40%): 50,000원 ~ 52,000원선</div>
+              <div>• 2차 매수(60%): 1차 대비 <strong>-3.5%</strong> 하단</div>
+              <div>• 목표가: 1차 +5% 익절 / 2차 56,000원+ 전고점 돌파</div>
+              <div>• 방화벽: 48,000원 종가 이탈 시 컷</div>
+            </div>
+          </div>
+          <!-- Card 3 -->
+          <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-750 border border-slate-200 dark:border-slate-700 space-y-2 card">
+            <div class="flex items-center justify-between">
+              <span class="badge bg-amber-100 text-amber-700 dark:bg-amber-900/60 dark:text-amber-300">베이스 계좌</span>
+              <span class="text-slate-400 font-medium">장중 수급 회전</span>
+            </div>
+            <div class="font-bold text-sm text-slate-900 dark:text-white">빅웨이브로보틱스 (489500)</div>
+            <div class="space-y-1 text-slate-600 dark:text-slate-300">
+              <div>• 운용 원칙: 고정 소액 시드 단타</div>
+              <div>• 조건: 시초 갭 추격 금지, 장중 투매 진정 시</div>
+              <div>• 목표가: +3% ~ +5% 초단기 분할 매도</div>
+              <div>• 방화벽: 오버나잇 절대 엄금 (당일 청산)</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2.5 rounded-xl shadow-xl text-xs font-semibold transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+    클립보드에 복사되었습니다.
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('전문이 클립보드에 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2000);
+    }
+  </script>
+</body>
+</html>
