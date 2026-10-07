@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026. 10. 07 장전 핵심 이슈 및 비즈니스 시각화 브리핑</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+  
+  <!-- Mermaid.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'default',
+      securityLevel: 'loose',
+      fontFamily: 'Pretendard, sans-serif'
+    });
+  </script>
+
+  <style>
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    .dark ::-webkit-scrollbar-thumb { background: #475569; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.25rem 0.625rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1rem;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 min-h-screen transition-colors duration-200 antialiased font-sans">
+
+  <!-- Sticky Header -->
+  <header class="sticky top-0 z-50 backdrop-blur-md bg-white/90 dark:bg-slate-900/90 border-b border-slate-200 dark:border-slate-800 shadow-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white font-bold text-base shadow-md shadow-blue-500/20">
+          🌅
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            2026. 10. 07 장전 핵심 이슈 및 비즈니스 시각화 브리핑
+            <span class="hidden sm:inline-block px-2.5 py-0.5 text-xs font-semibold rounded-full bg-blue-100 dark:bg-blue-950/80 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-800">
+              08:30 KST
+            </span>
+          </h1>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2.5">
+        <button id="copyAllBtn" onclick="copyDocument()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+          전체 복사
+        </button>
+        <button id="themeToggle" onclick="toggleTheme()" class="p-2 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 transition shadow-sm" aria-label="테마 전환">
+          <span id="themeIcon">🌓</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Metric Quick Cards Bar -->
+  <section class="border-b border-slate-200 dark:border-slate-800/80 bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <!-- Card 1: S&P 500 -->
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">S&P 500 (10/6)</div>
+          <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 flex items-baseline gap-1 mt-0.5">
+            7,818.93 <span class="text-xs font-semibold">+0.58% ▲</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">역대 사상 최고치 경신</div>
+        </div>
+        <!-- Card 2: 나스닥 -->
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">나스닥 종합 (10/6)</div>
+          <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 flex items-baseline gap-1 mt-0.5">
+            27,599.79 <span class="text-xs font-semibold">+0.45% ▲</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">엔비디아 연이틀 신고가</div>
+        </div>
+        <!-- Card 3: 달러-원 역외환율 -->
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">원·달러 역외환율</div>
+          <div class="text-lg font-bold text-emerald-600 dark:text-emerald-400 flex items-baseline gap-1 mt-0.5">
+            1,338.1원 <span class="text-xs font-semibold text-emerald-600">-4.3원 ▼</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">1,340원선 하회 안착</div>
+        </div>
+        <!-- Card 4: WTI 국제유가 -->
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">WTI 국제유가 (11월)</div>
+          <div class="text-lg font-bold text-slate-700 dark:text-slate-200 flex items-baseline gap-1 mt-0.5">
+            $89.44 <span class="text-xs font-semibold text-slate-500">+0.01$</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">89달러대 하향 안정</div>
+        </div>
+        <!-- Card 5: 코스닥 전일치 -->
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">코스닥 전일 종가</div>
+          <div class="text-lg font-bold text-indigo-600 dark:text-indigo-400 flex items-baseline gap-1 mt-0.5">
+            919.92 <span class="text-xs font-semibold">+2.98% ▲</span>
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">석 달 만에 900선 돌파</div>
+        </div>
+        <!-- Card 6: 주도 테마 -->
+        <div class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+          <div class="text-xs text-slate-500 dark:text-slate-400 font-medium">핵심 주도 테마</div>
+          <div class="text-sm font-bold text-indigo-600 dark:text-indigo-400 truncate mt-1">
+            HBM패키징 · AI보안 · 로봇
+          </div>
+          <div class="text-[11px] text-slate-400 mt-0.5">삼전 100조 D-1 & 해킹비상</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Container with Sticky TOC -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex flex-col lg:flex-row gap-8">
+    
+    <!-- Desktop Sidebar TOC -->
+    <aside class="hidden lg:block w-64 shrink-0">
+      <nav class="sticky top-24 space-y-1 text-sm bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="font-bold text-slate-900 dark:text-white pb-2 mb-2 border-b border-slate-100 dark:border-slate-800 flex items-center gap-2">
+          <span>📑 목차 바로가기</span>
+        </div>
+        <a href="#sec-summary" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          📌 개장 전 핵심 요약
+        </a>
+        <a href="#sec-news25" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          1. 📢 5개 부문 핵심 뉴스 25선
+        </a>
+        <a href="#sec-telegram" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          2. 💬 텔레그램 즉시 복사 블록
+        </a>
+        <a href="#sec-ripple" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          3. 🔗 나바로식 인과사슬 3단계
+        </a>
+        <a href="#sec-slides" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          4. 📊 5-Slide 프레젠테이션 덱
+        </a>
+        <a href="#sec-dashboard" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          5. 📱 인포그래픽 대시보드
+        </a>
+        <a href="#sec-mindmap" class="block px-2.5 py-1.5 rounded-lg text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+          6. 🧠 장전 시장 마인드맵
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main id="document-content" class="flex-1 min-w-0 space-y-10">
+
+      <!-- Executive Summary -->
+      <section id="sec-summary" class="bg-gradient-to-br from-indigo-900 via-slate-900 to-slate-950 text-white rounded-2xl p-6 sm:p-8 shadow-md border border-indigo-950/40 space-y-3">
+        <div class="flex items-center gap-2 text-indigo-300 text-xs sm:text-sm font-semibold">
+          <span>⚡ Executive Summary</span>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight text-white">
+          글로벌 기술주 사상 최고치 경신 & 삼성전자 100조 실적 D-1 속 코스피 7,000선 재탈환 시도
+        </h2>
+        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
+          10월 7일(수) 국내 증시는 글로벌 기술주 사상 최고치 경신 훈풍과 D-1로 다가온 삼성전자 3분기 분기 영업이익 100조 시대 개막 기대감 속에, 전일 7,000선 아래로 일시 후퇴했던 코스피의 강력한 반발 매수 및 7,000선 재탈환 시도가 전개될 전망입니다.
+          간밤 뉴욕 증시는 국채금리 하향 안정(10년물 5.28%)과 실적 시즌 낙관론에 힘입어 S&P 500 지수(+0.66%, 7,773.95)가 역사적 사상 최고치를 경신하고, 나스닥 종합(+1.05%, 27,477.31) 역시 1% 넘게 급등했습니다. 엔비디아(NVDA)는 시총 6조 달러 돌파에 육박하는 신고가 행진을 이어갔으며, AMD 리사 수 CEO의 방한("AI 수혜 CPU로 온다")과 구글의 3.6GW 원전 전력 공급 계약이 맞물리며 AI 하드웨어·전력 가치사슬 전반이 폭발했습니다. 외환시장에서 역외 원/달러 환율은 1,338~1,342원선으로 하향 안정되어 외국인 수급의 우호적 턴어라운드를 뒷받침합니다.
+        </p>
+      </section>
+
+      <!-- SECTION 1: 5개 부문별 핵심 뉴스 25선 -->
+      <section id="sec-news25" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📢</span>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white">5대 부문별 핵심 뉴스 (각 5선, 총 25선)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">구체적 수치와 명확한 인과관계를 반영한 종합 장전 뉴스 매트릭스</p>
+            </div>
+          </div>
+          <span class="badge bg-blue-100 text-blue-700 dark:bg-blue-950/80 dark:text-blue-300 border border-blue-200 dark:border-blue-900">
+            5×5 매트릭스
+          </span>
+        </div>
+
+        <div class="space-y-6">
+          <!-- 1. 종합 시황 및 글로벌 매크로 -->
+          <div class="space-y-2.5">
+            <h3 class="text-sm font-bold text-blue-600 dark:text-blue-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-blue-600"></span>
+              ■ 1. 종합 시황 및 글로벌 매크로
+            </h3>
+            <div class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">1. [S&P 500·나스닥 사상 최고치 경신…기술주 랠리 가속]:</span> 미 국채금리 하향 안정과 기업 실적 낙관론에 힘입어 S&P 500(7,773.95, +0.66%)과 나스닥(27,477.31, +1.05%)이 일제히 역대 신고가를 돌파했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">2. [달러 인덱스 101.86 하락 및 역외 환율 1,338~1,342원 안착]:</span> 미 국채금리 안정 및 9월 역대 최대 수출(1,209억$) 네고 유입으로 역외 원/달러 환율이 1,340원선을 하회하며 외국인 수급 환경이 대폭 개선되었습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">3. [국제유가 89달러대 안착(WTI $89.43, -1.84%)]:</span> 중동 수출 회복과 사우디 대체 수송로 정상화 속에 국제유가가 89달러대로 하락 안정되며 인플레이션 우려가 완화되었습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">4. [구글, 美 최대 원전기업 컨스텔레이션서 3.6GW 전력공급 계약]:</span> AI 데이터센터 전력난 해소를 위해 초대형 원전 장기 전력 구매 계약을 체결하며 원전·전력 인프라 전환이 가속화되었습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">5. [트럼프, "韓 관세 낮추려 美 조선업에 1,500억 달러 투입" 발언]:</span> 무역 및 관세 협상 과정에서 한국의 대미 투자와 조선·해양 인프라 파트너십을 부각했습니다.
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. 기업 및 산업 -->
+          <div class="space-y-2.5">
+            <h3 class="text-sm font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-indigo-600"></span>
+              ■ 2. 기업 및 산업
+            </h3>
+            <div class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">6. [삼성전자, 내년 HBM4 공급가 대폭 인상 추진 & 3Q 영업익 100조 눈앞]:</span> D램 가격 급등세를 반영해 차세대 HBM4 판가를 대폭 인상하고, 내일(10/8) 분기 100조 원대 영업이익 잠정실적을 공식 발표합니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">7. [한미반도체, 삼성전기에 244억원 장비 수주…'삼성-한미' 동맹 본격화]:</span> 첨단 기판 및 패키징 공정에 필수적인 반도체 제조 장비를 삼성그룹에 직접 공급하며 기술 동맹을 확정했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">8. [삼성전기, 차세대 반도체 기판 '유리' 육성 & AI MLCC 장기계약 잭팟]:</span> 실리콘 인터포저를 대체할 유리기판 기술 개발을 가속화하고, AI 서버용 고부가 MLCC 대형 수주를 지속 확보했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">9. [포스코퓨처엠, 삼성SDI에 양극재 6조원 규모 대규모 공급 계약]:</span> 전기차 캐즘 우려를 뚫고 차세대 하이니켈 및 프리미엄 양극재 장기 공급을 성사시켰습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">10. [보스턴다이나믹스, 신임 CEO에 '아마존 AI 리더' 로히트 프라사드 영입]:</span> 피지컬 AI 상용화와 휴머노이드 로봇 생태계 확장을 위해 글로벌 빅테크 최고 AI 전문가를 전격 영입했습니다.
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 경제, 증시 및 부동산 -->
+          <div class="space-y-2.5">
+            <h3 class="text-sm font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+              ■ 3. 경제, 증시 및 부동산
+            </h3>
+            <div class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">11. [코스닥, 석 달 만에 900선 돌파(919.92, +2.98%)…소부장·바이오 랠리]:</span> 외국인·기관 쌍끌이 순매수에 힘입어 코스닥이 단숨에 920선 턱밑까지 폭등하며 완벽한 주도권을 장악했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">12. [금리·주가 동반 상승…AI 인프라가 뒤바꾼 글로벌 투자 패러다임]:</span> 고금리 기조 속에서도 빅테크들의 독점적 수익성과 설비투자(CAPEX) 확대로 기술주 주도 장세가 고착화되고 있습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">13. [세계은행, 동아시아 경제성장률 4.5%로 상향 조정]:</span> 한국을 필두로 한 아시아 지역의 AI 반도체 및 첨단 IT 하드웨어 수출 호조를 공식 반영했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">14. [정부, 주택 공급 속도전…용적률 상향 및 서울시 그린벨트 해제 착수]:</span> 서울 아파트값 86주 연속 상승세에 대응하여 수도권 신규 택지 7.3만 가구 공급안을 가동했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">15. [신세계, 美 워너브라더스 테마파크에 1.4조 베팅…스타필드 혁신]:</span> 복합쇼핑몰 공간 경쟁력 강화를 위해 글로벌 콘텐츠 라이선스 지분 인수를 전격 단행했습니다.
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. 정치, 사회 및 국내 기타 -->
+          <div class="space-y-2.5">
+            <h3 class="text-sm font-bold text-amber-600 dark:text-amber-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-amber-600"></span>
+              ■ 4. 정치, 사회 및 국내 기타
+            </h3>
+            <div class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">16. [금융권 AI 해킹 초비상…"방어에 14억 쓰는데 커피 한잔값에 뚫려"]:</span> 12개국 경유 글로벌 해커 조직이 생성형 AI를 악용한 초저가 해킹 공격을 감행해 금융당국이 28개 공격 IP를 추적하고 보안체계 전면 쇄신에 착수했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">17. [HLB, 리보세라닙 제조시설 FDA 실사 'VAI' 공식 종결]:</span> 미국 FDA의 의약품 제조소 실사가 자발적 시정 조치로 공식 종결되며 간암 신약 품목허가 재신청 준비에 돌입했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">18. [한미약품, 차세대 항암제 'SMDC' 연구 데이터 글로벌 최초 공개]:</span> ADC의 한계를 극복하는 저분자-약물접합체 혁신 파이프라인 전임상 결과를 공식 발표했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">19. [산업부 장관, "대미 투자 최우선은 국익…메가프로젝트 부지 기업 자율"]:</span> 대미 투자 프로젝트에서 웨스팅하우스 상장 시 신주인수권을 통해 한국의 지분율을 유지하는 협상력을 발휘했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">20. [누리호 5호, 오늘 우주로 발사…국산 위성 15기 탑재]:</span> 한국 독자 우주 발사체 5차 발사를 통해 민간 우주 수송 및 궤도 진입 기술력을 입증합니다.
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. 국제 및 해외 -->
+          <div class="space-y-2.5">
+            <h3 class="text-sm font-bold text-purple-600 dark:text-purple-400 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-purple-600"></span>
+              ■ 5. 국제 및 해외
+            </h3>
+            <div class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">21. [AMD 리사 수 CEO 오늘(10/7) 방한…"AI 수혜, 이제 CPU로 번진다"]:</span> 대만 TSMC 방문 직후 한국 IT 파트너사들과 긴급 회동을 갖고 에이전틱 PC 및 고성능 AI 프로세서 로드맵을 발표합니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">22. [마이크론, 넷리스트와 특허 소송 8천억원 라이선스 합의 전격 성사]:</span> 오랜 특허 분쟁을 종결하고 차세대 메모리 모듈 기술 협력 체제로 전환했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">23. [일론 머스크, TSMC와 '테라팹' 차세대 칩 생산 협력 공식 확인]:</span> 테슬라 FSD 및 xAI 전용 차세대 실리콘 양산을 위해 TSMC 2나노 기반 특화 팹 구축을 공식화했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">24. [월가 토큰화 주식 선두 OKX, 스탠다드차타드·서클서 33조원 가치 투자유치]:</span> 전통 금융기관들이 블록체인 기반 실물자산(RWA) 및 온체인 주식 거래 플랫폼에 대규모 베팅을 시작했습니다.
+              </div>
+              <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-bold text-slate-900 dark:text-white">25. [일본 10년물 국채 표면금리 3.1% 인상…30년 만의 최고치]:</span> 일본은행(BOJ)의 정책금리 정상화 수순 속에 글로벌 금리 환경의 지지선이 공고화되었습니다.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2: 텔레그램 즉시 복사용 코드블록 -->
+      <section id="sec-telegram" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+        <div class="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-2.5">
+            <span class="text-xl">💬</span>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">텔레그램 즉시 복사용 25선 코드블록</h2>
+          </div>
+          <button onclick="copyTelegramBlock()" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-blue-50 dark:bg-blue-950/80 text-blue-600 dark:text-blue-300 border border-blue-200 dark:border-blue-800 hover:bg-blue-100 transition shadow-sm">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+            텔레그램 블록 복사
+          </button>
+        </div>
+        <div class="relative">
+          <pre id="telegram-text" class="p-4 rounded-xl bg-slate-900 text-slate-100 font-mono text-xs overflow-x-auto leading-relaxed border border-slate-800 whitespace-pre-wrap">📢 [2026. 10. 07 (수) 장전 핵심 뉴스 25선]
+
+■ 종합 시황 및 글로벌 매크로
+1. S&P 500(7,773.95)·나스닥(27,477.31) 사상 최고치 경신…기술주 랠리 가속
+2. 달러 인덱스 101.86 하락…역외 원/달러 환율 1,338~1,342원 안착
+3. 국제유가 WTI $89.43(-1.84%) 하락 안정…인플레 압력 완화
+4. 구글, 美 최대 원전사 컨스텔레이션과 3.6GW 초대형 전력공급 계약
+5. 트럼프 "韓, 관세 낮추려 美 조선업에 1,500억弗 투입" 협력 부각
+
+■ 기업 및 산업
+6. 삼성전자, 내년 HBM4 공급가 대폭 인상 전망…D-1 3Q 영업익 100조 눈앞
+7. 한미반도체, 삼성전기서 244억원 장비 수주…'삼성-한미' 동맹 가시화
+8. 삼성전기, 반도체 기판 '유리' 육성 및 AI 서버용 MLCC 장기계약 행진
+9. 포스코퓨처엠, 삼성SDI에 양극재 6조 원 규모 공급 계약 성사
+10. 보스턴다이나믹스, 신임 CEO에 '아마존 AI 리더' 로히트 프라사드 영입
+
+■ 경제, 증시 및 부동산
+11. 코스닥 919.92(+2.98%) 석 달 만에 900 돌파…소부장·바이오 대세 랠리
+12. 금리·주가 동반 상승…AI 인프라 수요가 뒤바꾼 글로벌 투자 공식
+13. 세계은행, 한국 등 동아시아 경제성장률 4.5%로 상향…IT 수출 호조 반영
+14. 정부 '용적률 상향' 및 서울시 '그린벨트 해제'…신규 택지 7.3만 가구 가동
+15. 신세계 정용진, 스타필드에 '해리포터' 도입…워너 인수 1.4조 베팅
+
+■ 정치, 사회 및 국내 기타
+16. 금융권 AI 해킹 초비상…"커피 한잔값에 뚫려" 보안체계 전면 쇄신 착수
+17. HLB, 리보세라닙 제조시설 FDA 실사 'VAI' 종결…간암 신약 재신청 준비
+18. 한미약품, ADC 한계 넘는 차세대 항암제 'SMDC' 연구 데이터 첫 공개
+19. 정부, 대미 원전 투자서 웨스팅하우스 신주인수권 확보로 지분율 방어
+20. 누리호 5호, 오늘 우주로 발사…국산 위성 15기 탑재
+
+■ 국제 및 해외
+21. AMD 리사 수 CEO 오늘 방한…"AI 수혜, 이제 CPU로 온다"
+22. 마이크론, 넷리스트와 메모리 특허 소송 8천억 원 라이선스 전격 합의
+23. 일론 머스크, TSMC와 '테라팹' 차세대 AI 반도체 협력 공식 인정
+24. OKX, 스탠차·서클서 투자 유치…33조 원 몸값으로 온체인 토큰화 주식 선도
+25. 日 10년물 국채 표면금리 3.1%로 인상…30년 만에 최고치</pre>
+        </div>
+      </section>
+
+      <!-- SECTION 3: 나바로식 인과사슬 3단계 -->
+      <section id="sec-ripple" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🔗</span>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white">피터 나바로식 3단계 인과관계 사슬 (Ripple Effect)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">글로벌 트리거발 1·2·3차 파급 효과와 수혜/경계 섹터 압축</p>
+            </div>
+          </div>
+          <span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900">
+            Navarro Chain
+          </span>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Chain 1 -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="font-bold text-sm text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+              <span>[사슬 1] 삼전 100조 실적 D-1 & HBM4 판가 인상 + 한미반도체 동맹 ➔ 반도체 첨단 패키징(OSAT) 및 고다층 기판/MLCC</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              • <strong>Trigger (원인):</strong> 내일(10/8) 삼성전자의 분기 영업이익 100조 돌파 공식화, HBM4 공급가 대폭 인상 추진, 한미반도체의 삼성전기 244억 수주를 통한 '삼성-한미' 동맹 결성.<br>
+              • <strong>1차 파급:</strong> HBM 전용 생산라인 증설로 범용 D램 외주화 및 차세대 첨단 패키징(OSAT) 수요 폭증.<br>
+              • <strong>2차 파급:</strong> 초고다층 기판, 유리기판, 고전압 MLCC 쇼티지 심화.<br>
+              • <strong>3차 수혜주:</strong> 한미반도체(042700), 삼성전기(009150), 윈팩(097800), 주성엔지니어링(036930), 제이앤티씨(204270).
+            </p>
+          </div>
+
+          <!-- Chain 2 -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="font-bold text-sm text-rose-600 dark:text-rose-400 flex items-center gap-1.5">
+              <span>[사슬 2] 금융권 AI 해킹 초비상("커피 한잔값에 뚫려") & 28개 공격 IP 추적 ➔ 사이버보안/AI 보안 섹터 폭발</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              • <strong>Trigger (원인):</strong> 12개국 경유 글로벌 해커 조직이 생성형 AI 기반의 고도화된 초저가 공격으로 금융망을 침해, 정부와 전 금융사가 일제히 보안 체계 전면 쇄신 착수.<br>
+              • <strong>1차 파급:</strong> 금융보안원, 금감원, 국정원의 금융권 보안망 전수 감사 및 차세대 AI 보안 솔루션 도입 강제화.<br>
+              • <strong>2차 파급:</strong> 금융사 및 공공기관의 사이버 위협 인텔리전스, 양자암호, 다중인증 예산 긴급 편성.<br>
+              • <strong>3차 수혜주:</strong> 아톤(158430, 금융인증 보안 1위, 전일 상한가/거래대금 1,315억), 샌즈랩(411080), 안랩(053800), 라온시큐어(042510).
+            </p>
+          </div>
+
+          <!-- Chain 3 -->
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 space-y-2">
+            <div class="font-bold text-sm text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span>[사슬 3] 보스턴다이나믹스 아마존 AI 리더 CEO 영입 & 11월 매디슨 황 방한 ➔ 피지컬 AI / 로봇 관절 액추에이터</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+              • <strong>Trigger (원인):</strong> 보스턴다이나믹스가 아마존 생성형 AI 총괄 로히트 프라사드를 신임 CEO로 영입하고, 피지컬 AI 선구자 매디슨 황이 11월 방한 확정.<br>
+              • <strong>1차 파급:</strong> LLM(소프트웨어) 중심에서 신체를 가진 '피지컬 AI(로봇 하드웨어)'로 글로벌 투자 축 급속 이동.<br>
+              • <strong>2차 파급:</strong> 정밀 조작을 위한 로봇 관절 모터, 초소형 스마트 액추에이터 수요 급증.<br>
+              • <strong>3차 수혜주:</strong> 삼현(437730, 3-in-1 스마트 액추에이터 독점), 코스모로보틱스(475990), 하이젠알앤엠(160190), 두산로보틱스(454910).
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: 5-Slide 프레젠테이션 덱 -->
+      <section id="sec-slides" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📊</span>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white">비즈니스 프레젠테이션 슬라이드 덱 (5 Slides)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">핵심 전략 의사결정을 위한 5단계 구조화 슬라이드</p>
+            </div>
+          </div>
+          <span class="badge bg-indigo-100 text-indigo-700 dark:bg-indigo-950/80 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-900">
+            Slide Deck
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4">
+          <!-- Slide 1 -->
+          <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-blue-100 dark:bg-blue-900/60 text-blue-700 dark:text-blue-300">Slide 1: Global Macro Pivot</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">글로벌 S&P 500 신고가 랠리와 삼성전자 100조 시대 D-1</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">S&P 500 역대 최고치(7,773.95) 경신 및 역외 환율 1,338원대 안정. 코스피 7,000선 재탈환 시도 속 코스닥 소부장·보안·로봇 메가 유동성 확산.</p>
+          </div>
+
+          <!-- Slide 2 -->
+          <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-indigo-100 dark:bg-indigo-900/60 text-indigo-700 dark:text-indigo-300">Slide 2: Leading Theme 1</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">삼성-한미 동맹과 HBM4 판가 인상, 패키징 외주화 가속</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">한미반도체의 삼성전기 244억 장비 수주로 동맹 공식화. 삼성전기 유리기판 육성 및 포스코퓨처엠-삼성SDI 6조 양극재 계약으로 핵심 소부장 밸류체인 급등.</p>
+          </div>
+
+          <!-- Slide 3 -->
+          <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-rose-100 dark:bg-rose-900/60 text-rose-700 dark:text-rose-300">Slide 3: Leading Theme 2</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">초저가 AI 해킹 습격과 금융권 보안망 전면 쇄신</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">방어 예산 14억 vs 공격 비용 커피 한잔값. 12개국 IP 침해에 따른 금융당국 전수 점검으로 아톤(금융인증 1위, 1,315억 상한가) 및 샌즈랩 필수 수혜.</p>
+          </div>
+
+          <!-- Slide 4 -->
+          <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-emerald-100 dark:bg-emerald-900/60 text-emerald-700 dark:text-emerald-300">Slide 4: Leading Theme 3</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">보스턴다이나믹스 아마존 AI 리더 영입과 피지컬 AI 실체화</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">로히트 프라사드 영입 및 11월 매디슨 황 방한. 두산로보틱스 국산 AI칩 협동로봇, 삼현 3-in-1 관절 액추에이터 등 피지컬 AI 하드웨어 밸류체인 부각.</p>
+          </div>
+
+          <!-- Slide 5 -->
+          <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold px-2 py-0.5 rounded bg-amber-100 dark:bg-amber-900/60 text-amber-700 dark:text-amber-300">Slide 5: Actionable Strategy</span>
+            </div>
+            <h3 class="text-base font-bold text-slate-900 dark:text-white mb-2">1등 대장주 3선 집중 및 4~7% 기계적 엑시트</h3>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300">시초가 갭 추격 매수 엄단. 1파 5일선 음봉 눌림목에서 -3.5% 간격 사전 2분할 매수 배치. +4~7% 도달 시 50% 분할 익절 집행 후 잔여 물량 본절 스탑로스 방어.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 5: 인포그래픽 대시보드 -->
+      <section id="sec-dashboard" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">📱</span>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white">인포그래픽 대시보드 (Infographic Dashboard)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">글로벌 매크로 4대 지표 대시보드 & 4대 핵심 섹터 모멘텀 카드</p>
+            </div>
+          </div>
+          <span class="badge bg-emerald-100 text-emerald-700 dark:bg-emerald-950/80 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900">
+            Dashboard
+          </span>
+        </div>
+
+        <!-- 1. 테이블 -->
+        <div class="space-y-3">
+          <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">1. 글로벌 매크로 지표 대시보드</h3>
+          <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase">
+                <tr>
+                  <th class="px-4 py-3">구분</th>
+                  <th class="px-4 py-3">지표명</th>
+                  <th class="px-4 py-3">마감 수치</th>
+                  <th class="px-4 py-3">변동률</th>
+                  <th class="px-4 py-3">시장 신호</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">미국 증시</td>
+                  <td class="px-4 py-3">S&P 500</td>
+                  <td class="px-4 py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">7,773.95</td>
+                  <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-semibold">+0.66% (신고가)</td>
+                  <td class="px-4 py-3 text-xs">🟢 강한 호재</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">미국 증시</td>
+                  <td class="px-4 py-3">나스닥 종합</td>
+                  <td class="px-4 py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">27,477.31</td>
+                  <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-semibold">+1.05%</td>
+                  <td class="px-4 py-3 text-xs">🟢 호재</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">미국 증시</td>
+                  <td class="px-4 py-3">필라델피아 반도체</td>
+                  <td class="px-4 py-3 font-mono font-bold text-indigo-600 dark:text-indigo-400">13,172.74</td>
+                  <td class="px-4 py-3 text-indigo-600 dark:text-indigo-400 font-semibold">+0.27% (신고가)</td>
+                  <td class="px-4 py-3 text-xs">🟢 호재</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">금리</td>
+                  <td class="px-4 py-3">美 10년물 국채금리</td>
+                  <td class="px-4 py-3 font-mono font-bold text-slate-700 dark:text-slate-200">5.28%</td>
+                  <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-semibold">-3bp 하락</td>
+                  <td class="px-4 py-3 text-xs">🟢 안정</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">환율</td>
+                  <td class="px-4 py-3">달러 인덱스 (DXY)</td>
+                  <td class="px-4 py-3 font-mono font-bold text-blue-600 dark:text-blue-400">101.86</td>
+                  <td class="px-4 py-3 text-blue-600 dark:text-blue-400 font-semibold">-0.30%</td>
+                  <td class="px-4 py-3 text-xs">🟢 원화 강세</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">환율</td>
+                  <td class="px-4 py-3">역외 원/달러 환율</td>
+                  <td class="px-4 py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">1,338.1원</td>
+                  <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-semibold">-4.3원 하락</td>
+                  <td class="px-4 py-3 text-xs">🟢 호재</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">원자재</td>
+                  <td class="px-4 py-3">WTI 국제유가</td>
+                  <td class="px-4 py-3 font-mono font-bold text-slate-700 dark:text-slate-200">$89.43</td>
+                  <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-semibold">-1.84%</td>
+                  <td class="px-4 py-3 text-xs">🟢 인플레 완화</td>
+                </tr>
+                <tr class="hover:bg-slate-50/50 dark:hover:bg-slate-800/20">
+                  <td class="px-4 py-3 font-semibold">변동성</td>
+                  <td class="px-4 py-3">VIX 공포지수</td>
+                  <td class="px-4 py-3 font-mono font-bold text-slate-700 dark:text-slate-200">15.31</td>
+                  <td class="px-4 py-3 text-emerald-600 dark:text-emerald-400 font-semibold">-1.35%</td>
+                  <td class="px-4 py-3 text-xs">🟢 위험 선호</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 2. 카드 -->
+        <div class="space-y-3 pt-3">
+          <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">2. 4대 핵심 섹터 모멘텀 카드</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="p-4 rounded-xl bg-blue-50/50 dark:bg-blue-950/20 border border-blue-200/80 dark:border-blue-900/40 space-y-1.5">
+              <div class="font-bold text-sm text-blue-900 dark:text-blue-300 flex items-center gap-1.5">
+                <span>🔥 [HBM 첨단 패키징 & 외주 OSAT] S등급</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                삼성전자 100조 실적 D-1, HBM4 가격 대폭 인상, 한미반도체-삼성전기 244억 장비 수주 동맹. (주도주: 한미반도체, 삼성전기, 윈팩)
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/80 dark:border-rose-900/40 space-y-1.5">
+              <div class="font-bold text-sm text-rose-900 dark:text-rose-300 flex items-center gap-1.5">
+                <span>🛡️ [AI 사이버 보안 & 인증] S등급</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                12개국 IP 금융권 AI 해킹 침해, 보안체계 전면 쇄신, 금융사 보안망 점검 긴급 지시. (주도주: 아톤, 샌즈랩, 안랩, 라온시큐어)
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-900/40 space-y-1.5">
+              <div class="font-bold text-sm text-emerald-900 dark:text-emerald-300 flex items-center gap-1.5">
+                <span>🤖 [피지컬 AI & 로봇 하드웨어] S등급</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                보스턴다이나믹스 아마존 AI 리더 CEO 영입, 매디슨 황 11월 방한, 두산로보틱스 국산 AI칩 협동로봇. (주도주: 삼현, 코스모로보틱스, 하이젠알앤엠)
+              </p>
+            </div>
+
+            <div class="p-4 rounded-xl bg-purple-50/50 dark:bg-purple-950/20 border border-purple-200/80 dark:border-purple-900/40 space-y-1.5">
+              <div class="font-bold text-sm text-purple-900 dark:text-purple-300 flex items-center gap-1.5">
+                <span>🧬 [바이오 & 2차전지 실체주] A등급</span>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                HLB FDA 실사 VAI 종결(간암 신약 재신청), 포스코퓨처엠 삼성SDI 6조 양극재 공급, 셀트리온 옴리클로 美 출시. (주도주: HLB, HLB제약, 포스코퓨처엠)
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: 마인드맵 -->
+      <section id="sec-mindmap" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">🧠</span>
+            <div>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white">장전 시장 마인드 맵 (Mind Map)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">인과관계 체인 구조화 텍스트 트리 및 Mermaid 인터랙티브 다이어그램</p>
+            </div>
+          </div>
+          <span class="badge bg-purple-100 text-purple-700 dark:bg-purple-950/80 dark:text-purple-300 border border-purple-200 dark:border-purple-900">
+            Interactive
+          </span>
+        </div>
+
+        <!-- 1. 텍스트 트리 -->
+        <div class="space-y-3">
+          <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">1. 텍스트 위계 구조</h3>
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm font-mono leading-relaxed">
+            <p class="font-bold text-slate-900 dark:text-white">📦 2026.10.07 글로벌 증시 & 국장 주도 맥락</p>
+            <p class="pl-4 font-semibold text-blue-600 dark:text-blue-400">■ 글로벌 매크로</p>
+            <p class="pl-8">• S&P 500 사상 최고치 경신 & 나스닥 +1.05% 급등</p>
+            <p class="pl-8">• 엔비디아 시총 6조 달러 육박 신고가 행진</p>
+            <p class="pl-8">• 국채금리 5.28% 하향 안정 및 역외 환율 1,338원대 안착</p>
+            
+            <p class="pl-4 font-semibold text-indigo-600 dark:text-indigo-400 mt-2">■ 테마 1: 반도체 패키징 & 외주 OSAT</p>
+            <p class="pl-8">• 삼성전자 3Q 분기 100조 시대 D-1</p>
+            <p class="pl-8">• HBM4 판가 대폭 인상 추진</p>
+            <p class="pl-8">• 한미반도체-삼성전기 244억 수주('삼성-한미' 동맹)</p>
+            
+            <p class="pl-4 font-semibold text-rose-600 dark:text-rose-400 mt-2">■ 테마 2: AI 사이버 보안</p>
+            <p class="pl-8">• 12개국 IP 금융권 해킹 초비상</p>
+            <p class="pl-8">• 정부 보안체계 전면 쇄신 긴급 지시</p>
+            <p class="pl-8">• 아톤(1,315억 상한가) & 샌즈랩 주도</p>
+            
+            <p class="pl-4 font-semibold text-emerald-600 dark:text-emerald-400 mt-2">■ 테마 3: 피지컬 AI / 로봇</p>
+            <p class="pl-8">• 보스턴다이나믹스 신임 CEO 로히트 프라사드(아마존 AI 리더)</p>
+            <p class="pl-8">• 매디슨 황 11월 방한 확정</p>
+            <p class="pl-8">• 삼현(스마트 액추에이터) & 코스모로보틱스(5일선 N형)</p>
+            
+            <p class="pl-4 font-semibold text-purple-600 dark:text-purple-400 mt-2">■ 테마 4: 바이오 및 2차전지</p>
+            <p class="pl-8">• HLB FDA VAI 종결(간암 신약 재신청)</p>
+            <p class="pl-8">• 포스코퓨처엠 삼성SDI 6조 양극재 계약</p>
+          </div>
+        </div>
+
+        <!-- 2. Mermaid 다이어그램 -->
+        <div class="space-y-3 pt-2">
+          <h3 class="text-base font-bold text-slate-800 dark:text-slate-200">2. Mermaid 다이어그램</h3>
+          <div class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-x-auto flex justify-center">
+            <pre class="mermaid">
+flowchart TD
+    ROOT["2026.10.07 글로벌 훈풍 & 국장 7000선 재탈환"] --> M1["글로벌 매크로 안정"]
+    ROOT --> T1["HBM 첨단 패키징"]
+    ROOT --> T2["AI 사이버 보안"]
+    ROOT --> T3["피지컬 AI & 로봇"]
+    ROOT --> T4["바이오 & 2차전지 실체"]
+
+    M1 --> M1_1["S&P500·나스닥 사상 최고가"]
+    M1 --> M1_2["환율 1338원대 안정 & 유가 89$"]
+
+    T1 --> T1_1["삼성전자 100조 실적 D-1"]
+    T1 --> T1_2["한미반도체-삼성전기 동맹 244억"]
+    T1 --> T1_3["한미반도체 / 삼성전기 / 윈팩"]
+
+    T2 --> T2_1["금융권 AI 해킹 비상"]
+    T2 --> T2_2["정부 보안망 전면 쇄신"]
+    T2 --> T2_3["아톤 / 샌즈랩 / 안랩"]
+
+    T3 --> T3_1["보스턴다이나믹스 CEO 영입"]
+    T3 --> T3_2["매디슨 황 11월 방한"]
+    T3 --> T3_3["삼현 / 코스모로보틱스"]
+
+    T4 --> T4_1["HLB FDA VAI 종결"]
+    T4 --> T4_2["포스코퓨처엠 6조 양극재"]
+            </pre>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-2 rounded-lg shadow-lg text-sm transition-opacity duration-300 opacity-0 pointer-events-none z-50">
+    클립보드에 복사되었습니다.
+  </div>
+
+  <script>
+    function toggleTheme() {
+      const html = document.documentElement;
+      if (html.classList.contains('dark')) {
+        html.classList.remove('dark');
+        localStorage.setItem('theme', 'light');
+      } else {
+        html.classList.add('dark');
+        localStorage.setItem('theme', 'dark');
+      }
+    }
+    if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      document.documentElement.classList.add('dark');
+    }
+
+    function copyDocument() {
+      const text = document.getElementById('document-content').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('문서 본문 전체가 복사되었습니다.');
+      });
+    }
+
+    function copyTelegramBlock() {
+      const text = document.getElementById('telegram-text').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('텔레그램 25선 블록이 복사되었습니다.');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.remove('opacity-0');
+      setTimeout(() => toast.classList.add('opacity-0'), 2000);
+    }
+  </script>
+</body>
+</html>
